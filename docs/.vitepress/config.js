@@ -141,6 +141,10 @@ export default defineConfig({
                   link: '/zh_CN/guide/transactions'
                 },
                 {
+                  text: '数据迁移',
+                  link: '/zh_CN/guide/migrations'
+                },
+                {
                   text: '钩子',
                   link: '/zh_CN/guide/hooks'
                 },
@@ -247,6 +251,10 @@ export default defineConfig({
             {
               text: 'Transactions',
               link: '/guide/transactions'
+            },
+            {
+              text: 'Migrations',
+              link: '/guide/migrations'
             },
             {
               text: 'Hooks',

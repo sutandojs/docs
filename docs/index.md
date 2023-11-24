@@ -34,7 +34,7 @@ features:
     details: Model relationships for handling complex data queries and operations.
   - icon: 🔩
     title: Migrations
-    details: Support later.
+    details: Allowing your team to define and share your application's database schema definition.
   - icon: 🪝
     title: Hooks
     details: Support for hooks to execute custom logic at different stages.
