@@ -29,7 +29,18 @@ We have divided the query builders into following categories
 
 ## Running Database Queries
 
-#### Retrieving All Rows From A Table
+### Running SQL Queries
+
+Once you have configured your database connection, you may use the `raw` method to run a basic query:
+
+```js
+const db = sutando.connection();
+
+const response = await db.raw('SET TIME_ZONE = ?', ['UTC']);
+```
+The response will be whatever the underlying SQL library (e.g. mysql2) would normally return in a normal query, so you may want to look at the documentation of the underlying library the query is executing on to determine how to handle the response.
+
+### Retrieving All Rows From A Table
 
 You may use the `table` method provided by the DB to begin a query. The `table` method returns a fluent query builder instance for the given table, allowing you to chain more constraints onto the query and then finally retrieve the results of the query using the `get` method:
 
