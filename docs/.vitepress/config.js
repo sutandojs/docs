@@ -88,6 +88,7 @@ export default defineConfig({
           { text: '手册', link: '/zh_CN/guide/getting-started', activeMatch: '/zh_CN/guide/' },
           // { text: 'APIs', link: '/config/', activeMatch: '/api/' },
           { text: '更新日志', link: '/zh_CN/changelog/', activeMatch: '/zh_CN/changelog/' },
+          { text: '示例', link: 'https://github.com/sutandojs/sutando-examples' },
           // { text: 'Plugins', link: '/plugins/', activeMatch: '/plugins/' },
         ],
         sidebar: {
@@ -199,6 +200,7 @@ export default defineConfig({
       { text: 'Guide', link: '/guide/getting-started', activeMatch: '/guide/' },
       // { text: 'APIs', link: '/config/', activeMatch: '/api/' },
       { text: 'Changelog', link: '/changelog/', activeMatch: '/changelog/' },
+      { text: 'Examples', link: 'https://github.com/sutandojs/sutando-examples' },
       // { text: 'Plugins', link: '/plugins/', activeMatch: '/plugins/' },
     ],
 
