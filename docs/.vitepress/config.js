@@ -26,6 +26,9 @@ export default defineConfig({
   sitemap: {
     hostname: 'https://sutando.org'
   },
+  lastUpdated: {
+    text: 'Last updated',
+  },
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
     ['meta', { property: 'og:type', content: 'website' }],
@@ -84,11 +87,20 @@ export default defineConfig({
       link: '/zh_CN/', // default /fr/ -- shows on navbar translations menu, can be external
 
       themeConfig: {
+        editLink: {
+          text: '在 GitHub 上编辑此页面',
+          pattern: 'https://github.com/sutandojs/docs/edit/main/:path'
+        },
+
+        lastUpdated: {
+          text: '最后更新于',
+        },
+
         nav: [
           { text: '手册', link: '/zh_CN/guide/getting-started', activeMatch: '/zh_CN/guide/' },
           // { text: 'APIs', link: '/config/', activeMatch: '/api/' },
-          { text: '更新日志', link: '/zh_CN/changelog/', activeMatch: '/zh_CN/changelog/' },
           { text: '示例', link: 'https://github.com/sutandojs/sutando-examples' },
+          { text: '更新日志', link: 'https://github.com/sutandojs/sutando/releases' },
           // { text: 'Plugins', link: '/plugins/', activeMatch: '/plugins/' },
         ],
         sidebar: {
@@ -182,25 +194,28 @@ export default defineConfig({
       provider: 'local'
     },
 
+    editLink: {
+      text: 'Edit this page on GitHub',
+      pattern: 'https://github.com/sutandojs/docs/edit/main/:path'
+    },
+
     localeLinks: {
       text: 'English',
       items: [
         { text: '简体中文', link: 'https://cn.sutando.org' },
-        // { text: '日本語', link: 'https://ja.vitejs.dev' },
-        // { text: 'Español', link: 'https://es.vitejs.dev' }
       ]
     },
 
     footer: {
-      message: `Released under the MIT License. (${commitRef})`,
-      copyright: 'Copyright © 2022-present Kidd Yu'
+      message: `Released under the MIT License.`,
+      copyright: 'Copyright © 2022-present Kidd Yu & Sutando contributors'
     },
 
     nav: [
       { text: 'Guide', link: '/guide/getting-started', activeMatch: '/guide/' },
       // { text: 'APIs', link: '/config/', activeMatch: '/api/' },
-      { text: 'Changelog', link: '/changelog/', activeMatch: '/changelog/' },
       { text: 'Examples', link: 'https://github.com/sutandojs/sutando-examples' },
+      { text: 'Changelog', link: 'https://github.com/sutandojs/sutando/releases' },
       // { text: 'Plugins', link: '/plugins/', activeMatch: '/plugins/' },
     ],
 
