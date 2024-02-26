@@ -623,11 +623,11 @@ const books = await Book.query().with('author:id,name,book_id').get();
 有时您可能希望预先加载关系，但也希望为预先加载查询指定额外的查询条件。 您可以通过将关系数组传递给 `with` 方法来完成此操作，其中对象键是关系名称，对象值是向急切加载查询添加额外约束的闭包：
 
 ```js
-const users = await User::with({
+const users = await User.query().with({
   posts: query => query.where('title', 'like', '%code%')
 }).get();
 // or
-const users = await User::with('posts', query => {
+const users = await User.query().with('posts', query => {
   query.where('title', 'like', '%code%');
 }).get();
 ```

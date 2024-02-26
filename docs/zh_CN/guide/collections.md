@@ -37,7 +37,7 @@ for (let user of users) {
 不过，集合比数组更加强大，它通过更加直观的接口暴露出可链式调用的 map /reduce 等操作。例如，让我们移除所有未激活的用户并收集剩余用户的名字：
 
 ```js
-const names = (await User::all()).reject(user => {
+const names = (await User.query().all()).reject(user => {
   return user.active === false;
 }).map(user => {
   return user.name;

@@ -620,11 +620,11 @@ const books = await Book.query().with('author:id,name,book_id').get();
 Sometimes you may wish to eager load a relationship but also specify additional query conditions for the eager loading query. You can accomplish this by passing an array of relationships to the `with` method where the object key is a relationship name and the object value is a closure that adds additional constraints to the eager loading query:
 
 ```js
-const users = await User::with({
+const users = await User.query().with({
   posts: query => query.where('title', 'like', '%code%')
 }).get();
 // or
-const users = await User::with('posts', query => {
+const users = await User.query().with('posts', query => {
   query.where('title', 'like', '%code%');
 }).get();
 ```

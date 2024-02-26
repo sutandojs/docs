@@ -37,7 +37,7 @@ for (let user of users) {
 However, as previously mentioned, collections are much more powerful than arrays and expose a variety of map / reduce operations that may be chained using an intuitive interface. For example, we may remove all inactive models and then gather the first name for each remaining user:
 
 ```js
-const names = (await User::all()).reject(user => {
+const names = (await User.query().all()).reject(user => {
   return user.active === false;
 }).map(user => {
   return user.name;
