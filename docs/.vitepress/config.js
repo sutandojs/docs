@@ -89,7 +89,7 @@ export default defineConfig({
       themeConfig: {
         editLink: {
           text: '在 GitHub 上编辑此页面',
-          pattern: 'https://github.com/sutandojs/docs/edit/main/:path'
+          pattern: 'https://github.com/sutandojs/docs/edit/main/docs/:path'
         },
 
         lastUpdated: {
@@ -196,7 +196,7 @@ export default defineConfig({
 
     editLink: {
       text: 'Edit this page on GitHub',
-      pattern: 'https://github.com/sutandojs/docs/edit/main/:path'
+      pattern: 'https://github.com/sutandojs/docs/edit/main/docs/:path'
     },
 
     localeLinks: {
