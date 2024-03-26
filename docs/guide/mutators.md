@@ -272,7 +272,7 @@ const { Model, CastsAttributes } = require('sutando');
 
 class Json extends CastsAttributes {
   // Cast the given value.
-  get(model, key, value, attributes) {
+  static get(model, key, value, attributes) {
     try {
       return JSON.parse(value);
     } catch (e) {
@@ -281,7 +281,7 @@ class Json extends CastsAttributes {
   }
 
   // Prepare the given value for storage.
-  set(model, key, value, attributes) {
+  static set(model, key, value, attributes) {
     return JSON.stringify(value);
   }
 }

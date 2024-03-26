@@ -272,7 +272,7 @@ const { Model, CastsAttributes } = require('sutando');
 
 class Json extends CastsAttributes {
   // 将取出的数据进行转换。
-  get(model, key, value, attributes) {
+  static get(model, key, value, attributes) {
     try {
       return JSON.parse(value);
     } catch (e) {
@@ -281,7 +281,7 @@ class Json extends CastsAttributes {
   }
 
   // 转换成将要进行存储的值。
-  set(model, key, value, attributes) {
+  static set(model, key, value, attributes) {
     return JSON.stringify(value);
   }
 }
