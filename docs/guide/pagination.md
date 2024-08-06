@@ -1,3 +1,7 @@
+---
+outline: [2, 3]
+---
+
 <script setup>
 import { useRoute } from 'vitepress'
 
@@ -92,6 +96,26 @@ You can also serialize the paginator results to Object/JSON by calling the `toDa
     }
   ],
 }
+```
+
+### Custom Format
+
+You can override the default format by calling the `Paginator.setFormatter` method.
+
+```js
+const { Paginator } = require('sutando');
+
+Paginator.setFormatter((paginator) => {
+  return {
+    meta: {
+      total: paginator.total(),
+      per_page: paginator.perPage(),
+      current_page: paginator.currentPage(),
+      last_page: paginator.lastPage(),
+    },
+    data: paginator.items().toData(),
+  };
+});
 ```
 
 The paginator will convert it to JSON when converting it to a string, so it can be used directly in the application's route or controller. Your express/Koa application will automatically serialize to JSON:

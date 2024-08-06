@@ -1,3 +1,7 @@
+---
+outline: [2, 3]
+---
+
 <script setup>
 import { useRoute } from 'vitepress'
 
@@ -59,6 +63,8 @@ console.log(users.perPage()); // 20
 
 `paginate` 方法返回一个 `Paginator` 实例。 它保存分页的元数据，以及获取的行。 
 
+### 可用方法
+
 每个分页器实例通过以下方法提供额外的分页信息： 
 
 |  方法 | 描述 |
@@ -70,6 +76,8 @@ console.log(users.perPage()); // 20
 | `paginator.lastPage()` | 获取最后一页的页码 |
 | `paginator.perPage()` | 获取每一页显示的数量总数 |
 | `paginator.total()` | 获取结果集中的数据总数 |
+| `paginator.firstItem()` | 获取结果集中第一个数据的编号 |
+| `paginator.lastItem()` | 获取结果集中最后一个数据的编号 |
 
 
 ## 序列化为对象/JSON
@@ -92,6 +100,26 @@ console.log(users.perPage()); // 20
     }
   ],
 }
+```
+
+### 自定义格式
+
+您可以通过调用 `Paginator.setFormatter` 来覆盖默认的格式。
+
+```js
+const { Paginator } = require('sutando');
+
+Paginator.setFormatter((paginator) => {
+  return {
+    meta: {
+      total: paginator.total(),
+      per_page: paginator.perPage(),
+      current_page: paginator.currentPage(),
+      last_page: paginator.lastPage(),
+    },
+    data: paginator.items().toData(),
+  };
+});
 ```
 
 分页器在转化为字符串的时候会转成 JSON， 因此可以在应用的路由或控制器中直接。你的 express/Koa 应用会自动序列化为 JSON：
