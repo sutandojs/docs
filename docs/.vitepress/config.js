@@ -161,6 +161,10 @@ export default defineConfig({
                   text: '钩子',
                   link: '/zh_CN/guide/hooks'
                 },
+                {
+                  text: 'Typescript',
+                  link: '/zh_CN/guide/typescript'
+                },
               ]
             },
             {
@@ -276,6 +280,10 @@ export default defineConfig({
             {
               text: 'Hooks',
               link: '/guide/hooks'
+            },
+            {
+              text: 'Typescript',
+              link: '/guide/typescript'
             },
           ]
         },
