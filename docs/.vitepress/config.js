@@ -165,6 +165,10 @@ export default defineConfig({
                   text: 'Typescript',
                   link: '/zh_CN/guide/typescript'
                 },
+                {
+                  text: '浏览器支持',
+                  link: '/zh_CN/guide/browser'
+                },
               ]
             },
             {
@@ -284,6 +288,10 @@ export default defineConfig({
             {
               text: 'Typescript',
               link: '/guide/typescript'
+            },
+            {
+              text: 'Browser Support',
+              link: '/guide/browser'
             },
           ]
         },
