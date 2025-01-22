@@ -42,6 +42,18 @@ module.exports = {
      user: 'root',
      password: 'password'
    },
+  // You can add multiple connections, just specify the connection name.
+  connections: {
+    pgsql: {
+      client: 'pg',
+      connection: {
+        host: 'localhost',
+        database: 'another_database',
+        user:     'root',
+        password: 'password'
+      }
+    }
+  },
    migrations: {
      table: 'migrations',
      path: 'migrations'
@@ -91,6 +103,23 @@ module.exports = class extends Migration {
     await schema.dropTableIfExists('flights');
   }
 };
+```
+
+### Migration Connection
+
+If your migration interacts with a database connection other than the default database connection of the application, you should set the `connection` property of the migration to specify the database connection to use.
+
+```js
+module.exports = class extends Migration {
+  connection = 'pgsql';
+
+  /**
+   * Run the migrations.
+   */
+  async up(schema) {
+    // ...
+  }
+}
 ```
 
 ### Execute migration

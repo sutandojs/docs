@@ -42,6 +42,18 @@ module.exports = {
     user:     'root',
     password: 'password'
   },
+  // 你可以增加多个连接，只需指定连接名称即可
+  connections: {
+    pgsql: {
+      client: 'pg',
+      connection: {
+        host: 'localhost',
+        database: 'another_database',
+        user:     'root',
+        password: 'password'
+      }
+    }
+  },
   migrations: {
     table: 'migrations',
     path: 'migrations'
@@ -91,6 +103,23 @@ module.exports = class extends Migration {
     await schema.dropTableIfExists('flights');
   }
 };
+```
+
+### 设置迁移连接
+
+如果你的迁移将与应用程序默认数据库连接以外的数据库连接进行交互，你应该设置迁移的 `connection` 属性：
+
+```js
+module.exports = class extends Migration {
+  connection = 'pgsql';
+
+  /**
+   * Run the migrations.
+   */
+  async up(schema) {
+    // ...
+  }
+}
 ```
 
 ### 执行迁移
