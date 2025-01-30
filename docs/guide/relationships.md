@@ -751,7 +751,7 @@ To remove a parent model from a child model, you may use the `dissociate` method
 ```js
 user.related('account').dissociate();
  
-await user->save();
+await user.save();
 ```
 
 ### Many To Many Relationships
