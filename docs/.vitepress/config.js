@@ -37,6 +37,7 @@ export default defineConfig({
     ['meta', { property: 'og:url', content: ogUrl }],
     ['meta', { property: 'og:description', content: ogDescription }],
     ['meta', { name: 'theme-color', content: '#646cff' }],
+    ['meta', { name: 'baidu-site-verification', content: 'codeva-we6sHxci5r' }],
     [
       'script',
       { async: true, src: 'https://www.googletagmanager.com/gtag/js?id=G-7FZTC6LCGT' }
