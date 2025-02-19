@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress'
 
-const ogDescription = 'Next Generation Frontend Tooling'
+const ogDescription = 'A modern Node.js ORM, support MySQL, PostgreSQL, SQLite, MariaDB, SQL Server, Oracle, and more'
 const ogImage = 'https://sutandojs.org/og-image.png'
 const ogTitle = 'Sutando'
 const ogUrl = 'https://sutandojs.org'
@@ -22,7 +22,7 @@ const deployType = (() => {
 
 export default defineConfig({
   title: `Sutando`,
-  description: 'Next Generation Frontend Tooling',
+  description: 'A modern Node.js ORM, support MySQL, PostgreSQL, SQLite, MariaDB, SQL Server, Oracle, and more',
   sitemap: {
     hostname: 'https://sutando.org'
   },
