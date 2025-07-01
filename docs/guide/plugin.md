@@ -1,3 +1,7 @@
+---
+outline: [2, 4]
+---
+
 <script setup>
 import { useRoute } from 'vitepress'
 

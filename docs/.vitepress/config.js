@@ -179,6 +179,10 @@ export default defineConfig({
                   text: '简介',
                   link: '/zh_CN/guide/plugin'
                 },
+                {
+                  text: '插件列表',
+                  link: '/zh_CN/guide/plugin-list'
+                },
                 // {
                 //   text: '示例',
                 //   link: '/zh_CN/guide/transactions'
@@ -194,6 +198,11 @@ export default defineConfig({
 
   themeConfig: {
     logo: '/logo.svg',
+
+    blog: {
+      title: 'Blog',
+      description: 'A blog about Sutando',
+    },
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/sutandojs/sutando' }
@@ -222,6 +231,7 @@ export default defineConfig({
 
     nav: [
       { text: 'Guide', link: '/guide/getting-started', activeMatch: '/guide/' },
+      { text: 'Blog', link: '/blog', activeMatch: '/blog/' },
       // { text: 'APIs', link: '/config/', activeMatch: '/api/' },
       { text: 'Examples', link: 'https://github.com/sutandojs/sutando-examples' },
       { text: 'Changelog', link: 'https://github.com/sutandojs/sutando/releases' },
@@ -300,8 +310,12 @@ export default defineConfig({
           text: 'Plugin',
           items: [
             {
-              text: 'Plugin',
+              text: 'Introduction',
               link: '/guide/plugin'
+            },
+            {
+              text: 'Plugin List',
+              link: '/guide/plugin-list'
             }
           ]
         }

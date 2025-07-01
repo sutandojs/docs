@@ -1,3 +1,7 @@
+---
+outline: [2, 4]
+---
+
 <script setup>
 import { useRoute } from 'vitepress'
 
@@ -143,3 +147,8 @@ await post.save();
 
 console.log(post.custom_slug); // the-first-post-title
 ```
+
+### 添加资源
+
+如果你将插件发布到 npm，而且它包含 [数据库迁移](migrations)，你可以将迁移文件放在包的 `migrations` 目录下。  
+你的用户可以执行 `sutando migrate:publish <你的包名>` 将迁移文件复制到用户项目的迁移目录中。
