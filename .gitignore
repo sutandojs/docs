@@ -10,3 +10,4 @@ examples-temp
 node_modules
 pnpm-global
 yarn.lock
+pnpm-lock.yaml
