@@ -22,7 +22,13 @@ Migration is database version control, which helps developers complete table str
 
 ### Generate migration
 
-First, you need to install Sutando's command line tool and generate a configuration file.
+First, generate a configuration file.
+
+```bash
+$ npx sutando init
+```
+
+If you want to install Sutando's command line tool globally, you can use the following command:
 
 ```bash
 $ npm install -g sutando
@@ -67,7 +73,7 @@ module.exports = {
 You can then use the `migrate:make` command to generate database migrations. New migration files are placed in your `migrations` directory by default. Each migration file name contains a timestamp to allow Sutando to determine the order of migrations:
 
 ```bash
-$ sutando migrate:make create_flights_table
+$ npx sutando migrate:make create_flights_table
 ```
 
 Sutando will use the name of the migration file to guess the table name and whether the migration will create a new table. If Sutando is able to determine the name of the table from the name of the migration file, it will prepopulate the specified table in the generated migration file, or you can manually specify the table name directly in the migration file.
@@ -127,13 +133,13 @@ module.exports = class extends Migration {
 Execute the `migrate:run` command to run all unexecuted migrations:
 
 ```bash
-$ sutando migrate:run
+$ npx sutando migrate:run
 ```
 
 If you want to see which migrations have been performed so far, you can use the `migrate:status` command:
 
 ```bash
-$ sutando migrate:status
+$ npx sutando migrate:status
 ```
 
 ### Rollback migration
@@ -141,13 +147,13 @@ $ sutando migrate:status
 If you want to roll back the last migration operation, you can use `migrate:rollback`. This command will roll back the last "batch" of migrations, which may include multiple migration files:
 
 ```bash
-$ sutando migrate:rollback
+$ npx sutando migrate:rollback
 ```
 
 You can roll back a specified number of migrations by adding the `step` parameter to the `rollback` command. For example, the following command will roll back the last five migrations:
 
 ```bash
-$ sutando migrate:rollback --step=5
+$ npx sutando migrate:rollback --step=5
 ```
 
 ## Tables
@@ -233,7 +239,7 @@ await schema.createTable('calculations', (table) => {
 Schema's `table` method can be used to update an existing table. Like the `createTable` method, the `table` method accepts two parameters: the name of the table and a callback function that can be used to add columns or indexes to the table:
 
 ```js
-await schema.createTable('users', (table) => {
+await schema.table('users', (table) => {
    table.integer('votes');
 });
 ```

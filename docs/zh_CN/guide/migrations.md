@@ -22,7 +22,13 @@ if (typeof _hmt != "undefined") {
 
 ### 生成迁移
 
-首先，需要安装 Sutando 的命令行工具，并生成一个配置文件。
+首先，生成一个配置文件。
+
+```bash
+$ npx sutando init
+```
+
+或者全局安装 Sutando 的命令行工具
 
 ```bash
 $ npm install -g sutando
@@ -67,7 +73,7 @@ module.exports = {
 之后你就可以使用 `migrate:make` 命令来生成数据库迁移。新的迁移文件默认放在你的 `migrations` 目录下。每个迁移文件名都包含一个时间戳来使 Sutando 确定迁移的顺序：
 
 ```bash
-$ sutando migrate:make create_flights_table
+$ npx sutando migrate:make create_flights_table
 ```
 
 Sutando 将使用迁移文件的名称来猜测表名以及迁移是否会创建一个新表。如果 Sutando 能够从迁移文件的名称中确定表的名称，它将在生成的迁移文件中预填入指定的表，或者，你也可以直接在迁移文件中手动指定表名。
@@ -127,13 +133,13 @@ module.exports = class extends Migration {
 执行 `migrate:run` 命令，来运行所有未执行过的迁移：
 
 ```bash
-$ sutando migrate:run
+$ npx sutando migrate:run
 ```
 
 如果你想查看目前已经执行了哪些迁移，可以使用 `migrate:status` 命令：
 
 ```bash
-$ sutando migrate:status
+$ npx sutando migrate:status
 ```
 
 ### 回滚迁移
@@ -141,13 +147,13 @@ $ sutando migrate:status
 如果要回滚最后一次迁移操作，可以使用 `migrate:rollback`。该命令会回滚最后「一批」的迁移，这可能包含多个迁移文件：
 
 ```bash
-$ sutando migrate:rollback
+$ npx sutando migrate:rollback
 ```
 
 通过向 `rollback` 命令加上 `step` 参数，可以回滚指定数量的迁移。例如，以下命令将回滚最后五个迁移：
 
 ```bash
-$ sutando migrate:rollback --step=5
+$ npx sutando migrate:rollback --step=5
 ```
 
 ## 数据表
@@ -233,7 +239,7 @@ await schema.createTable('calculations', (table) => {
 Schema 的 `table` 方法可用于更新现有表。与 `createTable` 方法一样，`table` 方法接受两个参数：表的名称和接收可用于向表添加列或索引的回调函数：
 
 ```js
-await schema.createTable('users', (table) => {
+await schema.table('users', (table) => {
   table.integer('votes');
 });
 ```
