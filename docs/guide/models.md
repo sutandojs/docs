@@ -391,7 +391,7 @@ app.post('/flights', async (req, res) => {
 
 In this example, we assign the name field from the incoming HTTP request to the `name` attribute of the `Flight` model instance. When we call the `save` method, a record will be inserted into the database. The model's `created_at` and `updated_at` timestamps will automatically be set when the `save` method is called, so there is no need to set them manually.
 
-Alternatively, you may use the `create` method to "save" a new model using a single PHP statement. The inserted model instance will be returned to you by the `create` method:
+Alternatively, you may use the `create` method to "save" a new model using a single Javascript statement. The inserted model instance will be returned to you by the `create` method:
 
 ```js
 const { Flight } = require('./model');
