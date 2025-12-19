@@ -487,14 +487,14 @@ const user = await db.table('users')
   .first();
 ```
 
-#### Random Ordering
+<!-- #### Random Ordering
 The `inRandomOrder` method may be used to sort the query results randomly. For example, you may use this method to fetch a random user:
 
 ```js
 const randomUser = await db.table('users')
   .inRandomOrder()
   .first();
-```
+``` -->
 
 #### Removing Existing Orderings
 The `clearOrder` method removes all of the "order by" clauses that have previously been applied to the query:

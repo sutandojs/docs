@@ -488,7 +488,7 @@ const user = await db.table('users')
   .first();
 ```
 
-#### 随机排序
+<!-- #### 随机排序
 
 `inRandomOrder` 方法被用来将结果进行随机排序。例如，你可以使用此方法随机找到一个用户： 
 
@@ -496,7 +496,7 @@ const user = await db.table('users')
 const randomUser = await db.table('users')
   .inRandomOrder()
   .first();
-```
+``` -->
 
 #### 删除已经存在的所有排序
 
