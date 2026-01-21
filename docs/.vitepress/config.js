@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import llmstxt from 'vitepress-plugin-llms'
 
 const ogDescription = 'A modern Node.js ORM, support MySQL, PostgreSQL, SQLite, MariaDB, SQL Server, Oracle, and more'
 const ogImage = 'https://sutandojs.org/og-image.png'
@@ -25,6 +26,9 @@ export default defineConfig({
   description: 'A modern Node.js ORM, support MySQL, PostgreSQL, SQLite, MariaDB, SQL Server, Oracle, and more',
   sitemap: {
     hostname: 'https://sutando.org'
+  },
+  vite: {
+    plugins: [llmstxt()],
   },
   lastUpdated: {
     text: 'Last updated',

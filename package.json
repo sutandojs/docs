@@ -17,6 +17,7 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
     "vitepress": "^1.0.0-alpha.19",
+    "vitepress-plugin-llms": "^1.10.0",
     "vue": "^3.2.40"
   },
   "dependencies": {
