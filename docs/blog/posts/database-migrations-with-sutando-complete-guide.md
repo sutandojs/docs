@@ -1,5 +1,5 @@
 ---
-date: 2026-10-13
+date: 2026-09-29
 title: "Database Migrations with Sutando: A Complete Guide"
 tags: [Sutando, Database, Migrations, Schema, Node.js]
 author: Dylan Yu

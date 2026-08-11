@@ -1,5 +1,5 @@
 ---
-date: 2026-09-08
+date: 2026-08-25
 title: "Sutando vs Drizzle: Active Record vs SQL-First in Node.js"
 tags: [Sutando, Drizzle, Node.js, ORM, Comparison]
 author: Dylan Yu

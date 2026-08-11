@@ -1,5 +1,5 @@
 ---
-date: 2026-09-15
+date: 2026-09-01
 title: "Sutando vs TypeORM：更现代的 Active Record 替代方案"
 tags: [Sutando, TypeORM, Node.js, ORM, Comparison]
 author: Dylan Yu

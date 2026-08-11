@@ -1,5 +1,5 @@
 ---
-date: 2026-10-13
+date: 2026-09-29
 title: "Sutando でデータベースマイグレーション：完全ガイド"
 tags: [Sutando, マイグレーション, データベース, Node.js, ガイド]
 author: Dylan Yu

@@ -1,5 +1,5 @@
 ---
-date: 2026-10-20
+date: 2026-10-06
 title: "Sutando と Next.js：サーバーサイドデータベースアクセス"
 tags: [Sutando, Next.js, React, サーバーコンポーネント, ガイド]
 author: Dylan Yu

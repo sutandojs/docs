@@ -1,5 +1,5 @@
 ---
-date: 2026-08-25
+date: 2026-08-11
 title: "Getting Started with Sutando: Build Your First Node.js App"
 tags: [Sutando, Node.js, Tutorial, ORM, Beginner]
 author: Dylan Yu

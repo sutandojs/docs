@@ -1,5 +1,5 @@
 ---
-date: 2026-09-29
+date: 2026-09-15
 title: "Building a REST API with Sutando and Express"
 tags: [Sutando, Express, REST API, Node.js, Tutorial]
 author: Dylan Yu

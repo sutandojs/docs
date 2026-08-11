@@ -1,5 +1,5 @@
 ---
-date: 2026-09-22
+date: 2026-09-08
 title: "Migrating from Laravel to Node.js: A Practical Guide with Sutando"
 tags: [Laravel, Node.js, Sutando, Migration, Eloquent]
 author: Dylan Yu

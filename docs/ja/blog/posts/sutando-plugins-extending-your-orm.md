@@ -1,5 +1,5 @@
 ---
-date: 2026-11-03
+date: 2026-10-20
 title: "Sutando プラグイン：ORM を拡張する"
 tags: [Sutando, プラグイン, ORM, Node.js, 拡張]
 author: Dylan Yu

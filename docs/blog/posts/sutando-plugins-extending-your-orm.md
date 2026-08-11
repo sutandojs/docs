@@ -1,5 +1,5 @@
 ---
-date: 2026-11-03
+date: 2026-10-20
 title: "Sutando Plugins: Extending Your ORM"
 tags: [Sutando, ORM, Plugins, Extensions, Node.js]
 author: Dylan Yu

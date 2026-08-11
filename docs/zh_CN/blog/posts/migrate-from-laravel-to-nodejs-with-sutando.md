@@ -1,5 +1,5 @@
 ---
-date: 2026-11-17
+date: 2026-11-03
 title: "从 Laravel 迁移到 Node.js：用 Sutando 无缝切换"
 tags: [Laravel, Node.js, Sutando, 迁移, Eloquent]
 author: Dylan Yu

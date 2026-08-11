@@ -1,5 +1,5 @@
 ---
-date: 2026-10-06
+date: 2026-09-22
 title: "Sutando のモデルリレーション：hasMany、belongsTo とそれ以降"
 tags: [Sutando, モデルリレーション, Node.js, ORM, ガイド]
 author: Dylan Yu

@@ -1,5 +1,5 @@
 ---
-date: 2026-10-20
+date: 2026-10-06
 title: "Using Sutando with Next.js: Server-Side Database Access Made Easy"
 tags: [Sutando, Next.js, React, Serverless, Node.js]
 author: Dylan Yu

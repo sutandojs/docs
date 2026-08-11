@@ -1,5 +1,5 @@
 ---
-date: 2026-10-27
+date: 2026-10-13
 title: "Sutando のソフトデリート、フック、スコープ"
 tags: [Sutando, ソフトデリート, フック, スコープ, Node.js]
 author: Dylan Yu

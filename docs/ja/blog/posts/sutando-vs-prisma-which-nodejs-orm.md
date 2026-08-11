@@ -1,5 +1,5 @@
 ---
-date: 2026-09-01
+date: 2026-08-18
 title: "Sutando vs Prisma：どの Node.js ORM が適しているか？"
 tags: [Sutando, Prisma, Node.js, ORM, 比較]
 author: Dylan Yu

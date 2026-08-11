@@ -1,5 +1,5 @@
 ---
-date: 2026-10-27
+date: 2026-10-13
 title: "Soft Deletes, Hooks, and Scopes in Sutando"
 tags: [Sutando, ORM, Soft Deletes, Hooks, Scopes, Node.js]
 author: Dylan Yu

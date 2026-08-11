@@ -1,5 +1,5 @@
 ---
-date: 2026-10-06
+date: 2026-09-22
 title: "Sutando 模型关联指南：hasMany、belongsTo 及更多"
 tags: [Sutando, ORM, Relationships, Tutorial, Node.js]
 author: Dylan Yu

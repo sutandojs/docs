@@ -1,5 +1,5 @@
 ---
-date: 2026-09-22
+date: 2026-09-08
 title: "Laravel から Node.js へ：Sutando で移行する"
 tags: [Laravel, Node.js, Sutando, 移行, Eloquent]
 author: Dylan Yu
