@@ -6,6 +6,7 @@ import usePosts from '../../composables/usePosts'
 const { site } = useData()
 const route = useRoute()
 const isZh = route.path.startsWith('/zh_CN/')
+const isJa = route.path.startsWith('/ja/')
 
 const { currentPost: post, prevPost, nextPost, blogPrefix } = usePosts()
 const { findByName } = useAuthors()
@@ -45,7 +46,7 @@ const author = findByName(post.value.author)
     <slot />
     <div class="flex items-center justify-start mt-16">
       <a class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 flex items-center gap-2" data-discover="true" :href="blogPrefix">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left w-4 h-4"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>{{ isZh ? '返回博客' : 'Back to Blog' }}</a>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left w-4 h-4"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>{{ isZh ? '返回博客' : isJa ? 'ブログに戻る' : 'Back to Blog' }}</a>
     </div>
   </div>
 </template>

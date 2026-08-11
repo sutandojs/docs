@@ -10,7 +10,8 @@ const props = defineProps<{
 const { site } = useData()
 const route = useRoute()
 const isZh = route.path.startsWith('/zh_CN/')
-const blogPrefix = isZh ? '/zh_CN/blog' : '/blog'
+const isJa = route.path.startsWith('/ja/')
+const blogPrefix = isZh ? '/zh_CN/blog' : isJa ? '/ja/blog' : '/blog'
 const { findByName } = useAuthors()
 const author = findByName(props.post.author)
 </script>

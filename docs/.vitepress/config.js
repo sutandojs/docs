@@ -204,6 +204,117 @@ export default defineConfig({
         }
         // other locale specific properties...
       }
+    },
+    ja: {
+      label: '日本語',
+      lang: 'ja',
+      link: '/ja/',
+
+      themeConfig: {
+        editLink: {
+          text: 'GitHub でこのページを編集',
+          pattern: 'https://github.com/sutandojs/docs/edit/main/docs/:path'
+        },
+
+        lastUpdated: {
+          text: '最終更新',
+        },
+
+        blog: {
+          title: 'ブログ',
+          description: 'Sutando に関するブログ',
+        },
+
+        nav: [
+          { text: 'ガイド', link: '/ja/guide/getting-started', activeMatch: '/ja/guide/' },
+          { text: 'ブログ', link: '/ja/blog', activeMatch: '/ja/blog/' },
+          { text: '例', link: 'https://github.com/sutandojs/sutando-examples' },
+          { text: '変更履歴', link: 'https://github.com/sutandojs/sutando/releases' },
+        ],
+        sidebar: {
+          '/ja/guide/': [
+            {
+              text: 'はじめに',
+              items: [
+                {
+                  text: 'スタートガイド',
+                  link: '/ja/guide/getting-started'
+                },
+                {
+                  text: 'インストール',
+                  link: '/ja/guide/installation'
+                }
+              ]
+            },
+            {
+              text: '基礎',
+              items: [
+                {
+                  text: 'クエリビルダー',
+                  link: '/ja/guide/query-builder'
+                },
+                {
+                  text: 'モデル',
+                  link: '/ja/guide/models'
+                },
+                {
+                  text: 'ページネーション',
+                  link: '/ja/guide/pagination'
+                },
+                {
+                  text: 'モデルリレーション',
+                  link: '/ja/guide/relationships'
+                },
+                {
+                  text: 'コレクション',
+                  link: '/ja/guide/collections'
+                },
+                {
+                  text: 'ミューテーター',
+                  link: '/ja/guide/mutators'
+                },
+                {
+                  text: 'シリアライズ',
+                  link: '/ja/guide/serialization'
+                },
+                {
+                  text: 'トランザクション',
+                  link: '/ja/guide/transactions'
+                },
+                {
+                  text: 'マイグレーション',
+                  link: '/ja/guide/migrations'
+                },
+                {
+                  text: 'フック',
+                  link: '/ja/guide/hooks'
+                },
+                {
+                  text: 'TypeScript',
+                  link: '/ja/guide/typescript'
+                },
+                {
+                  text: 'ブラウザサポート',
+                  link: '/ja/guide/browser'
+                },
+              ]
+            },
+            {
+              text: 'プラグイン',
+              items: [
+                {
+                  text: 'はじめに',
+                  link: '/ja/guide/plugin'
+                },
+                {
+                  text: 'プラグイン一覧',
+                  link: '/ja/guide/plugin-list'
+                },
+              ]
+            }
+          ],
+        }
+      }
     }
   },
 
@@ -232,6 +343,7 @@ export default defineConfig({
       text: 'English',
       items: [
         { text: '简体中文', link: 'https://cn.sutando.org' },
+        { text: '日本語', link: '/ja/' },
       ]
     },
 

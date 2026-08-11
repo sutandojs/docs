@@ -102,8 +102,8 @@ npm install sutando --save
 
 Configure your database, create your first model, and run queries—no framework migration required. Full docs live at **https://sutando.org/guide/getting-started.html**.
 
-```js
-const { sutando, Model } = require('sutando');
+```ts
+import { sutando, Model } from 'sutando';
 
 // Add SQL Connection Info
 sutando.addConnection({

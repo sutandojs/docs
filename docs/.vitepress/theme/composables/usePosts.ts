@@ -4,6 +4,7 @@ import { useData, useRoute } from 'vitepress'
 import { computed, ref } from 'vue'
 import { data } from './posts.data'
 import { data as zhData } from './posts.zh.data'
+import { data as jaData } from './posts.ja.data'
 
 export default () => {
   const { site } = useData()
@@ -11,10 +12,11 @@ export default () => {
   const route = useRoute()
 
   const isZh = route.path.startsWith('/zh_CN/')
+  const isJa = route.path.startsWith('/ja/')
 
-  const allPosts: Ref<Post[]> = ref(isZh ? zhData : data)
+  const allPosts: Ref<Post[]> = ref(isZh ? zhData : isJa ? jaData : data)
 
-  const blogPrefix = isZh ? '/zh_CN/blog' : '/blog'
+  const blogPrefix = isZh ? '/zh_CN/blog' : isJa ? '/ja/blog' : '/blog'
 
   const path = route.path
 

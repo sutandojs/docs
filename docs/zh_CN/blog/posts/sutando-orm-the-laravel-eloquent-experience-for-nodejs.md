@@ -102,8 +102,8 @@ npm install sutando --save
 
 配置你的数据库，创建你的第一个模型，然后运行查询——无需框架迁移。完整文档请访问 **https://sutando.org/zh_CN/guide/getting-started.html**。
 
-```js
-const { sutando, Model } = require('sutando');
+```ts
+import { sutando, Model } from 'sutando';
 
 // 添加数据库连接信息
 sutando.addConnection({
