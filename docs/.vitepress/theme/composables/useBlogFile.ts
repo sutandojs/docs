@@ -16,10 +16,11 @@ export default () => {
     return matter(src, { excerpt: true })
   }
 
-  function folderDir(name: string): string {
+  function folderDir(name: string, locale?: string): string {
     // @ts-expect-error: import.meta is supported
     const dirname = path.dirname(fileURLToPath(import.meta.url))
-    return path.resolve(dirname, `../../../blog/${name}`)
+    const localePrefix = locale ? `${locale}/` : ''
+    return path.resolve(dirname, `../../../${localePrefix}blog/${name}`)
   }
 
   return { folderDir, readFrontMatter }

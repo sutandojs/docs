@@ -30,9 +30,11 @@ export { data }
 async function load(): Promise<Post[]>
 async function load() {
   md = md || (await createMarkdownRenderer(process.cwd()))
+  const now = Date.now()
   return fs
     .readdirSync(dir)
     .map(file => getPost(file, dir))
+    .filter(post => post.date.time <= now)
     .sort((a, b) => b.date.time - a.date.time)
 }
 

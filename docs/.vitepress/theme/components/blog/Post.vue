@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 import type { Post } from '../../composables/posts.data'
-import { useData } from 'vitepress'
+import { useData, useRoute } from 'vitepress'
 import useAuthors from '../../composables/useAuthors'
 import PostAuthor from './PostAuthor.vue'
 
@@ -8,6 +8,9 @@ const props = defineProps<{
   post: Post
 }>()
 const { site } = useData()
+const route = useRoute()
+const isZh = route.path.startsWith('/zh_CN/')
+const blogPrefix = isZh ? '/zh_CN/blog' : '/blog'
 const { findByName } = useAuthors()
 const author = findByName(props.post.author)
 </script>
@@ -15,7 +18,7 @@ const author = findByName(props.post.author)
 <template>
   <div :key="post.id" class="group cursor-pointer flex flex-col gap-4">
     <div class="group overflow-hidden relative aspect-[2/1] rounded-lg transition-all">
-      <a :href="`${site.base}blog${post.href}`">
+      <a :href="`${site.base}${blogPrefix.slice(1)}${post.href}`">
         <div class="relative w-full h-full">
           <img
             :alt="`Blog Post Image of ${post.title}`"
@@ -39,7 +42,7 @@ const author = findByName(props.post.author)
     <div class="flex flex-col flex-grow">
       <div>
         <div class="text-lg font-medium">
-          <a :href="`${site.base}blog${post.href}`">
+          <a :href="`${site.base}${blogPrefix.slice(1)}${post.href}`">
             <span class="">
               {{ post.title }}
             </span>

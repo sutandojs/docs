@@ -102,8 +102,14 @@ export default defineConfig({
           text: '最后更新于',
         },
 
+        blog: {
+          title: '博客',
+          description: '关于 Sutando 的博客',
+        },
+
         nav: [
           { text: '手册', link: '/zh_CN/guide/getting-started', activeMatch: '/zh_CN/guide/' },
+          { text: '博客', link: '/zh_CN/blog', activeMatch: '/zh_CN/blog/' },
           // { text: 'APIs', link: '/config/', activeMatch: '/api/' },
           { text: '示例', link: 'https://github.com/sutandojs/sutando-examples' },
           { text: '更新日志', link: 'https://github.com/sutandojs/sutando/releases' },
