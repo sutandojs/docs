@@ -34,7 +34,6 @@ interface Props {
       desc: string;
       href: string;
     }[];
-    stats: { value: string; label: string }[];
     bandTitle: string;
     bandLead: string;
     bandButton: string;
@@ -55,6 +54,16 @@ const str = mut;
 // Code samples are language-agnostic, so the template owns them rather than each locale.
 // Every API below is taken from the guide under docs/guide/ — keep it that way.
 const files = ["app/queries.ts", "models/user.ts", "migrations/create_users_table.ts"];
+
+// Database name -> brand mark in db-logos.ts.
+const dbIcons: Record<string, string> = {
+  MySQL: "mysql",
+  PostgreSQL: "postgresql",
+  SQLite: "sqlite",
+  MariaDB: "mariadb",
+  "SQL Server": "mssql",
+  Oracle: "oracle",
+};
 
 const codes = [
   `<span class="${acc}">import</span> { sutando } <span class="${acc}">from</span> <span class="${str}">'sutando'</span>;
@@ -145,7 +154,7 @@ const pm = [
         >
           {copy.badge}
         </span>
-        <h1 class="mt-8 font-display text-4xl font-bold tracking-tight text-balance sm:text-6xl">
+        <h1 class="mt-8 font-display text-4xl/[1.25] font-bold tracking-tight text-balance sm:text-6xl/[1.15]">
           <span>{copy.heading}</span>
           {
             copy.headingTail && (
@@ -212,17 +221,21 @@ const pm = [
     </section>
 
     <!-- what it runs on -->
-    <section class="border-b border-border bg-muted/40 py-10">
-      <div
-        class="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-3 px-6 text-sm text-muted-foreground"
-      >
-        <span class="font-medium">{copy.worksWith}</span>
-        <span class="text-border">·</span>
-        {
-          copy.databases.map((db) => (
-            <span class="rounded-full border border-border px-3 py-1 font-mono text-xs">{db}</span>
-          ))
-        }
+    <section class="border-b border-border bg-muted/40 py-12">
+      <div class="mx-auto max-w-6xl px-6">
+        <p class="text-center text-xs font-medium tracking-widest text-muted-foreground uppercase">
+          {copy.worksWith}
+        </p>
+        <ul class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          {
+            copy.databases.map((db) => (
+              <li class="flex items-center justify-center gap-2.5 rounded-blume border border-border bg-background px-4 py-3 text-sm font-medium transition-colors hover:border-accent">
+                <Icon name={dbIcons[db] ?? "database"} size={18} class="shrink-0 text-accent" />
+                <span>{db}</span>
+              </li>
+            ))
+          }
+        </ul>
       </div>
     </section>
 
@@ -290,22 +303,8 @@ const pm = [
       </div>
     </section>
 
-    <!-- stats -->
-    <section class="border-t border-border">
-      <div class="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-6 py-14 sm:grid-cols-3">
-        {
-          copy.stats.map((s) => (
-            <div class="text-center">
-              <div class="font-display text-3xl font-bold text-accent">{s.value}</div>
-              <div class="mt-1.5 text-sm text-muted-foreground">{s.label}</div>
-            </div>
-          ))
-        }
-      </div>
-    </section>
-
     <!-- cta band -->
-    <section class="mx-auto max-w-6xl px-6 pb-24">
+    <section class="mx-auto max-w-6xl px-6 pt-24 pb-24">
       <div
         class="relative overflow-hidden rounded-blume border border-border px-8 py-16 text-center"
         style="background: radial-gradient(65% 110% at 50% 0%, color-mix(in srgb, var(--blume-accent) 16%, transparent), transparent 75%)"

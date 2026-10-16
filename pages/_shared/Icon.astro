@@ -1,7 +1,10 @@
 ---
+import { dbLogos } from "./db-logos";
+
 /**
  * Inline Lucide-style strokes, self-contained so shared pages do not depend on
- * Blume's icon sprite middleware.
+ * Blume's icon sprite middleware. Database brand marks are filled rather than
+ * stroked, so they come from db-logos.ts instead.
  */
 const icons = {
   database:
@@ -34,7 +37,8 @@ interface Props {
   class?: string;
 }
 const { name, size = 24, class: cls } = Astro.props;
-const d = icons[name] ?? "";
+const brand = dbLogos[name];
+const d = brand ?? icons[name] ?? "";
 ---
 
 <svg
@@ -42,8 +46,8 @@ const d = icons[name] ?? "";
   width={size}
   height={size}
   viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
+  fill={brand ? "currentColor" : "none"}
+  stroke={brand ? "none" : "currentColor"}
   stroke-width="2"
   stroke-linecap="round"
   stroke-linejoin="round"
