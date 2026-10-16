@@ -76,7 +76,8 @@ export default defineConfig({
   title: "Sutando",
   description:
     "A modern Node.js ORM, support MySQL, PostgreSQL, SQLite, MariaDB, SQL Server, Oracle, and more",
-  logo: "/logo.svg",
+  // Also the browser tab icon: Blume picks up public/icon.svg by filename.
+  logo: "/icon.svg",
 
   github: {
     owner: "sutandojs",
