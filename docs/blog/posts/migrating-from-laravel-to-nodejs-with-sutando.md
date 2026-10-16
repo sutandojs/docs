@@ -1,17 +1,16 @@
 ---
 date: 2026-09-08
 title: "Migrating from Laravel to Node.js: A Practical Guide with Sutando"
-tags: [Laravel, Node.js, Sutando, Migration, Eloquent]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "If you're a Laravel developer considering a move to Node.js, the biggest concern is usually leaving Eloquent behind. With Sutando, you don't have to. This…"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
-
 If you're a Laravel developer considering a move to Node.js, the biggest concern is usually leaving Eloquent behind. With Sutando, you don't have to. This guide walks through migrating a Laravel application to Node.js, mapping each concept from Eloquent to Sutando.
 
 ## Why Migrate from Laravel to Node.js?
@@ -320,6 +319,4 @@ Some Laravel features need manual implementation in Node.js:
 
 Migrating from Laravel to Node.js doesn't mean abandoning Eloquent. Sutando brings the same Active Record experience to Node.js with nearly identical API. You can keep your database schema, migrate routes incrementally, and your team can be productive from day one.
 
-Start with `npm install sutando` and check the [documentation](https://sutando.org/guide/getting-started.html).
-
-</PostDetail>
+Start with `npm install sutando` and check the [documentation](https://sutando.org/guide/getting-started.html).

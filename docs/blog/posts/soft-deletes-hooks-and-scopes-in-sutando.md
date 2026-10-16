@@ -1,17 +1,16 @@
 ---
 date: 2026-10-13
 title: "Soft Deletes, Hooks, and Scopes in Sutando"
-tags: [Sutando, ORM, Soft Deletes, Hooks, Scopes, Node.js]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "Sutando includes several powerful features that go beyond basic CRUD: soft deletes, model events (hooks), and query scopes. This guide covers all three…"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
-
 Sutando includes several powerful features that go beyond basic CRUD: soft deletes, model events (hooks), and query scopes. This guide covers all three with practical examples.
 
 ## Soft Deletes
@@ -248,6 +247,4 @@ const popularPosts = await Post.query()
 
 Soft deletes, model events, and query scopes are three features that make Sutando more than just a query builder. They let you encode business logic directly into your models, keeping your controllers clean and your data consistent.
 
-Learn more in the [Sutando documentation](https://sutando.org/guide/soft-deletes.html).
-
-</PostDetail>
+Learn more in the [Sutando documentation](https://sutando.org/guide/soft-deletes.html).

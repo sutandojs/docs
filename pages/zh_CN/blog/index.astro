@@ -1,0 +1,14 @@
+﻿---
+import Blog from "@/blog.astro";
+
+const copy = {
+  title: "博客 — Sutando",
+  description: "关于 Sutando 与 Node.js 数据库开发的新闻、教程与深入解析。",
+  heading: "Sutando 博客",
+  lead: "来自 Sutando 团队的教程、版本说明与深入解析。",
+  featured: "最新文章",
+  readMore: "阅读全文",
+};
+---
+
+<Blog locale="zh_CN" switchRoutes={{ en: "/blog", zh_CN: "/zh_CN/blog", ja: "/ja/blog" }} copy={copy} />

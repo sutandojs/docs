@@ -1,17 +1,16 @@
 ---
 date: 2026-09-22
 title: "Model Relationships in Sutando: hasMany, belongsTo, and Beyond"
-tags: [Sutando, ORM, Relationships, Tutorial, Node.js]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "Relationships are the heart of any ORM. Sutando brings Laravel Eloquent's relationship system to Node.js, making it easy to define and query complex data…"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
-
 Relationships are the heart of any ORM. Sutando brings Laravel Eloquent's relationship system to Node.js, making it easy to define and query complex data relationships. This guide covers every relationship type with practical examples.
 
 ## Defining Relationships
@@ -217,6 +216,4 @@ for (const user of users) {
 
 Sutando's relationship system mirrors Eloquent's, making complex data relationships simple to define and query. With eager loading, you avoid N+1 problems while keeping your code clean and readable.
 
-Learn more in the [Sutando documentation](https://sutando.org/guide/relationships.html).
-
-</PostDetail>
+Learn more in the [Sutando documentation](https://sutando.org/guide/relationships.html).

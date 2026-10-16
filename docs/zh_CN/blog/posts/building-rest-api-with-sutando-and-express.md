@@ -1,17 +1,16 @@
 ---
 date: 2026-09-15
 title: "用 Sutando 和 Express 构建 REST API"
-tags: [Sutando, Express, REST API, Node.js, Tutorial]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "用 Sutando 构建 REST API 非常简单。本教程将构建一个完整的博客 API，包含验证和错误处理。"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
-
 用 Sutando 构建 REST API 非常简单。本教程将构建一个完整的博客 API，包含验证和错误处理。
 
 ## 项目搭建
@@ -109,6 +108,4 @@ app.post('/posts/:id/comments', async (req, res) => {
 - **错误处理**：async 包装器 + 错误中间件
 - **隐藏字段**：模型上的 `hidden` 数组隐藏密码
 
-完整文档请访问 [sutando.org](https://sutando.org/zh_CN/guide/getting-started.html)。
-
-</PostDetail>
+完整文档请访问 [sutando.org](https://sutando.org/zh_CN/guide/getting-started.html)。

@@ -1,0 +1,378 @@
+---
+import Shell from "./Shell.astro";
+import Icon from "./Icon.astro";
+
+interface Section {
+  title: string;
+  lead: string;
+  bullets: string[];
+}
+
+interface Props {
+  locale?: string;
+  switchRoutes?: Record<string, string>;
+  copy: {
+    title: string;
+    description: string;
+    badge: string;
+    heading: string;
+    headingTail?: string;
+    lead: string;
+    installLabel: string;
+    ctaPrimary: string;
+    ctaSecondary: string;
+    worksWith: string;
+    databases: string[];
+    sectionsTitle: string;
+    sectionsLead: string;
+    sections: Section[];
+    featuresTitle: string;
+    featuresLead: string;
+    features: {
+      icon: string;
+      title: string;
+      desc: string;
+      href: string;
+    }[];
+    stats: { value: string; label: string }[];
+    bandTitle: string;
+    bandLead: string;
+    bandButton: string;
+    bandSecondary: string;
+    bandSecondaryHref: string;
+  };
+}
+
+const { locale, switchRoutes = {}, copy } = Astro.props;
+
+// The guide is served per locale, so in-page links carry the locale prefix too.
+const base = !locale || locale === "en" ? "" : `/${locale}`;
+
+const acc = "text-accent";
+const mut = "text-muted-foreground";
+const str = mut;
+
+// Code samples are language-agnostic, so the template owns them rather than each locale.
+// Every API below is taken from the guide under docs/guide/ — keep it that way.
+const files = ["app/queries.ts", "models/user.ts", "migrations/create_users_table.ts"];
+
+const codes = [
+  `<span class="${acc}">import</span> { sutando } <span class="${acc}">from</span> <span class="${str}">'sutando'</span>;
+
+<span class="${acc}">const</span> db = sutando.<span class="${acc}">connection</span>();
+
+<span class="${acc}">const</span> users = <span class="${acc}">await</span> db.<span class="${acc}">table</span>(<span class="${str}">'users'</span>)
+  .<span class="${acc}">where</span>(<span class="${str}">'votes'</span>, <span class="${str}">'&gt;'</span>, <span class="${str}">100</span>)
+  .<span class="${acc}">whereIn</span>(<span class="${str}">'status'</span>, [<span class="${str}">'active'</span>, <span class="${str}">'pending'</span>])
+  .<span class="${acc}">orderBy</span>(<span class="${str}">'name'</span>)
+  .<span class="${acc}">take</span>(<span class="${str}">10</span>)
+  .<span class="${acc}">get</span>();`,
+  `<span class="${acc}">import</span> { Model } <span class="${acc}">from</span> <span class="${str}">'sutando'</span>;
+
+<span class="${acc}">class</span> <span class="text-foreground">User</span> <span class="${acc}">extends</span> <span class="${mut}">Model</span> {
+  <span class="${acc}">declare</span> id: <span class="${acc}">number</span>;
+  <span class="${acc}">declare</span> name: <span class="${acc}">string</span>;
+
+  <span class="text-foreground">relationPosts</span>() {
+    <span class="${acc}">return</span> <span class="${acc}">this</span>.<span class="${acc}">hasMany</span>(Post);
+  }
+}
+
+<span class="${mut}">// two queries, not N+1</span>
+<span class="${acc}">const</span> user = <span class="${acc}">await</span> User.query().<span class="${acc}">with</span>(<span class="${str}">'posts'</span>).<span class="${acc}">find</span>(<span class="${str}">1</span>);
+
+user.posts.<span class="${acc}">count</span>();`,
+  `<span class="${acc}">import</span> { Migration } <span class="${acc}">from</span> <span class="${str}">'sutando'</span>;
+
+<span class="${acc}">export default class extends</span> <span class="${mut}">Migration</span> {
+  <span class="${acc}">async</span> <span class="text-foreground">up</span>(schema) {
+    <span class="${acc}">await</span> schema.<span class="${acc}">createTable</span>(<span class="${str}">'users'</span>, (table) <span class="${acc}">=&gt;</span> {
+      table.<span class="${acc}">increments</span>(<span class="${str}">'id'</span>);
+      table.<span class="${acc}">string</span>(<span class="${str}">'name'</span>);
+      table.<span class="${acc}">string</span>(<span class="${str}">'email'</span>).<span class="${acc}">unique</span>();
+      table.<span class="${acc}">timestamps</span>();
+    });
+  }
+
+  <span class="${acc}">async</span> <span class="text-foreground">down</span>(schema) {
+    <span class="${acc}">await</span> schema.<span class="${acc}">dropTableIfExists</span>(<span class="${str}">'users'</span>);
+  }
+}`,
+];
+
+const demo =
+  String.raw`<span class="text-accent">import</span> { Model } <span class="text-accent">from</span> <span class="text-muted-foreground">'sutando'</span>;
+
+<span class="text-accent">class</span> <span class="text-foreground">User</span> <span class="text-accent">extends</span> <span class="text-muted-foreground">Model</span> {
+  <span class="text-accent">declare</span> id: <span class="text-accent">number</span>;
+  <span class="text-accent">declare</span> name: <span class="text-accent">string</span>;
+}
+
+<span class="text-accent">const</span> user = <span class="text-accent">new</span> User();
+user.name = <span class="text-muted-foreground">'John'</span>;
+<span class="text-accent">await</span> user.<span class="text-accent">save</span>();
+
+<span class="text-accent">const</span> users = <span class="text-accent">await</span> User.query()
+  .<span class="text-accent">where</span>(<span class="text-muted-foreground">'age'</span>, <span class="text-muted-foreground">'&gt;'</span>, <span class="text-muted-foreground">18</span>)
+  .<span class="text-accent">get</span>();`;
+
+const dots = ["bg-[#f87171]", "bg-[#fbbf24]", "bg-[#4ade80]"];
+const pm = [
+  { id: "npm", cmd: "npm install sutando" },
+  { id: "yarn", cmd: "yarn add sutando" },
+  { id: "pnpm", cmd: "pnpm add sutando" },
+];
+---
+
+<Shell locale={locale} switchRoutes={switchRoutes} title={copy.title} description={copy.description}>
+  <main>
+    <!-- hero -->
+    <section class="relative border-b border-border">
+      <div
+        class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-full"
+        style="background: radial-gradient(65% 55% at 50% 0%, color-mix(in srgb, var(--blume-accent) 14%, transparent), transparent 72%)"
+      >
+      </div>
+      <div
+        class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[520px]"
+        style="background-image: linear-gradient(to right, color-mix(in srgb, var(--blume-border) 70%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--blume-border) 70%, transparent) 1px, transparent 1px); background-size: 56px 56px; mask-image: radial-gradient(70% 70% at 50% 0%, black, transparent)"
+      >
+      </div>
+
+      <div class="mx-auto max-w-6xl px-6 pt-20 pb-20 text-center sm:pt-28">
+        <span
+          class="inline-flex items-center gap-2 rounded-full border border-border bg-muted px-4 py-1.5 text-xs font-medium tracking-wide text-muted-foreground"
+        >
+          {copy.badge}
+        </span>
+        <h1 class="mt-8 font-display text-4xl font-bold tracking-tight text-balance sm:text-6xl">
+          <span>{copy.heading}</span>
+          {
+            copy.headingTail && (
+              <span class="block bg-gradient-to-r from-accent to-accent/55 bg-clip-text text-transparent">
+                {copy.headingTail}
+              </span>
+            )
+          }
+        </h1>
+        <p class="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-muted-foreground">
+          {copy.lead}
+        </p>
+
+        <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <a
+            href={`${base}/guide/getting-started`}
+            class="inline-flex items-center gap-2 rounded-blume bg-accent px-6 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90"
+          >
+            {copy.ctaPrimary}
+            <Icon name="arrow-right" size={16} />
+          </a>
+          <a
+            href="https://github.com/sutandojs/sutando"
+            class="inline-flex items-center gap-2 rounded-blume border border-border bg-background px-6 py-3 text-sm font-medium transition-colors hover:border-accent hover:text-accent"
+          >
+            <Icon name="github" size={16} />
+            {copy.ctaSecondary}
+          </a>
+        </div>
+
+        <!-- package manager switcher (CSS-only, no JS) -->
+        <div
+          class="pm mx-auto mt-10 w-full max-w-md overflow-hidden rounded-blume border border-border bg-code text-left"
+        >
+          {
+            pm.map((p, i) => (
+              <input type="radio" name="pm" id={`pm-${p.id}`} checked={i === 0} />
+            ))
+          }
+          <div class="flex gap-1 border-b border-border px-2">
+            {pm.map((p) => <label for={`pm-${p.id}`}>{p.id}</label>)}
+          </div>
+          <div class="px-4 py-3.5">
+            {
+              pm.map((p) => (
+                <pre class="font-mono text-sm leading-relaxed text-foreground"><span
+                    class="text-muted-foreground select-none">$ </span
+                  >{p.cmd}</pre>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- demo -->
+        <div class="mx-auto mt-14 max-w-4xl overflow-hidden rounded-blume border border-border bg-code text-left shadow-2xl shadow-accent/10">
+          <div class="flex items-center gap-1.5 border-b border-border px-4 py-3">
+            {dots.map((d) => <span class={`inline-block size-3 rounded-full ${d}`} />)}
+            <span class="ml-3 font-mono text-xs text-muted-foreground">app / main.ts</span>
+          </div>
+          <pre class="overflow-x-auto px-6 py-7 font-mono text-[13px] leading-[1.9] text-foreground"
+            ><code set:html={demo} /></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- what it runs on -->
+    <section class="border-b border-border bg-muted/40 py-10">
+      <div
+        class="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-3 px-6 text-sm text-muted-foreground"
+      >
+        <span class="font-medium">{copy.worksWith}</span>
+        <span class="text-border">·</span>
+        {
+          copy.databases.map((db) => (
+            <span class="rounded-full border border-border px-3 py-1 font-mono text-xs">{db}</span>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- feature tour -->
+    <section class="mx-auto max-w-6xl px-6 py-20 sm:py-28">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="font-display text-3xl font-bold tracking-tight">{copy.sectionsTitle}</h2>
+        <p class="mt-4 text-muted-foreground">{copy.sectionsLead}</p>
+      </div>
+      <div class="mt-8 sm:mt-16">
+        {
+          copy.sections.map((s, idx) => (
+            <div class="grid items-center gap-10 border-t border-border py-12 first:border-t-0 md:grid-cols-2 md:gap-16 lg:py-16">
+              <div class={idx % 2 === 1 ? "md:order-2" : ""}>
+                <h3 class="font-display text-2xl font-bold tracking-tight text-balance">{s.title}</h3>
+                <p class="mt-4 text-pretty leading-relaxed text-muted-foreground">{s.lead}</p>
+                <ul class="mt-6 space-y-3">
+                  {s.bullets.map((b) => (
+                    <li class="flex gap-3 text-sm">
+                      <Icon name="check" size={16} class="mt-0.5 shrink-0 text-accent" />
+                      <span class="text-muted-foreground">{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div class={idx % 2 === 1 ? "md:order-1" : ""}>
+                <div class="overflow-hidden rounded-blume border border-border bg-code shadow-lg">
+                  <div class="flex items-center gap-1.5 border-b border-border px-4 py-2.5">
+                    {dots.map((d) => <span class={`inline-block size-2.5 rounded-full ${d}`} />)}
+                    <span class="ml-3 font-mono text-xs text-muted-foreground">{files[idx]}</span>
+                  </div>
+                  <pre class="overflow-x-auto p-5 font-mono text-[13px] leading-[1.85] text-foreground"
+                    ><code set:html={codes[idx]} /></pre>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- feature grid -->
+    <section class="border-t border-border bg-muted/30">
+      <div class="mx-auto max-w-6xl px-6 py-24">
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="font-display text-3xl font-bold tracking-tight">{copy.featuresTitle}</h2>
+          <p class="mt-4 text-muted-foreground">{copy.featuresLead}</p>
+        </div>
+        <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {
+            copy.features.map((f) => (
+              <a
+                href={f.href}
+                class="group flex flex-col gap-4 rounded-blume border border-border bg-background p-6 transition-colors hover:border-accent"
+              >
+                <span class="inline-flex size-10 items-center justify-center rounded-blume border border-border bg-muted text-accent">
+                  <Icon name={f.icon} size={18} />
+                </span>
+                <h3 class="font-display text-base font-semibold">{f.title}</h3>
+                <p class="text-sm leading-relaxed text-muted-foreground">{f.desc}</p>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- stats -->
+    <section class="border-t border-border">
+      <div class="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-6 py-14 sm:grid-cols-3">
+        {
+          copy.stats.map((s) => (
+            <div class="text-center">
+              <div class="font-display text-3xl font-bold text-accent">{s.value}</div>
+              <div class="mt-1.5 text-sm text-muted-foreground">{s.label}</div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- cta band -->
+    <section class="mx-auto max-w-6xl px-6 pb-24">
+      <div
+        class="relative overflow-hidden rounded-blume border border-border px-8 py-16 text-center"
+        style="background: radial-gradient(65% 110% at 50% 0%, color-mix(in srgb, var(--blume-accent) 16%, transparent), transparent 75%)"
+      >
+        <h2 class="font-display text-3xl font-bold tracking-tight">{copy.bandTitle}</h2>
+        <p class="mx-auto mt-4 max-w-xl text-muted-foreground">{copy.bandLead}</p>
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <a
+            href={`${base}/guide/getting-started`}
+            class="inline-flex items-center gap-2 rounded-blume bg-accent px-6 py-3 text-sm font-medium text-white hover:opacity-90"
+          >
+            {copy.bandButton}
+            <Icon name="arrow-right" size={16} />
+          </a>
+          <a
+            href={copy.bandSecondaryHref}
+            class="inline-flex items-center gap-2 rounded-blume border border-border bg-background px-6 py-3 text-sm font-medium hover:border-accent hover:text-accent"
+          >
+            {copy.bandSecondary}
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Shell>
+
+<style>
+  /* The hero's package-manager switcher: radios keep it working with no JS. */
+  .pm input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .pm label {
+    cursor: pointer;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--blume-muted-foreground);
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .pm label:hover {
+    color: var(--blume-foreground);
+  }
+  .pm pre {
+    display: none;
+    margin: 0;
+  }
+  #pm-npm:checked ~ div:nth-of-type(2) pre:nth-child(1),
+  #pm-yarn:checked ~ div:nth-of-type(2) pre:nth-child(2),
+  #pm-pnpm:checked ~ div:nth-of-type(2) pre:nth-child(3) {
+    display: block;
+  }
+  #pm-npm:checked ~ div:nth-of-type(1) label:nth-child(1),
+  #pm-yarn:checked ~ div:nth-of-type(1) label:nth-child(2),
+  #pm-pnpm:checked ~ div:nth-of-type(1) label:nth-child(3) {
+    color: var(--blume-foreground);
+    border-bottom-color: var(--blume-accent);
+  }
+  .pm input:focus-visible ~ div:nth-of-type(1) label:nth-child(1),
+  .pm input:focus-visible ~ div:nth-of-type(1) label:nth-child(2),
+  .pm input:focus-visible ~ div:nth-of-type(1) label:nth-child(3) {
+    outline: 2px solid var(--blume-accent);
+    outline-offset: -2px;
+  }
+</style>

@@ -1,0 +1,103 @@
+﻿---
+import Home from "../_shared/home.astro";
+
+const copy = {
+  title: "Sutando — 现代 Node.js ORM",
+  description: "Sutando 是一个现代 Node.js ORM，提供优雅的查询构造器、模型关联、事务、迁移等特性。",
+  badge: "现代 Node.js ORM",
+  heading: "与数据库交互",
+  headingTail: "也可以轻松而优雅。",
+  lead: "Sutando 将 Laravel Eloquent 的优雅体验带到 Node.js —— 流畅的查询构造器、表达力强的模型与关联，以及事务、迁移等能力，并原生支持 TypeScript。",
+  installLabel: "安装",
+  ctaPrimary: "快速开始",
+  ctaSecondary: "GitHub",
+  worksWith: "支持",
+  databases: ["MySQL", "PostgreSQL", "SQLite", "MariaDB", "SQL Server", "Oracle"],
+  sectionsTitle: "一个不打扰你的 ORM",
+  sectionsLead: "少写 SQL，同时保留完全的控制权 —— 需要时随时使用原生表达式。",
+  sections: [
+    {
+      title: "你早已熟悉的查询构造器",
+      lead: "链式调用构建查询，读起来就像你原本想写的 SQL，参数绑定交给 Sutando 处理。",
+      bullets: [
+        "where、whereIn、join 与 orderBy 约束",
+        "count() 与 exists() 聚合查询",
+        "paginate() 分页，chunk() 处理大量数据",
+        "db.raw() 执行原生 SQL，并支持参数绑定",
+      ],
+    },
+    {
+      title: "模型与关联",
+      lead: "几行代码定义一个模型，再用直观的方式描述表与表之间的关系，加载关联数据不会退化成 N+1。",
+      bullets: [
+        "hasOne、hasMany、belongsTo 与 belongsToMany",
+        "with() 预加载，两次查询代替 N+1",
+        "访问器、修改器、类型转换与查询作用域",
+        "软删除：restore() 与 forceDelete()",
+      ],
+    },
+    {
+      title: "可以版本控制的表结构",
+      lead: "用迁移构造器定义表结构，提交到仓库，让每个环境都以同样的方式演进。",
+      bullets: [
+        "流畅的 schema builder：createTable、字段、索引与外键",
+        "可回滚的 up / down 迁移",
+        "npx sutando migrate:run 执行，migrate:status 查看状态",
+        "支持 MySQL、PostgreSQL、SQLite、MariaDB 与 SQL Server",
+      ],
+    },
+  ],
+  featuresTitle: "你所需要的一切，仅此而已",
+  featuresLead: "覆盖日常数据库工作的完整工具箱 —— 从基础查询到完整的模型关联。",
+  features: [
+    {
+      icon: "terminal",
+      title: "查询构造器",
+      desc: "使用流畅的链式 API 构建 SQL —— where、join、聚合、子查询与分页。",
+      href: "/zh_CN/guide/query-builder",
+    },
+    {
+      icon: "link",
+      title: "模型关联",
+      desc: "hasMany、belongsTo、belongsToMany 等 —— 用清晰易读的代码表达表结构。",
+      href: "/zh_CN/guide/relationships",
+    },
+    {
+      icon: "repeat",
+      title: "事务",
+      desc: "用简单的 Promise API 包裹你的操作，让数据始终保持一致。",
+      href: "/zh_CN/guide/transactions",
+    },
+    {
+      icon: "layers",
+      title: "迁移",
+      desc: "像版本控制代码一样管理数据库结构，与团队一起安全演进。",
+      href: "/zh_CN/guide/migrations",
+    },
+    {
+      icon: "zap",
+      title: "钩子与软删除",
+      desc: "响应模型生命周期的每个事件，被删除的记录也会静静等你需要它们。",
+      href: "/zh_CN/guide/hooks",
+    },
+    {
+      icon: "code",
+      title: "插件与 TypeScript",
+      desc: "完善的类型定义，以及不断成长的插件生态。",
+      href: "/zh_CN/guide/plugin",
+    },
+  ],
+  stats: [
+    { value: "6+", label: "支持的数据库" },
+    { value: "TS", label: "TypeScript 优先" },
+    { value: "MIT", label: "开源协议" },
+  ],
+  bandTitle: "准备好开始了吗？",
+  bandLead: "安装 Sutando，不到一分钟就能跑起你的第一条查询。",
+  bandButton: "阅读指南",
+  bandSecondary: "在 GitHub 查看",
+  bandSecondaryHref: "https://github.com/sutandojs/sutando",
+};
+---
+
+<Home locale="zh_CN" switchRoutes={{ en: "/", zh_CN: "/zh_CN/", ja: "/ja/" }} copy={copy} />

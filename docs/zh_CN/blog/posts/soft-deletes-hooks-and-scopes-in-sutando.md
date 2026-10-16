@@ -1,13 +1,12 @@
 ---
 date: 2026-10-13
 title: "Sutando 中的软删除、钩子和作用域"
-tags: [Sutando, ORM, Soft Deletes, Hooks, Scopes, Node.js]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
-
+type: blog
+description: "Sutando 包含几个超越基础 CRUD 的强大功能：软删除、模型事件（钩子）和查询作用域。"
+authors: ["Dylan Yu"]
+mode: center
 ---
 
-<PostDetail>
 
 Sutando 包含几个超越基础 CRUD 的强大功能：软删除、模型事件（钩子）和查询作用域。
 
@@ -143,6 +142,4 @@ const allPosts = await Post.query().withoutGlobalScope('published').get();
 
 软删除、模型事件和查询作用域让 Sutando 不仅仅是一个查询构造器。它们让你将业务逻辑直接编码到模型中，保持控制器简洁、数据一致。
 
-了解更多请查看 [Sutando 文档](https://sutando.org/zh_CN/guide/soft-deletes.html)。
-
-</PostDetail>
+了解更多请查看 [Sutando 文档](https://sutando.org/zh_CN/guide/soft-deletes.html)。

@@ -1,0 +1,59 @@
+---
+/**
+ * Shared shell for the custom landing pages: PageLayout pre-wired from
+ * blume:data, plus a footer and a locale switcher for the custom routes
+ * (custom pages are only reachable at their own path, so Blume cannot infer
+ * the translations itself).
+ */
+import PageLayout from "blume/components/layout/PageLayout.astro";
+import data from "blume:data";
+import Footer from "./Footer.astro";
+import type { LocaleSwitchOption } from "blume";
+
+interface Props {
+  title: string;
+  description?: string;
+  locale?: string;
+  /** locale code -> that locale's URL of this page */
+  switchRoutes?: Record<string, string>;
+  transparentHeader?: boolean;
+}
+
+const { title, description, locale, switchRoutes = {}, transparentHeader = false } = Astro.props;
+const { config } = data;
+const defaultLocale = config.i18n?.defaultLocale ?? "en";
+const active = locale ?? defaultLocale;
+const nav = data.navigationByLocale[active] ?? data.navigation;
+
+const switcher: LocaleSwitchOption[] = Object.entries(switchRoutes).map(([code, href]) => {
+  const l = (config.i18n?.locales ?? []).find((x) => x.code === code);
+  return {
+    code,
+    label: l?.label ?? code,
+    dir: l?.dir ?? "ltr",
+    href,
+    current: code === active,
+    untranslated: false,
+  };
+});
+---
+
+<PageLayout
+  site={{ title: config.title, description: config.description }}
+  logo={config.logo}
+  banner={config.banner}
+  analytics={config.analytics}
+  navigation={nav}
+  favicon={config.favicon}
+  fontCssVars={data.fontCssVars}
+  themeMode={config.theme.mode}
+  searchEnabled={config.search.enabled}
+  siteUrl={config.site}
+  ogEnabled={config.og.enabled}
+  localeSwitch={switcher}
+  transparentHeader={transparentHeader}
+  page={{ title, ...(description ? { description } : {}) }}
+>
+  <slot />
+  <Footer slot="footer" />
+</PageLayout>

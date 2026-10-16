@@ -1,18 +1,16 @@
 ---
 date: 2026-03-01
 title: "2026年に注目すべき Node.js ORM：開発者体験のカムバック"
-tags: [Node.js, ORM, Active Record, データベース, TypeScript]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
-
+type: blog
+description: "2026年の Node.js エコシステムは、かつてないほど高速で軽量になっています。エッジランタイム（Cloudflare Workers、Vercel Edge）の支配と、プロダクションレベルのランタイムとしての Bun の台頭により、データベースとの相互作用は根本的に変化しました。"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
-
 2026年の Node.js エコシステムは、かつてないほど高速で軽量になっています。**エッジランタイム**（Cloudflare Workers、Vercel Edge）の支配と、プロダクションレベルのランタイムとしての **Bun** の台頭により、データベースとの相互作用は根本的に変化しました。
 
 「一つですべてを解決」型の ORM の時代は終わりました。今日、ORM の選択は単なる構文の問題ではなく、コールドスタート、バンドルサイズ、長期的なメンテナンス性に影響する決断です。
@@ -84,6 +82,4 @@ await user.save();
 ### より速く構築する準備はできましたか？
 2026年に新しいプロジェクトを始める、または「重量級」のレガシー ORM から移行するなら、Sutando を試してみてください。データベース操作を再び楽しくする ORM です。
 
-👉 [Sutando ドキュメント](https://sutando.org/ja/guide/getting-started.html) を確認するか、`npm install sutando` を実行して今日始めましょう。
-
-</PostDetail>
+👉 [Sutando ドキュメント](https://sutando.org/ja/guide/getting-started.html) を確認するか、`npm install sutando` を実行して今日始めましょう。

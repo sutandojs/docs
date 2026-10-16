@@ -1,16 +1,16 @@
 ---
 date: 2026-09-08
 title: "A Modern Alternative to Objection.js: Migrating to Sutando"
-tags: [Objection.js, Sutando, Node.js, ORM, Migration, Knex]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "Objection.js has been a popular ORM in the Node.js ecosystem for years. Built on top of Knex.js, it offered a flexible, SQL-friendly approach to database…"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
 
 Objection.js has been a popular ORM in the Node.js ecosystem for years. Built on top of Knex.js, it offered a flexible, SQL-friendly approach to database operations. But with the original maintainer stepping away and TypeScript support lagging, many teams are looking for a modern alternative. This guide walks through migrating from Objection.js to Sutando.
 
@@ -314,5 +314,3 @@ Objection.js served the Node.js community well, but its maintenance status and T
 The migration can be done incrementally — both ORMs can coexist while you transition model by model. Start with a single model today and see the difference for yourself.
 
 👉 [Get started with Sutando](https://sutando.org/guide/getting-started.html) or run `npm install sutando` to try it out.
-
-</PostDetail>

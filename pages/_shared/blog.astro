@@ -1,0 +1,123 @@
+---
+import Shell from "./Shell.astro";
+import Icon from "./Icon.astro";
+import data from "blume:data";
+import { getBlumeCollection } from "blume/runtime";
+import { getCollection } from "astro:content";
+
+interface Post {
+  title: string;
+  href: string;
+  date: string;
+  description: string;
+  image?: string;
+}
+
+interface Props {
+  locale?: string;
+  switchRoutes?: Record<string, string>;
+  copy: {
+    title: string;
+    description: string;
+    heading: string;
+    lead: string;
+    featured: string;
+    readMore: string;
+  };
+}
+
+const { locale, switchRoutes = {}, copy } = Astro.props;
+const active = locale ?? data.config.i18n?.defaultLocale ?? "en";
+
+// ponytail: drafts/hidden pages rely on getBlumeCollection's own filtering — keep it as the source of paths
+const routes = getBlumeCollection(data, {
+  locale: active,
+  prefix: active === "en" ? "/blog/posts" : `/${active}/blog/posts`,
+});
+const routeByEntry = new Map(routes.map((r) => [r.entryId, r.path]));
+
+const posts: Post[] = (await getCollection("docs"))
+  .filter((e) => routeByEntry.has(e.id))
+  .map((e) => {
+    const raw = e.data.date as unknown;
+    const date = raw instanceof Date ? raw.toISOString().slice(0, 10) : String(raw ?? "");
+    const image = e.body?.match(/!\[[^\]]*\]\(([^)\s]+)\)/)?.[1];
+    return {
+      title: e.data.title ?? "",
+      href: routeByEntry.get(e.id) ?? "",
+      date,
+      description: e.data.description ?? "",
+      image,
+    };
+  })
+  .sort((a, b) => b.date.localeCompare(a.date));
+
+const featured = posts[0];
+const rest = posts.slice(1);
+
+const intlLocale = active === "zh_CN" ? "zh-CN" : active === "ja" ? "ja-JP" : "en-US";
+const fmt = (d: string) =>
+  d
+    ? new Date(`${d}T00:00:00`).toLocaleDateString(intlLocale, {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : "";
+---
+
+<Shell locale={locale} switchRoutes={switchRoutes} title={copy.title} description={copy.description}>
+  <main class="mx-auto max-w-6xl px-6">
+    <div class="py-16">
+      <div class="max-w-2xl">
+        <h1 class="font-display text-4xl font-bold tracking-tight">{copy.heading}</h1>
+        <p class="mt-4 text-pretty leading-relaxed text-muted-foreground">{copy.lead}</p>
+      </div>
+
+      {
+        featured && (
+          <a
+            href={featured.href}
+            class="group mt-12 grid overflow-hidden rounded-blume border border-border bg-background transition-colors hover:border-accent md:grid-cols-2"
+          >
+            {featured.image && (
+              <div class="overflow-hidden bg-muted md:border-e md:border-border">
+                <img
+                  src={featured.image}
+                  alt=""
+                  loading="lazy"
+                  class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+              </div>
+            )}
+            <div class="flex flex-col justify-center gap-4 p-8 md:p-10">
+              <span class="text-xs font-semibold tracking-wider text-accent uppercase">{copy.featured}</span>
+              <h2 class="font-display text-2xl font-bold text-balance">{featured.title}</h2>
+              <p class="text-sm leading-relaxed text-muted-foreground">{featured.description}</p>
+              <span class="mt-2 text-xs text-muted-foreground">{fmt(featured.date)}</span>
+            </div>
+          </a>
+        )
+      }
+
+      <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          rest.map((p) => (
+            <a
+              href={p.href}
+              class="group flex flex-col gap-3 rounded-blume border border-border bg-background p-6 transition-colors hover:border-accent"
+            >
+              <span class="text-xs text-muted-foreground">{fmt(p.date)}</span>
+              <h3 class="font-display text-lg leading-snug font-semibold text-balance">{p.title}</h3>
+              <p class="line-clamp-3 text-sm leading-relaxed text-muted-foreground">{p.description}</p>
+              <span class="mt-auto inline-flex items-center gap-1.5 pt-2 text-sm font-medium text-accent">
+                {copy.readMore}
+                <Icon name="arrow-right" size={14} />
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </main>
+</Shell>

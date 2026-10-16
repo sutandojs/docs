@@ -1,17 +1,16 @@
 ---
 date: 2026-08-25
 title: "Sutando vs Drizzle：Active Record 与 SQL 优先的对决"
-tags: [Sutando, Drizzle, Node.js, ORM, Comparison]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "Drizzle ORM 已经成为追求 SQL 级别控制和 TypeScript 类型安全的开发者的首选。Sutando 则走相反的路线——将 Active Record 的优雅带入 Node.js。让我们正面对比一下。"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
-
 Drizzle ORM 已经成为追求 SQL 级别控制和 TypeScript 类型安全的开发者的首选。Sutando 则走相反的路线——将 Active Record 的优雅带入 Node.js。让我们正面对比一下。
 
 ## 核心区别
@@ -159,6 +158,4 @@ Drizzle 为 Serverless 时代而生，与 Turso、Neon、Supabase 等现代无�
 
 Drizzle 和 Sutando 服务于不同需求。Drizzle 适合热爱 SQL、想要最小抽象的开发者。Sutando 适合想要 Active Record 优雅和自动关联管理的开发者。如果你的应用关联密集且重视开发速度，Sutando 是更好的选择。如果你需要 SQL 级别的控制和最小开销，选 Drizzle。
 
-试试 Sutando：`npm install sutando`——或阅读[文档](https://sutando.org/zh_CN/guide/getting-started.html)。
-
-</PostDetail>
+试试 Sutando：`npm install sutando`——或阅读[文档](https://sutando.org/zh_CN/guide/getting-started.html)。

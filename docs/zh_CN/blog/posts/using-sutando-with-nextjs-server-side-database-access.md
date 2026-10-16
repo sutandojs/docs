@@ -1,13 +1,12 @@
 ---
 date: 2026-10-06
 title: "在 Next.js 中使用 Sutando：轻松实现服务端数据库访问"
-tags: [Sutando, Next.js, React, Serverless, Node.js]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
-
+type: blog
+description: "Next.js App Router 让服务端数据库访问比以往更简单。使用 Sutando，你可以在 Server Components 和 Route Handlers 中使用同样的 Active Record API 查询数据库。"
+authors: ["Dylan Yu"]
+mode: center
 ---
 
-<PostDetail>
 
 Next.js App Router 让服务端数据库访问比以往更简单。使用 Sutando，你可以在 Server Components 和 Route Handlers 中使用同样的 Active Record API 查询数据库。
 
@@ -101,6 +100,4 @@ export async function createPost(formData: FormData) {
 
 Sutando 与 Next.js App Router 无缝集成。在 Server Components 中获取数据，在 Route Handlers 中处理 API，在 Server Actions 中处理数据变更——全部使用同一个 Active Record API。
 
-了解更多请访问 [sutando.org](https://sutando.org/zh_CN/guide/getting-started.html)。
-
-</PostDetail>
+了解更多请访问 [sutando.org](https://sutando.org/zh_CN/guide/getting-started.html)。

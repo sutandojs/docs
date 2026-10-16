@@ -1,27 +1,20 @@
 {
   "name": "sutando.org",
   "version": "1.0.0",
-  "main": "index.js",
+  "private": true,
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "start": "vitepress serve docs",
-    "docs:serve": "vitepress serve docs"
+    "dev": "blume dev",
+    "build": "blume build",
+    "preview": "blume preview",
+    "doctor": "blume doctor"
   },
   "repository": "git@github.com:sutandojs/docs.git",
   "author": "Kidd Yu",
   "devDependencies": {
-    "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.17",
-    "vitepress": "^1.0.0-alpha.19",
-    "vitepress-plugin-llms": "^1.10.0",
-    "vue": "^3.2.40"
-  },
-  "dependencies": {
-    "date-fns": "^4.1.0",
-    "gray-matter": "^4.0.3"
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "blume": "^2.2.3"
   }
 }

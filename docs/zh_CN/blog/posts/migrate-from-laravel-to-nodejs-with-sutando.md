@@ -1,13 +1,12 @@
 ---
 date: 2026-11-03
 title: "从 Laravel 迁移到 Node.js：用 Sutando 无缝切换"
-tags: [Laravel, Node.js, Sutando, 迁移, Eloquent]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
-
+type: blog
+description: "很多 Laravel 开发者想尝试 Node.js，但舍不得 Eloquent。好消息是，Sutando 几乎完美复刻了 Eloquent 的 API，让你可以无缝切换。本文将从实际迁移角度，详细对比 Laravel 和 Node.js + Sutando 的开发体验。"
+authors: ["Dylan Yu"]
+mode: center
 ---
 
-<PostDetail>
 
 很多 Laravel 开发者想尝试 Node.js，但舍不得 Eloquent。好消息是，Sutando 几乎完美复刻了 Eloquent 的 API，让你可以无缝切换。本文将从实际迁移角度，详细对比 Laravel 和 Node.js + Sutando 的开发体验。
 
@@ -238,6 +237,4 @@ app.listen(3000);
 
 从 Laravel 迁移到 Node.js 不意味着放弃 Eloquent 的开发体验。Sutando 几乎是 Eloquent 在 Node.js 中的镜像——相同的 API、相同的思维模式、相同的功能集。你可以保持现有数据库，逐路由迁移，团队从第一天就能高效工作。
 
-从 `npm install sutando` 开始，查看[中文文档](https://sutando.org/zh_CN/guide/getting-started.html)。
-
-</PostDetail>
+从 `npm install sutando` 开始，查看[中文文档](https://sutando.org/zh_CN/guide/getting-started.html)。

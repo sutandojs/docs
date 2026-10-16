@@ -1,17 +1,16 @@
 ---
 date: 2026-09-22
 title: "Sutando 模型关联指南：hasMany、belongsTo 及更多"
-tags: [Sutando, ORM, Relationships, Tutorial, Node.js]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "关联是任何 ORM 的核心。Sutando 将 Laravel Eloquent 的关联系统带入 Node.js，让定义和查询复杂数据关系变得简单。"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
-
 关联是任何 ORM 的核心。Sutando 将 Laravel Eloquent 的关联系统带入 Node.js，让定义和查询复杂数据关系变得简单。
 
 ## 定义关联
@@ -122,6 +121,4 @@ const users = await User.query().with('posts').get();
 | `morphMany` | 多态一对多 | Post/Video → Tags |
 | `morphTo` | 多态反向 | Tag → Post/Video |
 
-了解更多请查看 [Sutando 文档](https://sutando.org/zh_CN/guide/relationships.html)。
-
-</PostDetail>
+了解更多请查看 [Sutando 文档](https://sutando.org/zh_CN/guide/relationships.html)。

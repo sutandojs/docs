@@ -1,13 +1,12 @@
 ---
 date: 2026-10-13
 title: "Sutando のソフトデリート、フック、スコープ"
-tags: [Sutando, ソフトデリート, フック, スコープ, Node.js]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
-
+type: blog
+description: "Sutando の強力な機能であるソフトデリート、モデルイベント（フック）、クエリスコープについて解説します。"
+authors: ["Dylan Yu"]
+mode: center
 ---
 
-<PostDetail>
 
 Sutando の強力な機能であるソフトデリート、モデルイベント（フック）、クエリスコープについて解説します。
 
@@ -136,6 +135,4 @@ const posts = await Post.query().get();
 
 ソフトデリート、フック、クエリスコープを組み合わせることで、データ整合性を保ちながら開発効率を大幅に向上できます。これらの機能は Laravel Eloquent から直接インスピレーションを得ており、直感的に使えます。
 
-[ドキュメント](https://sutando.org/ja/guide/hooks.html) でさらに詳しく。
-
-</PostDetail>
+[ドキュメント](https://sutando.org/ja/guide/hooks.html) でさらに詳しく。

@@ -1,17 +1,16 @@
 ---
 date: 2026-10-06
 title: "Using Sutando with Next.js: Server-Side Database Access Made Easy"
-tags: [Sutando, Next.js, React, Serverless, Node.js]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "Next.js App Router makes server-side database access easier than ever. With Sutando, you can query your database from Server Components and Route Handlers…"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
-
 Next.js App Router makes server-side database access easier than ever. With Sutando, you can query your database from Server Components and Route Handlers using the same elegant Active Record API you'd use in any Node.js app.
 
 ## Setup
@@ -186,6 +185,4 @@ sutando.addConnection({
 
 Sutando integrates seamlessly with Next.js App Router. Use it in Server Components for data fetching, Route Handlers for APIs, and Server Actions for mutations — all with the same Active Record API.
 
-Learn more at [sutando.org](https://sutando.org/guide/getting-started.html).
-
-</PostDetail>
+Learn more at [sutando.org](https://sutando.org/guide/getting-started.html).

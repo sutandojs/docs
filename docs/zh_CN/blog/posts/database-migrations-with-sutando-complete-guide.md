@@ -1,13 +1,12 @@
 ---
 date: 2026-09-29
 title: "Sutando 数据库迁移完整指南"
-tags: [Sutando, Database, Migrations, Schema, Node.js]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
-
+type: blog
+description: "数据库迁移是表结构的版本控制。Sutando 内置强大的 Schema 构造器，可以用代码创建和修改表。"
+authors: ["Dylan Yu"]
+mode: center
 ---
 
-<PostDetail>
 
 数据库迁移是表结构的版本控制。Sutando 内置强大的 Schema 构造器，可以用代码创建和修改表。
 
@@ -96,6 +95,4 @@ export async function down() {
 3. **生产环境跑迁移前备份数据库**
 4. **谨慎添加索引**——加速读取但减慢写入
 
-了解更多请查看 [Sutando 文档](https://sutando.org/zh_CN/guide/migrations.html)。
-
-</PostDetail>
+了解更多请查看 [Sutando 文档](https://sutando.org/zh_CN/guide/migrations.html)。

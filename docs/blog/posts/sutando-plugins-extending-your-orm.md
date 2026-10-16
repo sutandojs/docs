@@ -1,17 +1,16 @@
 ---
 date: 2026-10-20
 title: "Sutando Plugins: Extending Your ORM"
-tags: [Sutando, ORM, Plugins, Extensions, Node.js]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "Sutando is designed to be extensible. Whether you need custom cast types, global query modifications, or reusable model behaviors, Sutando's plugin system…"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
-
 Sutando is designed to be extensible. Whether you need custom cast types, global query modifications, or reusable model behaviors, Sutando's plugin system has you covered.
 
 ## Custom Casts
@@ -146,6 +145,4 @@ class Event extends Model {
 
 Sutando's extension points — custom casts, traits, global scopes, and macros — let you build reusable functionality that integrates naturally with the ORM. This makes it easy to share patterns across projects and teams.
 
-Learn more in the [Sutando documentation](https://sutando.org/guide/getting-started.html).
-
-</PostDetail>
+Learn more in the [Sutando documentation](https://sutando.org/guide/getting-started.html).

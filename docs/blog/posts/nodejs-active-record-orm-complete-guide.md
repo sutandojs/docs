@@ -1,17 +1,16 @@
 ---
 date: 2026-08-04
 title: "Node.js Active Record ORM: A Complete Guide"
-tags: [Node.js, ORM, Active Record, TypeScript, Database]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "The Active Record pattern is one of the most intuitive ways to interact with a database. If you've ever used Laravel's Eloquent or Ruby on Rails, you…"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
-
 The Active Record pattern is one of the most intuitive ways to interact with a database. If you've ever used Laravel's Eloquent or Ruby on Rails, you already know how productive it can be. In this guide, we'll explore what Active Record is, how it differs from other ORM patterns, and how to use it in Node.js with Sutando.
 
 ## What Is the Active Record Pattern?
@@ -294,6 +293,4 @@ Post.deleting(async (post) => {
 
 Active Record remains one of the most productive patterns for database interaction in Node.js. With Sutando, you get a faithful Eloquent-style experience that's framework-agnostic, lightweight, and intuitive. Whether you're migrating from Laravel or just starting a new Node.js project, Active Record with Sutando lets you focus on your application logic rather than fighting your ORM.
 
-Ready to try it? Check out the [Sutando documentation](https://sutando.org/guide/getting-started.html) or run `npm install sutando` to get started.
-
-</PostDetail>
+Ready to try it? Check out the [Sutando documentation](https://sutando.org/guide/getting-started.html) or run `npm install sutando` to get started.

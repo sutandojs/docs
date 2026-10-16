@@ -1,13 +1,12 @@
 ---
 date: 2026-08-25
 title: "Sutando vs Drizzle：Active Record と SQL ファーストの対決"
-tags: [Sutando, Drizzle, Node.js, ORM, 比較]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
-
+type: blog
+description: "Sutando と Drizzle は、Node.js の ORM として異なるアプローチを代表しています。Sutando は Active Record パターンで開発速度を重視し、Drizzle は SQL ファーストで最大限の制御を提供します。"
+authors: ["Dylan Yu"]
+mode: center
 ---
 
-<PostDetail>
 
 Sutando と Drizzle は、Node.js の ORM として異なるアプローチを代表しています。Sutando は Active Record パターンで開発速度を重視し、Drizzle は SQL ファーストで最大限の制御を提供します。
 
@@ -132,6 +131,4 @@ Drizzle は Cloudflare Workers や Vercel Edge などのエッジ環境で非常
 
 Sutando は開発速度を、Drizzle は制御力を優先します。CRUD アプリなら Sutando、複雑なクエリが中心なら Drizzle が適しています。
 
-Sutando を試す：`npm install sutando` — [ドキュメント](https://sutando.org/ja/guide/getting-started.html)
-
-</PostDetail>
+Sutando を試す：`npm install sutando` — [ドキュメント](https://sutando.org/ja/guide/getting-started.html)

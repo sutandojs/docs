@@ -1,19 +1,16 @@
 ---
 date: 2025-07-02
 title: "Sutando ORM：为 Node.js 带来 Laravel Eloquent 的开发体验"
-tags: [Laravel]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
-
+type: blog
+description: "Sutando ORM 与 Laravel Eloquent 一脉相承——相同的方法、命名和约定——同时可以在 Node.js 生态中的任何地方运行，无需绑定全栈框架。"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-
-<PostDetail>
-
 ## 你熟悉的 Active Record，现在来到了 JavaScript
 
 > **Sutando ORM** 与 Laravel Eloquent 一脉相承——相同的方法、命名和约定——同时可以在 Node.js 生态中的任何地方运行，无需绑定全栈框架。
@@ -138,6 +135,4 @@ const users = await User.query().where('votes', '>', 100).get();
 
 ## 更快地开发，保持灵活性
 
-Sutando ORM 带来了 Laravel 爱好者钟爱的 Eloquent 开发体验，同时保持架构的开放性。无论你是在升级 JavaScript 代码库、尝试 Serverless 架构，还是只是想要一个用起来顺手的 Active Record，Sutando 都已准备好为你的下一个应用赋能——无需框架。
-
-</PostDetail>
+Sutando ORM 带来了 Laravel 爱好者钟爱的 Eloquent 开发体验，同时保持架构的开放性。无论你是在升级 JavaScript 代码库、尝试 Serverless 架构，还是只是想要一个用起来顺手的 Active Record，Sutando 都已准备好为你的下一个应用赋能——无需框架。

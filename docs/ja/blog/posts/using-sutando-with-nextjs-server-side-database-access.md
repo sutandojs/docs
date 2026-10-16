@@ -1,13 +1,12 @@
 ---
 date: 2026-10-06
 title: "Sutando と Next.js：サーバーサイドデータベースアクセス"
-tags: [Sutando, Next.js, React, サーバーコンポーネント, ガイド]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
-
+type: blog
+description: "Next.js App Router と Sutando を組み合わせて、サーバーコンポーネントからデータベースに直接アクセスする方法を解説します。"
+authors: ["Dylan Yu"]
+mode: center
 ---
 
-<PostDetail>
 
 Next.js App Router と Sutando を組み合わせて、サーバーコンポーネントからデータベースに直接アクセスする方法を解説します。
 
@@ -159,6 +158,4 @@ export async function POST(request: NextRequest) {
 
 Next.js App Router と Sutando の組み合わせで、サーバーコンポーネントから直接データベースにアクセスできます。API ルートを別途用意する必要がなく、シンプルなアーキテクチャが実現できます。
 
-[ドキュメント](https://sutando.org/ja/guide/getting-started.html) でさらに詳しく。
-
-</PostDetail>
+[ドキュメント](https://sutando.org/ja/guide/getting-started.html) でさらに詳しく。

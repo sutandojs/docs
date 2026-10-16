@@ -1,17 +1,16 @@
 ---
 date: 2026-08-04
 title: "Node.js Active Record ORM 完整指南"
-tags: [Node.js, ORM, Active Record, TypeScript, Database]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "Active Record 是最直观的数据库交互模式之一。如果你用过 Laravel 的 Eloquent 或 Ruby on Rails，你就已经知道它有多高效。在本指南中，我们将探讨什么是 Active Record、它与其他 ORM 模式的区别，以及如何在 Node.js 中使用 Sutando…"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
-
 Active Record 是最直观的数据库交互模式之一。如果你用过 Laravel 的 Eloquent 或 Ruby on Rails，你就已经知道它有多高效。在本指南中，我们将探讨什么是 Active Record、它与其他 ORM 模式的区别，以及如何在 Node.js 中使用 Sutando 来实践这一模式。
 
 ## 什么是 Active Record 模式？
@@ -294,6 +293,4 @@ Post.deleting(async (post) => {
 
 Active Record 仍然是 Node.js 中最高产的数据库交互模式之一。通过 Sutando，你可以获得忠实的 Eloquent 风格体验——框架无关、轻量且直观。无论你是从 Laravel 迁移还是开始新的 Node.js 项目，Active Record + Sutando 都能让你专注于业务逻辑，而不是与 ORM 搏斗。
 
-准备好试试了吗？查看 [Sutando 文档](https://sutando.org/zh_CN/guide/getting-started.html) 或运行 `npm install sutando` 立即开始。
-
-</PostDetail>
+准备好试试了吗？查看 [Sutando 文档](https://sutando.org/zh_CN/guide/getting-started.html) 或运行 `npm install sutando` 立即开始。

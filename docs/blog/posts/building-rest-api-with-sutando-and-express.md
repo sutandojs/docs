@@ -1,17 +1,16 @@
 ---
 date: 2026-09-15
 title: "Building a REST API with Sutando and Express"
-tags: [Sutando, Express, REST API, Node.js, Tutorial]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "Building a REST API with Sutando is straightforward. In this tutorial, we'll build a complete blog API with authentication, validation, and error handling."
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
-
 Building a REST API with Sutando is straightforward. In this tutorial, we'll build a complete blog API with authentication, validation, and error handling.
 
 ## Project Setup
@@ -186,6 +185,4 @@ app.listen(3000, () => console.log('API running on port 3000'));
 - Add CORS configuration
 - Deploy to your preferred platform
 
-Full documentation at [sutando.org](https://sutando.org/guide/getting-started.html).
-
-</PostDetail>
+Full documentation at [sutando.org](https://sutando.org/guide/getting-started.html).

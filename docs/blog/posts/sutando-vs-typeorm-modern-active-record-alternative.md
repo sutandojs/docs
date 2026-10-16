@@ -1,17 +1,16 @@
 ---
 date: 2026-09-01
 title: "Sutando vs TypeORM: A Modern Active Record Alternative"
-tags: [Sutando, TypeORM, Node.js, ORM, Comparison]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "TypeORM has been a staple in the Node.js ecosystem for years. But as TypeScript has evolved and new ORMs have emerged, TypeORM's limitations have become…"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
-
 TypeORM has been a staple in the Node.js ecosystem for years. But as TypeScript has evolved and new ORMs have emerged, TypeORM's limitations have become harder to ignore. In this article, we'll compare TypeORM with Sutando and show why developers are switching.
 
 ## TypeORM's Problems
@@ -247,6 +246,4 @@ await user.save();
 
 TypeORM served the Node.js community well, but its decorator dependency, string-based queries, and maintenance issues make it hard to recommend for new projects. Sutando offers the same Active Record pattern with a cleaner API, no decorator requirement, and built-in features that TypeORM lacks.
 
-If you're starting a new project or considering a TypeORM replacement, give Sutando a try: `npm install sutando` — or read the [documentation](https://sutando.org/guide/getting-started.html).
-
-</PostDetail>
+If you're starting a new project or considering a TypeORM replacement, give Sutando a try: `npm install sutando` — or read the [documentation](https://sutando.org/guide/getting-started.html).

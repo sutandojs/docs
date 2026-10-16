@@ -1,13 +1,12 @@
 ---
 date: 2026-10-20
 title: "Sutando プラグイン：ORM を拡張する"
-tags: [Sutando, プラグイン, ORM, Node.js, 拡張]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
-
+type: blog
+description: "Sutando はプラグインシステムで機能を拡張できます。独自のプラグインを作成して、モデルに新しいメソッドや機能を追加する方法を解説します。"
+authors: ["Dylan Yu"]
+mode: center
 ---
 
-<PostDetail>
 
 Sutando はプラグインシステムで機能を拡張できます。独自のプラグインを作成して、モデルに新しいメソッドや機能を追加する方法を解説します。
 
@@ -110,6 +109,4 @@ const Auditable = (Model) => {
 
 Sutando のプラグインシステムを使えば、プロジェクト間で再利用可能な機能を簡単に作成できます。ミックスインパターンにより、柔軟にモデルを拡張できます。
 
-[ドキュメント](https://sutando.org/ja/guide/plugin.html) でさらに詳しく。
-
-</PostDetail>
+[ドキュメント](https://sutando.org/ja/guide/plugin.html) でさらに詳しく。

@@ -1,13 +1,12 @@
 ---
 date: 2025-07-02
 title: "Sutando ORM：Node.js ための Laravel Eloquent エクスペリエンス"
-tags: [Sutando, ORM, Node.js, Laravel, Eloquent, Active Record]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
-
+type: blog
+description: "Node.js 向けの ORM を探しているなら、Sutando を知っておくべきです。Laravel Eloquent の開発体験を Node.js にもたらす、モダンな Active Record ORM です。"
+authors: ["Dylan Yu"]
+mode: center
 ---
 
-<PostDetail>
 
 Node.js 向けの ORM を探しているなら、Sutando を知っておくべきです。Laravel Eloquent の開発体験を Node.js にもたらす、モダンな Active Record ORM です。
 
@@ -96,6 +95,4 @@ console.log(users);
 
 Sutando は、Laravel Eloquent の開発体験を Node.js でもたらす ORM です。Active Record パターン、デコレーター不要のモデル定義、豊富な機能により、高速な開発が可能になります。
 
-[スタートガイド](https://sutando.org/ja/guide/getting-started.html) を読んで始めましょう。
-
-</PostDetail>
+[スタートガイド](https://sutando.org/ja/guide/getting-started.html) を読んで始めましょう。

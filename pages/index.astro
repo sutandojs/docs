@@ -1,0 +1,104 @@
+﻿---
+import Home from "./_shared/home.astro";
+
+const copy = {
+  title: "Sutando — A modern Node.js ORM",
+  description:
+    "Sutando is a modern Node.js ORM with an elegant query builder, model relationships, transactions, migrations and more.",
+  badge: "A modern Node.js ORM",
+  heading: "Interact with your database",
+  headingTail: "in a simple, graceful way.",
+  lead: "Sutando brings the elegance of Laravel's Eloquent to Node.js — a fluent query builder, expressive models and relationships, transactions, migrations and more, with first-class TypeScript support.",
+  installLabel: "Install",
+  ctaPrimary: "Get Started",
+  ctaSecondary: "GitHub",
+  worksWith: "Supports",
+  databases: ["MySQL", "PostgreSQL", "SQLite", "MariaDB", "SQL Server", "Oracle"],
+  sectionsTitle: "An ORM that stays out of your way",
+  sectionsLead: "Write less SQL, keep full control — and reach for raw expressions whenever you need them.",
+  sections: [
+    {
+      title: "A query builder you already know",
+      lead: "Chain methods to build queries that read like the SQL you meant to write, with parameter binding handled for you.",
+      bullets: [
+        "where, whereIn, join and orderBy constraints",
+        "Aggregates with count() and exists()",
+        "Pagination with paginate(), large results with chunk()",
+        "Raw SQL through db.raw(), with parameter binding",
+      ],
+    },
+    {
+      title: "Models and relationships",
+      lead: "Define a model in a few lines, then describe how your tables relate. Loading related records never turns into an N+1.",
+      bullets: [
+        "hasOne, hasMany, belongsTo and belongsToMany",
+        "Eager loading with with() — two queries instead of N+1",
+        "Accessors, mutators, casts and query scopes",
+        "Soft deletes with restore() and forceDelete()",
+      ],
+    },
+    {
+      title: "Schema you can version",
+      lead: "Define your schema with the migration builder, commit it, and let every environment catch up the same way.",
+      bullets: [
+        "Fluent schema builder: createTable, columns, indexes and foreign keys",
+        "Reversible up and down migrations",
+        "npx sutando migrate:run, and migrate:status to check",
+        "Works with MySQL, PostgreSQL, SQLite, MariaDB and SQL Server",
+      ],
+    },
+  ],
+  featuresTitle: "Everything you need, nothing you don't",
+  featuresLead: "A complete toolkit for everyday database work — from raw queries to full model relationships.",
+  features: [
+    {
+      icon: "terminal",
+      title: "Query Builder",
+      desc: "Build SQL with a fluent, chainable API — where, joins, aggregations, subqueries and pagination.",
+      href: "/guide/query-builder",
+    },
+    {
+      icon: "link",
+      title: "Model Relationships",
+      desc: "hasMany, belongsTo, belongsToMany and more — express your schema in plain, readable code.",
+      href: "/guide/relationships",
+    },
+    {
+      icon: "repeat",
+      title: "Transactions",
+      desc: "Wrap your work in transactions with a simple, promise-based API that keeps your data consistent.",
+      href: "/guide/transactions",
+    },
+    {
+      icon: "layers",
+      title: "Migrations",
+      desc: "Version-control your schema and evolve it safely with your team.",
+      href: "/guide/migrations",
+    },
+    {
+      icon: "zap",
+      title: "Hooks & Soft Deletes",
+      desc: "Act on every model lifecycle event, and keep deleted records around until you really need them gone.",
+      href: "/guide/hooks",
+    },
+    {
+      icon: "code",
+      title: "Plugins & TypeScript",
+      desc: "First-class type definitions and a growing plugin ecosystem.",
+      href: "/guide/plugin",
+    },
+  ],
+  stats: [
+    { value: "6+", label: "Databases supported" },
+    { value: "TS", label: "TypeScript first" },
+    { value: "MIT", label: "Open source license" },
+  ],
+  bandTitle: "Ready to get started?",
+  bandLead: "Install Sutando and run your first query in under a minute.",
+  bandButton: "Read the guide",
+  bandSecondary: "View on GitHub",
+  bandSecondaryHref: "https://github.com/sutandojs/sutando",
+};
+---
+
+<Home locale="en" switchRoutes={{ en: "/", zh_CN: "/zh_CN/", ja: "/ja/" }} copy={copy} />

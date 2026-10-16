@@ -1,13 +1,12 @@
 ---
 date: 2026-09-15
 title: "Sutando と Express で REST API を構築する"
-tags: [Sutando, Express, REST API, Node.js, チュートリアル]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
-
+type: blog
+description: "Sutando と Express を使って、本格的な REST API を構築する方法を解説します。バリデーション、エラーハンドリング、リレーション、ページネーションまでカバーします。"
+authors: ["Dylan Yu"]
+mode: center
 ---
 
-<PostDetail>
 
 Sutando と Express を使って、本格的な REST API を構築する方法を解説します。バリデーション、エラーハンドリング、リレーション、ページネーションまでカバーします。
 
@@ -174,6 +173,4 @@ app.use((err, req, res, next) => {
 
 Sutando と Express の組み合わせで、シンプルかつ強力な REST API を構築できます。Active Record パターンにより、コード量が少なく、可読性も高いです。
 
-[ドキュメント](https://sutando.org/ja/guide/getting-started.html) を参照してさらに学びましょう。
-
-</PostDetail>
+[ドキュメント](https://sutando.org/ja/guide/getting-started.html) を参照してさらに学びましょう。

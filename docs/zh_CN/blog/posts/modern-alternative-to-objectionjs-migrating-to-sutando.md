@@ -1,16 +1,16 @@
 ---
 date: 2026-09-08
 title: "Objection.js 的现代替代方案：迁移到 Sutando"
-tags: [Objection.js, Sutando, Node.js, ORM, 迁移, Knex]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "Objection.js 多年来一直是 Node.js 生态中流行的 ORM。基于 Knex.js 构建，它提供了灵活的、SQL 友好的数据库操作方式。但随着原作者宣布不再维护，TypeScript 支持也落后于时代，许多团队开始寻找现代替代方案。本指南将带你从 Objection.js 迁移到…"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
 
 Objection.js 多年来一直是 Node.js 生态中流行的 ORM。基于 Knex.js 构建，它提供了灵活的、SQL 友好的数据库操作方式。但随着原作者宣布不再维护，TypeScript 支持也落后于时代，许多团队开始寻找现代替代方案。本指南将带你从 Objection.js 迁移到 Sutando。
 
@@ -314,5 +314,3 @@ Objection.js 为 Node.js 社区做出了贡献，但它的维护状态和 TypeSc
 迁移可以增量进行——两个 ORM 可以共存，你逐个模型地过渡。今天就从一个模型开始，亲自感受差异。
 
 👉 [开始使用 Sutando](https://sutando.org/zh_CN/guide/getting-started.html) 或运行 `npm install sutando` 来试试。
-
-</PostDetail>

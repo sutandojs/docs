@@ -1,13 +1,12 @@
 ---
 date: 2026-08-04
 title: "Node.js Active Record ORM 完全ガイド"
-tags: [Node.js, ORM, Active Record, Sutando, ガイド]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
-
+type: blog
+description: "Node.js で Active Record パターンの ORM を探しているなら、このガイドはあなたのためのものです。Active Record の基本から Sutando を使った実践的な使い方まで、すべてカバーします。"
+authors: ["Dylan Yu"]
+mode: center
 ---
 
-<PostDetail>
 
 Node.js で Active Record パターンの ORM を探しているなら、このガイドはあなたのためのものです。Active Record の基本から Sutando を使った実践的な使い方まで、すべてカバーします。
 
@@ -270,6 +269,4 @@ Active Record パターンは、特に Laravel や Rails の経験がある開�
 次のステップ：
 - [スタートガイド](https://sutando.org/ja/guide/getting-started.html)
 - [モデルリレーション](https://sutando.org/ja/guide/relationships.html)
-- [マイグレーション](https://sutando.org/ja/guide/migrations.html)
-
-</PostDetail>
+- [マイグレーション](https://sutando.org/ja/guide/migrations.html)

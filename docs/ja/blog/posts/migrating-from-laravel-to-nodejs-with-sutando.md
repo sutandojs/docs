@@ -1,13 +1,12 @@
 ---
 date: 2026-09-08
 title: "Laravel から Node.js へ：Sutando で移行する"
-tags: [Laravel, Node.js, Sutando, 移行, Eloquent]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
-
+type: blog
+description: "Laravel 開発者として、Node.js への移行を検討しているなら、Sutando は最もスムーズな移行パスを提供します。このガイドでは、Eloquent から Sutando への移行を詳しく説明します。"
+authors: ["Dylan Yu"]
+mode: center
 ---
 
-<PostDetail>
 
 Laravel 開発者として、Node.js への移行を検討しているなら、Sutando は最もスムーズな移行パスを提供します。このガイドでは、Eloquent から Sutando への移行を詳しく説明します。
 
@@ -183,6 +182,4 @@ app.listen(3000);
 
 Laravel 開発者にとって、Sutando は Node.js への最も自然な移行パスです。Eloquent の概念がそのまま使えるため、学習コストが最小限に抑えられます。
 
-[ドキュメント](https://sutando.org/ja/guide/getting-started.html) を読んで始めましょう。
-
-</PostDetail>
+[ドキュメント](https://sutando.org/ja/guide/getting-started.html) を読んで始めましょう。

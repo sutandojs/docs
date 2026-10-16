@@ -1,13 +1,12 @@
 ---
 date: 2026-08-18
 title: "Sutando vs Prisma：どの Node.js ORM が適しているか？"
-tags: [Sutando, Prisma, Node.js, ORM, 比較]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
-
+type: blog
+description: "Node.js プロジェクトで ORM を選ぶ際、Sutando と Prisma は有力な候補です。この記事では、設計思想、クエリ構文、機能、そしてどのようなケースにどちらが適しているかを比較します。"
+authors: ["Dylan Yu"]
+mode: center
 ---
 
-<PostDetail>
 
 Node.js プロジェクトで ORM を選ぶ際、Sutando と Prisma は有力な候補です。この記事では、設計思想、クエリ構文、機能、そしてどのようなケースにどちらが適しているかを比較します。
 
@@ -149,6 +148,4 @@ Prisma 7 は Rust クエリエンジンを TypeScript/WASM 実装に置き換え
 
 どちらの ORM も優れていますが、設計思想が異なります。Sutando は開発者体験（DX）とシンプルさを重視し、Prisma は型安全性とエコシステムを重視します。
 
-Sutando を試す準備ができたら：`npm install sutando` — または [ドキュメント](https://sutando.org/ja/guide/getting-started.html) を読んでください。
-
-</PostDetail>
+Sutando を試す準備ができたら：`npm install sutando` — または [ドキュメント](https://sutando.org/ja/guide/getting-started.html) を読んでください。

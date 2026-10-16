@@ -1,17 +1,16 @@
 ---
 date: 2026-08-18
 title: "Sutando vs Prisma：哪个 Node.js ORM 更适合你？"
-tags: [Sutando, Prisma, Node.js, ORM, Comparison]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "Prisma 是 Node.js 生态中最流行的 ORM。但流行不代表适合每个项目。在这篇对比中，我们将看看 Sutando 和 Prisma 的差异，帮你做出选择。"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
-
 Prisma 是 Node.js 生态中最流行的 ORM。但流行不代表适合每个项目。在这篇对比中，我们将看看 Sutando 和 Prisma 的差异，帮你做出选择。
 
 ## 设计哲学
@@ -178,6 +177,4 @@ Prisma 社区更大，教程更多，第三方集成更丰富。遇到问题更�
 
 两者都是优秀的 ORM。Prisma 在类型安全、工具链和生态方面出色。Sutando 在简洁性、Active Record 开发体验和内置功能（模型事件、软删除）方面胜出。如果你是 Laravel 开发者转向 Node.js，Sutando 会让你宾至如归。如果你想要最类型安全的体验加可视化工具，Prisma 是更好的选择。
 
-试试 Sutando：`npm install sutando`——或阅读[文档](https://sutando.org/zh_CN/guide/getting-started.html)。
-
-</PostDetail>
+试试 Sutando：`npm install sutando`——或阅读[文档](https://sutando.org/zh_CN/guide/getting-started.html)。

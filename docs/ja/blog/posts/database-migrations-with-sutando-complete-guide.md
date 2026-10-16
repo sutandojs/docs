@@ -1,13 +1,12 @@
 ---
 date: 2026-09-29
 title: "Sutando でデータベースマイグレーション：完全ガイド"
-tags: [Sutando, マイグレーション, データベース, Node.js, ガイド]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
-
+type: blog
+description: "データベーススキーマの管理は、アプリケーション開発において重要な要素です。Sutando のスキーマビルダーとマイグレーション機能を使って、バージョン管理可能なスキーマ管理を実現しましょう。"
+authors: ["Dylan Yu"]
+mode: center
 ---
 
-<PostDetail>
 
 データベーススキーマの管理は、アプリケーション開発において重要な要素です。Sutando のスキーマビルダーとマイグレーション機能を使って、バージョン管理可能なスキーマ管理を実現しましょう。
 
@@ -130,6 +129,4 @@ await sutando.schema().createTable('comments', table => {
 
 Sutando のスキーマビルダーを使えば、データベースに依存しないマイグレーションを簡単に作成できます。バージョン管理とロールバック機能で、チーム開発でも安全にスキーマを管理できます。
 
-[ドキュメント](https://sutando.org/ja/guide/migrations.html) でさらに詳しく。
-
-</PostDetail>
+[ドキュメント](https://sutando.org/ja/guide/migrations.html) でさらに詳しく。

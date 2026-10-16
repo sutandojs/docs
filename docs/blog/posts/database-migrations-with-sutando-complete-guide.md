@@ -1,17 +1,16 @@
 ---
 date: 2026-09-29
 title: "Database Migrations with Sutando: A Complete Guide"
-tags: [Sutando, Database, Migrations, Schema, Node.js]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "Database migrations are version control for your schema. Sutando includes a powerful schema builder that lets you create and modify tables…"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
-
 Database migrations are version control for your schema. Sutando includes a powerful schema builder that lets you create and modify tables programmatically. This guide covers everything from creating your first table to running migrations in production.
 
 ## The Schema Builder
@@ -175,6 +174,4 @@ run();
 
 Sutando's schema builder gives you full control over your database schema with a clean, chainable API. Whether you're creating tables, adding columns, or managing foreign keys, it's all straightforward and readable.
 
-Learn more in the [Sutando documentation](https://sutando.org/guide/migrations.html).
-
-</PostDetail>
+Learn more in the [Sutando documentation](https://sutando.org/guide/migrations.html).

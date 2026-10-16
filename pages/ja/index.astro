@@ -1,0 +1,104 @@
+﻿---
+import Home from "../_shared/home.astro";
+
+const copy = {
+  title: "Sutando — モダンな Node.js ORM",
+  description:
+    "Sutando はモダンな Node.js ORM です。エレガントなクエリビルダー、モデルのリレーション、トランザクション、マイグレーションなどを提供します。",
+  badge: "モダンな Node.js ORM",
+  heading: "データベースとのやり取りを",
+  headingTail: "シンプルで美しく。",
+  lead: "Sutando は Laravel Eloquent の優雅な開発体験を Node.js にたらします。流れるようなクエリビルダー、表現力豊かなモデルとリレーション、トランザクションやマイグレーションに、TypeScript の第一級サポート。",
+  installLabel: "インストール",
+  ctaPrimary: "はじめる",
+  ctaSecondary: "GitHub",
+  worksWith: "対応",
+  databases: ["MySQL", "PostgreSQL", "SQLite", "MariaDB", "SQL Server", "Oracle"],
+  sectionsTitle: "邪魔をしない ORM",
+  sectionsLead: "SQL を書く量を減らしつつ、制御はそのまま —— 必要なときは生の式も使えます。",
+  sections: [
+    {
+      title: "見慣れたクエリビルダー",
+      lead: "メソッドをつなげて、書こうとした SQL のままに読めるクエリを。パラメータのバインドは Sutando が処理します。",
+      bullets: [
+        "where、whereIn、join、orderBy による条件指定",
+        "count() と exists() による集計",
+        "paginate() によるページネーション、chunk() による大量データ処理",
+        "db.raw() による生の SQL とパラメータバインド",
+      ],
+    },
+    {
+      title: "モデルとリレーション",
+      lead: "数行でモデルを定義し、テーブル同士の関係をそのまま書き下せます。関連の読み込みが N+1 になることはありません。",
+      bullets: [
+        "hasOne、hasMany、belongsTo、belongsToMany",
+        "with() によるイーガーロード — N+1 ではなく 2 クエリ",
+        "アクセサ、ミューテータ、キャスト、クエリスコープ",
+        "ソフトデリート — restore() と forceDelete()",
+      ],
+    },
+    {
+      title: "バージョン管理できるスキーマ",
+      lead: "マイグレーションビルダーでスキーマを定義し、コミットする。すべての環境が同じ手順で追いつきます。",
+      bullets: [
+        "流れるスキーマビルダー：createTable、カラム、インデックス、外部キー",
+        "ロールバック可能な up / down マイグレーション",
+        "npx sutando migrate:run で実行、migrate:status で確認",
+        "MySQL、PostgreSQL、SQLite、MariaDB、SQL Server に対応",
+      ],
+    },
+  ],
+  featuresTitle: "必要なものが、ぜんぶ揃っています",
+  featuresLead: "日常のデータベース作業に必要なものを、ひとつのツールボックスに — 生のクエリからモデルリレーションまで。",
+  features: [
+    {
+      icon: "terminal",
+      title: "クエリビルダー",
+      desc: "流れるようなチェーン API で SQL を構築 — where、join、集計、サブクエリ、ページネーション。",
+      href: "/ja/guide/query-builder",
+    },
+    {
+      icon: "link",
+      title: "モデルのリレーション",
+      desc: "hasMany、belongsTo、belongsToMany など — スキーマを読みやすいコードで表現。",
+      href: "/ja/guide/relationships",
+    },
+    {
+      icon: "repeat",
+      title: "トランザクション",
+      desc: "シンプルな Promise ベースの API でデータの一貫性を保ちます。",
+      href: "/ja/guide/transactions",
+    },
+    {
+      icon: "layers",
+      title: "マイグレーション",
+      desc: "スキーマをバージョン管理し、チームで安全に進化させます。",
+      href: "/ja/guide/migrations",
+    },
+    {
+      icon: "zap",
+      title: "フック & ソフトデリート",
+      desc: "モデルのライフサイクルのあらゆる場面で処理を差し込めます。",
+      href: "/ja/guide/hooks",
+    },
+    {
+      icon: "code",
+      title: "プラグイン & TypeScript",
+      desc: "充実した型定義と、成長を続けるプラグインエコシステム。",
+      href: "/ja/guide/plugin",
+    },
+  ],
+  stats: [
+    { value: "6+", label: "対応データベース" },
+    { value: "TS", label: "TypeScript ファースト" },
+    { value: "MIT", label: "オープンソースライセンス" },
+  ],
+  bandTitle: "始める準備はできましたか？",
+  bandLead: "Sutando をインストールして、1 分以内に最初のクエリを実行しましょう。",
+  bandButton: "ガイドを読む",
+  bandSecondary: "GitHub で見る",
+  bandSecondaryHref: "https://github.com/sutandojs/sutando",
+};
+---
+
+<Home locale="ja" switchRoutes={{ en: "/", zh_CN: "/zh_CN/", ja: "/ja/" }} copy={copy} />

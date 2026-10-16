@@ -1,17 +1,16 @@
 ---
 date: 2026-08-11
 title: "Getting Started with Sutando: Build Your First Node.js App"
-tags: [Sutando, Node.js, Tutorial, ORM, Beginner]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "New to Sutando? This tutorial walks you through everything you need to build your first Node.js application with Sutando ORM — from installation to a…"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
-
 New to Sutando? This tutorial walks you through everything you need to build your first Node.js application with Sutando ORM — from installation to a working CRUD API.
 
 ## Prerequisites
@@ -307,6 +306,4 @@ app.listen(3000, () => console.log('Server running on port 3000'));
 - [Database Migrations](https://sutando.org/guide/migrations.html) — version-control your schema
 - [Model Events](https://sutando.org/guide/events.html) — hook into the model lifecycle
 
-You now have a working Node.js app with Sutando. The full documentation is at [sutando.org](https://sutando.org/guide/getting-started.html).
-
-</PostDetail>
+You now have a working Node.js app with Sutando. The full documentation is at [sutando.org](https://sutando.org/guide/getting-started.html).

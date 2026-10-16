@@ -1,17 +1,16 @@
 ---
 date: 2026-08-11
 title: "Sutando 入门教程：构建你的第一个 Node.js 应用"
-tags: [Sutando, Node.js, Tutorial, ORM, Beginner]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "刚接触 Sutando？本教程将带你从安装到构建一个可用的 CRUD API，一步步上手 Sutando ORM。"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg
 
 ---
-
-<PostDetail>
-
 刚接触 Sutando？本教程将带你从安装到构建一个可用的 CRUD API，一步步上手 Sutando ORM。
 
 ## 前置条件
@@ -307,6 +306,4 @@ app.listen(3000, () => console.log('服务器运行在 3000 端口'));
 - [数据库迁移](https://sutando.org/zh_CN/guide/migrations.html) — 版本控制你的表结构
 - [模型事件](https://sutando.org/zh_CN/guide/events.html) — 在模型生命周期中插入逻辑
 
-你现在已经有了一个可用的 Sutando Node.js 应用。完整文档请访问 [sutando.org](https://sutando.org/zh_CN/guide/getting-started.html)。
-
-</PostDetail>
+你现在已经有了一个可用的 Sutando Node.js 应用。完整文档请访问 [sutando.org](https://sutando.org/zh_CN/guide/getting-started.html)。

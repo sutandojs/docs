@@ -1,13 +1,12 @@
 ---
 date: 2026-08-11
 title: "Sutando 入門：最初の Node.js アプリを構築しよう"
-tags: [Sutando, Node.js, チュートリアル, ORM, 初心者]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
-
+type: blog
+description: "Sutando を初めて使う？このチュートリアルでは、インストールから CRUD API の構築まで、すべてを順を追って説明します。"
+authors: ["Dylan Yu"]
+mode: center
 ---
 
-<PostDetail>
 
 Sutando を初めて使う？このチュートリアルでは、インストールから CRUD API の構築まで、すべてを順を追って説明します。
 
@@ -267,6 +266,4 @@ app.listen(3000, () => console.log('Server running on port 3000'));
 - [マイグレーション](https://sutando.org/ja/guide/migrations.html)
 - [モデルイベント](https://sutando.org/ja/guide/hooks.html)
 
-Sutando を使った Node.js アプリが完成しました。完全なドキュメントは [sutando.org](https://sutando.org/ja/guide/getting-started.html) にあります。
-
-</PostDetail>
+Sutando を使った Node.js アプリが完成しました。完全なドキュメントは [sutando.org](https://sutando.org/ja/guide/getting-started.html) にあります。

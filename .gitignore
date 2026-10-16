@@ -8,6 +8,10 @@ cache
 temp
 examples-temp
 node_modules
+.blume
+dist
+.env.local
 pnpm-global
 yarn.lock
 pnpm-lock.yaml
+.blume-verify/

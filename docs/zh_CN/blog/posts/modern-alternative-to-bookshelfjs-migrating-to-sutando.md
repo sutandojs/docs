@@ -1,16 +1,16 @@
 ---
 date: 2026-09-15
 title: "Bookshelf.js 的现代替代方案：迁移到 Sutando"
-tags: [Bookshelf.js, Sutando, Node.js, ORM, 迁移, Knex]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "Bookshelf.js 曾经是 Node.js 开发者的首选 ORM，它在 Knex.js 之上提供了简单、基于 Promise 的接口。但自 2022 年以来没有更新，没有 TypeScript 支持，社区也已经转移，是时候考虑现代替代方案了。本指南将带你从 Bookshelf.js 迁移到…"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
 
 Bookshelf.js 曾经是 Node.js 开发者的首选 ORM，它在 Knex.js 之上提供了简单、基于 Promise 的接口。但自 2022 年以来没有更新，没有 TypeScript 支持，社区也已经转移，是时候考虑现代替代方案了。本指南将带你从 Bookshelf.js 迁移到 Sutando。
 
@@ -326,5 +326,3 @@ Bookshelf.js 在它的时代是一个优秀的 ORM，但自 2022 年停止更新
 迁移过程简单直接：将模型从 `extend()` 转换为 ES6 类，更新查询模式，移除 Bookshelf 依赖。两个 ORM 在过渡期间可以共存，因此你可以逐个模型地迁移。
 
 👉 [开始使用 Sutando](https://sutando.org/zh_CN/guide/getting-started.html) 或运行 `npm install sutando` 来试试。
-
-</PostDetail>

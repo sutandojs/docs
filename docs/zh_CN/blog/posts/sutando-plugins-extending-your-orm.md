@@ -1,13 +1,12 @@
 ---
 date: 2026-10-20
 title: "Sutando 插件：扩展你的 ORM"
-tags: [Sutando, ORM, Plugins, Extensions, Node.js]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
-
+type: blog
+description: "Sutando 设计为可扩展的。无论你需要自定义类型转换、全局查询修改还是可复用的模型行为，Sutando 的插件系统都能满足。"
+authors: ["Dylan Yu"]
+mode: center
 ---
 
-<PostDetail>
 
 Sutando 设计为可扩展的。无论你需要自定义类型转换、全局查询修改还是可复用的模型行为，Sutando 的插件系统都能满足。
 
@@ -77,6 +76,4 @@ export const HasUuid = { /* ... */ };
 export const TimestampsCast = new Cast({ /* ... */ });
 ```
 
-了解更多请查看 [Sutando 文档](https://sutando.org/zh_CN/guide/getting-started.html)。
-
-</PostDetail>
+了解更多请查看 [Sutando 文档](https://sutando.org/zh_CN/guide/getting-started.html)。

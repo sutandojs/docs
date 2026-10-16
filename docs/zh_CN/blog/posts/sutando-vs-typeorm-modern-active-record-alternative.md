@@ -1,17 +1,16 @@
 ---
 date: 2026-09-01
 title: "Sutando vs TypeORM：更现代的 Active Record 替代方案"
-tags: [Sutando, TypeORM, Node.js, ORM, Comparison]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "TypeORM 在 Node.js 生态中存在多年。但随着 TypeScript 的进化和新 ORM 的涌现，TypeORM 的局限性越来越难以忽视。本文将对比 TypeORM 与 Sutando，说明为什么开发者正在切换。"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
-
 TypeORM 在 Node.js 生态中存在多年。但随着 TypeScript 的进化和新 ORM 的涌现，TypeORM 的局限性越来越难以忽视。本文将对比 TypeORM 与 Sutando，说明为什么开发者正在切换。
 
 ## TypeORM 的问题
@@ -174,6 +173,4 @@ await user.save();
 
 TypeORM 曾为 Node.js 社区做出了贡献，但它对装饰器的依赖、基于字符串的查询和维护问题使其难以推荐用于新项目。Sutando 提供了同样的 Active Record 模式，但 API 更干净、无需装饰器，且内置了 TypeORM 缺少的功能。
 
-试试 Sutando：`npm install sutando`——或阅读[文档](https://sutando.org/zh_CN/guide/getting-started.html)。
-
-</PostDetail>
+试试 Sutando：`npm install sutando`——或阅读[文档](https://sutando.org/zh_CN/guide/getting-started.html)。

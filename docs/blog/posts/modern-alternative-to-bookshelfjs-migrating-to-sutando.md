@@ -1,16 +1,16 @@
 ---
 date: 2026-09-15
 title: "A Modern Alternative to Bookshelf.js: Migrating to Sutando"
-tags: [Bookshelf.js, Sutando, Node.js, ORM, Migration, Knex]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "Bookshelf.js was once the go-to ORM for Node.js developers who wanted a simple, promise-based interface on top of Knex.js. But with no updates since 2022,…"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
 
 Bookshelf.js was once the go-to ORM for Node.js developers who wanted a simple, promise-based interface on top of Knex.js. But with no updates since 2022, no TypeScript support, and the community moving on, it's time to consider a modern alternative. This guide walks through migrating from Bookshelf.js to Sutando.
 
@@ -326,5 +326,3 @@ Bookshelf.js was a great ORM in its time, but with no updates since 2022 and no 
 The migration is straightforward: convert models from `extend()` to ES6 classes, update query patterns, and remove the Bookshelf dependency. Both ORMs can coexist during the transition, so you can migrate model by model.
 
 👉 [Get started with Sutando](https://sutando.org/guide/getting-started.html) or run `npm install sutando` to try it out.
-
-</PostDetail>

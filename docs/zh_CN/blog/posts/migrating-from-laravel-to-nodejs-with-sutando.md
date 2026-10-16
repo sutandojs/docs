@@ -1,17 +1,16 @@
 ---
 date: 2026-09-08
 title: "从 Laravel 迁移到 Node.js：用 Sutando 无缝切换"
-tags: [Laravel, Node.js, Sutando, Migration, Eloquent]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
+type: blog
+description: "如果你是 Laravel 开发者，考虑转向 Node.js，最大的顾虑通常是离开 Eloquent。有了 Sutando，你不必放弃。本指南将带你逐步迁移 Laravel 应用到 Node.js，将 Eloquent 的每个概念映射到 Sutando。"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-<PostDetail>
-
 如果你是 Laravel 开发者，考虑转向 Node.js，最大的顾虑通常是离开 Eloquent。有了 Sutando，你不必放弃。本指南将带你逐步迁移 Laravel 应用到 Node.js，将 Eloquent 的每个概念映射到 Sutando。
 
 ## 为什么从 Laravel 迁移到 Node.js？
@@ -170,6 +169,4 @@ app.get('/posts', async (req, res) => {
 
 从 Laravel 迁移到 Node.js 不意味着放弃 Eloquent。Sutando 带来了几乎相同的 Active Record 体验。你可以保持现有数据库 schema，逐路由迁移，团队从第一天就能高效工作。
 
-从 `npm install sutando` 开始，查看[文档](https://sutando.org/zh_CN/guide/getting-started.html)。
-
-</PostDetail>
+从 `npm install sutando` 开始，查看[文档](https://sutando.org/zh_CN/guide/getting-started.html)。

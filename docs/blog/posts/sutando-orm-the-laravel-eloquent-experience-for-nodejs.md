@@ -1,19 +1,16 @@
 ---
 date: 2025-07-02
 title: "Sutando ORM: The Laravel Eloquent Experience for Node.js"
-tags: [Laravel]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
-
+type: blog
+description: "Sutando ORM speaks the same language as Laravel’s Eloquent—methods, naming, and conventions—yet runs anywhere in the Node.js ecosystem, without tying you…"
+authors: ["Dylan Yu"]
+mode: center
 ---
+
 
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-
-
-<PostDetail>
-
 ## The Familiar Active‑Record You Love, Now for JavaScript
 
 > **Sutando ORM** speaks the same language as Laravel’s Eloquent—methods, naming, and conventions—yet runs anywhere in the Node.js ecosystem, without tying you to a full‑stack framework.
@@ -138,6 +135,4 @@ const users = await User.query().where('votes', '>', 100).get();
 
 ## Build Faster, Stay Flexible
 
-Sutando ORM delivers the Eloquent developer experience Laravel fans adore, yet keeps your architecture open. Whether you’re upgrading a JavaScript codebase, experimenting with serverless, or simply want an Active‑Record that feels right, Sutando is ready to power your next app—framework‑free.
-
-</PostDetail>
+Sutando ORM delivers the Eloquent developer experience Laravel fans adore, yet keeps your architecture open. Whether you’re upgrading a JavaScript codebase, experimenting with serverless, or simply want an Active‑Record that feels right, Sutando is ready to power your next app—framework‑free.

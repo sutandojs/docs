@@ -1,13 +1,12 @@
 ---
 date: 2026-09-22
 title: "Sutando のモデルリレーション：hasMany、belongsTo とそれ以降"
-tags: [Sutando, モデルリレーション, Node.js, ORM, ガイド]
-author: Dylan Yu
-image: https://storage.sutando.org/og-1751395044936.jpg
-
+type: blog
+description: "モデルリレーションは ORM の最も強力な機能の一つです。Sutando では、Laravel Eloquent ライクな直感的な API でリレーションを定義・操作できます。"
+authors: ["Dylan Yu"]
+mode: center
 ---
 
-<PostDetail>
 
 モデルリレーションは ORM の最も強力な機能の一つです。Sutando では、Laravel Eloquent ライクな直感的な API でリレーションを定義・操作できます。
 
@@ -166,6 +165,4 @@ console.log(users[0].posts_count);
 
 Sutando のリレーション API は、Laravel Eloquent の直感的な設計を引き継いでいます。宣言的なメソッドでリレーションを定義し、事前読み込みでパフォーマンスを最適化できます。
 
-[ドキュメント](https://sutando.org/ja/guide/relationships.html) でさらに詳しく。
-
-</PostDetail>
+[ドキュメント](https://sutando.org/ja/guide/relationships.html) でさらに詳しく。
