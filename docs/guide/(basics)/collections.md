@@ -1,3 +1,7 @@
+---
+description: "Every result set Sutando returns is a Collection that extends collect.js, so dozens of array helpers chain over your models."
+---
+
 # Collections
 
 All Sutando methods that return more than one model result will return instances of the `Collection` class, including results retrieved via the `get` method or accessed via a relationship. The Sutando collection object extends [collect.js](https://collect.js.org/) collection, so it naturally inherits dozens of methods used to fluently work with the underlying array of Sutando models. Be sure to review the Laravel collection documentation to learn all about these helpful methods!
@@ -51,7 +55,7 @@ In addition, the `Collection` class provides a superset of methods to aid with m
 - [toData](#todata) 
 - [toJson](#tojson) 
 
-#### contains(key, operator = null, value = null) {#contains-key-operator-null-value-null}
+### contains(key, operator = null, value = null) {#contains-key-operator-null-value-null}
 
 The `contains` method may be used to determine if a given model instance is contained by the collection. This method accepts a primary key or a model instance:
 
@@ -62,7 +66,7 @@ const user = await User.query().find(1);
 users.contains(user);
 ```
 
-#### diff(items) {#diff-items}
+### diff(items) {#diff-items}
 
 The `diff` method returns all of the models that are not present in the given collection:
 
@@ -71,7 +75,7 @@ const otherUsers = await User.query().whereIn('id', [1, 2, 3]).get()
 const diffUsers = users.diff(otherUsers);
 ```
 
-#### except(keys) {#except-keys}
+### except(keys) {#except-keys}
 
 The `except` method returns all of the models that do not have the given primary keys:
 
@@ -79,7 +83,7 @@ The `except` method returns all of the models that do not have the given primary
 const exceptUsers = users.except([1, 2, 3]);
 ```
 
-#### find(key) {#find-key}
+### find(key) {#find-key}
 The `find` method returns the model that has a primary key matching the given key. If `key` is a model instance, `find` will attempt to return a model matching the primary key. If key is an array of keys, `find` will return all models which have a primary key in the given array:
 
 ```ts
@@ -88,7 +92,7 @@ const users = await User.query().all();
 const user = users.find(1);
 ```
 
-#### fresh(with = []) {#fresh-with}
+### fresh(with = []) {#fresh-with}
 
 The `fresh` method retrieves a fresh instance of each model in the collection from the database. In addition, any specified relationships will be eager loaded:
 
@@ -98,7 +102,7 @@ const newUsers = await users.fresh();
 const newUsers = await users.fresh('comments');
 ```
 
-#### intersect(items) {#intersect-items}
+### intersect(items) {#intersect-items}
 
 The `intersect` method returns all of the models that are also present in the given collection:
 
@@ -107,7 +111,7 @@ const otherUsers = await User.query().whereIn('id', [1, 2, 3]).get();
 const newUsers = users.intersect(otherUsers);
 ```
 
-#### load(relations) {#load-relations}
+### load(relations) {#load-relations}
 
 The `load` method eager loads the given relationships for all models in the collection:
 
@@ -117,7 +121,7 @@ await users.load(['comments', 'posts']);
 await users.load('comments.author');
 ```
 
-#### loadCount / loadMax / loadMin / loadSum / loadAvg {#loadcount-loadmax-loadmin-loadsum-loadavg}
+### loadCount / loadMax / loadMin / loadSum / loadAvg {#loadcount-loadmax-loadmin-loadsum-loadavg}
 
 ```ts
 await users.loadCount(['comments', 'posts']);
@@ -131,7 +135,7 @@ await users.loadSum('posts', 'vote');
 await users.loadAvg('posts', 'vote');
 ```
 
-#### modelKeys()
+### modelKeys()
 
 The `modelKeys` method returns the primary keys for all models in the collection:
 
@@ -141,7 +145,7 @@ users.modelKeys();
 // [1, 2, 3, 4, 5]
 ```
 
-#### makeVisible(attributes) {#makevisible-attributes}
+### makeVisible(attributes) {#makevisible-attributes}
 
 The `makeVisible` method makes attributes visible that are typically "hidden" on each model in the collection:
 
@@ -149,7 +153,7 @@ The `makeVisible` method makes attributes visible that are typically "hidden" on
 const newUsers = users.makeVisible(['address', 'phone_number']);
 ```
 
-#### makeHidden(attributes) {#makehidden-attributes}
+### makeHidden(attributes) {#makehidden-attributes}
 
 The `makeHidden` method hides attributes that are typically "visible" on each model in the collection:
 
@@ -157,7 +161,7 @@ The `makeHidden` method hides attributes that are typically "visible" on each mo
 const newUsers = users.makeHidden(['address', 'phone_number']);
 ```
 
-#### only(keys) {#only-keys}
+### only(keys) {#only-keys}
 
 The `only` method returns all of the models that have the given primary keys:
 
@@ -165,7 +169,7 @@ The `only` method returns all of the models that have the given primary keys:
 const newUsers = users.only([1, 2, 3]);
 ```
 
-#### toQuery()
+### toQuery()
 
 The `toQuery` method returns an query builder instance containing a whereIn constraint on the collection model's primary keys:
 
@@ -179,7 +183,7 @@ await users.toQuery().update([
 ]);
 ```
 
-#### unique(key = null, strict = false) {#unique-key-null-strict-false}
+### unique(key = null, strict = false) {#unique-key-null-strict-false}
 
 The `unique` method returns all of the unique models in the collection. Any models of the same type with the same primary key as another model in the collection are removed:
 
@@ -187,7 +191,7 @@ The `unique` method returns all of the unique models in the collection. Any mode
 const newUsers = users.unique();
 ```
 
-#### toData()
+### toData()
 
 ```ts
 const users = await User.query().all();
@@ -195,7 +199,7 @@ const users = await User.query().all();
 return users.toData();
 ```
 
-#### toJson()
+### toJson()
 
 ```ts
 const users = await User.query().all();

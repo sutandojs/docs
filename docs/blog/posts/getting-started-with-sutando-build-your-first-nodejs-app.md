@@ -8,7 +8,7 @@ mode: center
 ---
 
 
-![image](https://storage.sutando.org/og-1751395044936.jpg)
+<img src="https://storage.sutando.org/og-1751395044936.jpg" alt="" width="1200" height="630" loading="lazy" />
 
 ---
 New to Sutando? This tutorial walks you through everything you need to build your first Node.js application with Sutando ORM — from installation to a working CRUD API.

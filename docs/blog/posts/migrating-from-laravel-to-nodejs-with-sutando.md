@@ -8,7 +8,7 @@ mode: center
 ---
 
 
-![image](https://storage.sutando.org/og-1751395044936.jpg)
+<img src="https://storage.sutando.org/og-1751395044936.jpg" alt="" width="1200" height="630" loading="lazy" />
 
 ---
 If you're a Laravel developer considering a move to Node.js, the biggest concern is usually leaving Eloquent behind. With Sutando, you don't have to. This guide walks through migrating a Laravel application to Node.js, mapping each concept from Eloquent to Sutando.

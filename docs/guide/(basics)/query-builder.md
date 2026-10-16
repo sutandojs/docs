@@ -1,3 +1,7 @@
+---
+description: "The fluent query builder creates and runs select, insert, update, and delete statements on every database Sutando supports."
+---
+
 # Query Builder
 
 Sutando query builder provides a convenient, fluent interface to creating and running database queries. It can be used to perform most database operations in your application and works perfectly with all of Sutando's supported database systems.
@@ -525,7 +529,7 @@ To build more advanced having statements, see the `havingRaw` method.
 
 ## Limit & Offset {#limit-offset}
 
-#### The `skip` & `take` Methods {#the-skip-take-methods}
+### The `skip` & `take` Methods {#the-skip-take-methods}
 
 You may use the `skip` and `take` methods to limit the number of results returned from the query or to skip a given number of results in the query:
 

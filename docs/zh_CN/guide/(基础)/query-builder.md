@@ -1,3 +1,7 @@
+---
+description: "流畅的查询构造器可用于创建和执行查询、插入、更新与删除语句，并兼容 Sutando 支持的所有数据库系统，无需关心方言差异。"
+---
+
 # 查询构造器
 
 Sutando 的数据库查询构造器为创建和运行数据库查询提供了一个方便的接口。它可以用于支持大部分数据库操作，并与 Sutando 支持的所有数据库系统完美运行。
@@ -526,7 +530,7 @@ const users = await db.table('users')
 
 ## Limit & Offset {#limit-offset}
 
-#### `skip` & `take` 方法 {#skip-take-方法}
+### `skip` & `take` 方法 {#skip-take-方法}
 
 要限制结果的返回数量，或跳过指定数量的结果，你可以使用 `skip` 和 `take` 方法： 
 

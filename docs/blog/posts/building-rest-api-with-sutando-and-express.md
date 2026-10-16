@@ -8,7 +8,7 @@ mode: center
 ---
 
 
-![image](https://storage.sutando.org/og-1751395044936.jpg)
+<img src="https://storage.sutando.org/og-1751395044936.jpg" alt="" width="1200" height="630" loading="lazy" />
 
 ---
 Building a REST API with Sutando is straightforward. In this tutorial, we'll build a complete blog API with authentication, validation, and error handling.

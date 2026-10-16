@@ -8,7 +8,7 @@ mode: center
 ---
 
 
-![image](https://storage.sutando.org/og-1751395044936.jpg)
+<img src="https://storage.sutando.org/og-1751395044936.jpg" alt="" width="1200" height="630" loading="lazy" />
 
 ---
 Next.js App Router makes server-side database access easier than ever. With Sutando, you can query your database from Server Components and Route Handlers using the same elegant Active Record API you'd use in any Node.js app.

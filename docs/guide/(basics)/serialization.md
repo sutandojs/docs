@@ -1,3 +1,7 @@
+---
+description: "Convert models and relationships to arrays or JSON, and control which attributes appear with the hidden and visible properties."
+---
+
 # Serialization
 
 When building APIs you will often need to convert your models and relationships to object or JSON. Sutando includes convenient methods for making these conversions, as well as controlling which attributes are included in the serialized representation of your models.
@@ -91,7 +95,7 @@ class User extends Model {
 }
 ```
 
-#### Temporarily Modifying Attribute Visibility
+### Temporarily Modifying Attribute Visibility
 
 If you would like to make some typically hidden attributes visible on a given model instance, you may use the `makeVisible` method. The `makeVisible` method returns the model instance:
 
@@ -145,7 +149,7 @@ class User extends Model {
 
 Once the attribute has been added to the appends list, it will be included in both the model's data object and JSON representations. Attributes in the appends array will also respect the `visible` and `hidden` settings configured on the model.
 
-#### Appending At Run Time
+### Appending At Run Time
 
 At runtime, you may instruct a model instance to append additional attributes using the `append` method. Or, you may use the `setAppends` method to override the entire array of appended properties for a given model instance:
 

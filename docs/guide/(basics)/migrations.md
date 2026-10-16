@@ -1,3 +1,7 @@
+---
+description: "Database version control: migration files create and change tables, then run through the Sutando CLI to keep every environment in sync."
+---
+
 # Database Migration
 
 Migration is database version control, which helps developers complete table structure changes and data migration in daily work.

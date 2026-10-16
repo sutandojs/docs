@@ -1,3 +1,7 @@
+---
+description: "The official Sutando plugins: SoftDeletes adds soft deletion, HasUniqueIds gives models string primary keys, and more."
+---
+
 # Plugin List
 
 ## Built-in Plugins

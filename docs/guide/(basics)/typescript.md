@@ -1,3 +1,7 @@
+---
+description: "How Sutando approaches TypeScript: pragmatic types that favour an intuitive, easy-to-use API over complete type safety."
+---
+
 # TypeScript Support
 
 Sutando provides TypeScript support with a pragmatic approach - balancing usability and type safety. We prioritize intuitive and easy-to-use APIs over complete type safety.

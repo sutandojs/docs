@@ -1,3 +1,7 @@
+---
+description: "Sutando 的 TypeScript 支持采取实用主义：在易用性与类型安全之间取得平衡，优先提供直观易用的 API 与可用的类型提示。"
+---
+
 # TypeScript 支持
 
 Sutando 提供了 TypeScript 支持，但我们采取了实用主义的方式 - 在易用性和类型安全性之间取得平衡。我们更注重提供直观、易用的 API，而不是追求完全的类型安全。

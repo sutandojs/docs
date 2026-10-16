@@ -1,3 +1,7 @@
+---
+description: "Run Sutando in the browser: models, attributes, and relations work in the browser build, but the query builder and other database features do not."
+---
+
 # Browser Support
 
 Sutando now supports running in browser environments in addition to server-side usage. The browser version supports core functionalities such as Models, Attributes, and Relations, but does not include database-related features like Query Builder.

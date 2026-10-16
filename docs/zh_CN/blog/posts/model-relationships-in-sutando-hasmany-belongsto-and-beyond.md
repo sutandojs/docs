@@ -8,7 +8,7 @@ mode: center
 ---
 
 
-![image](https://storage.sutando.org/og-1751395044936.jpg)
+<img src="https://storage.sutando.org/og-1751395044936.jpg" alt="" width="1200" height="630" loading="lazy" />
 
 ---
 关联是任何 ORM 的核心。Sutando 将 Laravel Eloquent 的关联系统带入 Node.js，让定义和查询复杂数据关系变得简单。

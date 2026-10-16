@@ -8,7 +8,7 @@ mode: center
 ---
 
 
-![image](https://storage.sutando.org/og-1751395044936.jpg)
+<img src="https://storage.sutando.org/og-1751395044936.jpg" alt="" width="1200" height="630" loading="lazy" />
 
 ---
 TypeORM has been a staple in the Node.js ecosystem for years. But as TypeScript has evolved and new ORMs have emerged, TypeORM's limitations have become harder to ignore. In this article, we'll compare TypeORM with Sutando and show why developers are switching.

@@ -8,7 +8,7 @@ mode: center
 ---
 
 
-![image](https://storage.sutando.org/og-1751395044936.jpg)
+<img src="https://storage.sutando.org/og-1751395044936.jpg" alt="" width="1200" height="630" loading="lazy" />
 
 ---
 The Active Record pattern is one of the most intuitive ways to interact with a database. If you've ever used Laravel's Eloquent or Ruby on Rails, you already know how productive it can be. In this guide, we'll explore what Active Record is, how it differs from other ORM patterns, and how to use it in Node.js with Sutando.

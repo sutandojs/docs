@@ -8,7 +8,7 @@ mode: center
 ---
 
 
-![image](https://storage.sutando.org/og-1751395044936.jpg)
+<img src="https://storage.sutando.org/og-1751395044936.jpg" alt="" width="1200" height="630" loading="lazy" />
 
 ---
 Relationships are the heart of any ORM. Sutando brings Laravel Eloquent's relationship system to Node.js, making it easy to define and query complex data relationships. This guide covers every relationship type with practical examples.

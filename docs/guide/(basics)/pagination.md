@@ -1,3 +1,7 @@
+---
+description: "Offset-based pagination: chain the paginate method to fetch one page of models along with totals, page counts, and ready-made page links."
+---
+
 # Pagination
 
 Sutando has inbuilt support for offset-based pagination. You can paginate the results of a query by chaining the `paginate` method.

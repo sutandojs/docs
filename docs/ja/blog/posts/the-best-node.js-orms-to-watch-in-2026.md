@@ -8,7 +8,7 @@ mode: center
 ---
 
 
-![image](https://storage.sutando.org/og-1751395044936.jpg)
+<img src="https://storage.sutando.org/og-1751395044936.jpg" alt="" width="1200" height="630" loading="lazy" />
 
 ---
 2026年の Node.js エコシステムは、かつてないほど高速で軽量になっています。**エッジランタイム**（Cloudflare Workers、Vercel Edge）の支配と、プロダクションレベルのランタイムとしての **Bun** の台頭により、データベースとの相互作用は根本的に変化しました。

@@ -41,13 +41,15 @@ const posts: Post[] = (await getCollection("docs"))
   .map((e) => {
     const raw = e.data.date as unknown;
     const date = raw instanceof Date ? raw.toISOString().slice(0, 10) : String(raw ?? "");
-    const image = e.body?.match(/!\[[^\]]*\]\(([^)\s]+)\)/)?.[1];
+    // the first image in the body, markdown or raw HTML (posts with dimensions
+    // carry it as `<img>`)
+    const hero = e.body?.match(/!\[[^\]]*\]\(([^)\s]+)\)|<img[^>]+src="([^"]+)"/);
     return {
       title: e.data.title ?? "",
       href: routeByEntry.get(e.id) ?? "",
       date,
       description: e.data.description ?? "",
-      image,
+      image: hero?.[1] ?? hero?.[2],
     };
   })
   // The VitePress blog hid a post until its date; keep that convention, since
@@ -88,6 +90,8 @@ const fmt = (d: string) =>
                 <img
                   src={featured.image}
                   alt=""
+                  width={1200}
+                  height={630}
                   loading="lazy"
                   class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                 />

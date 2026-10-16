@@ -1,3 +1,7 @@
+---
+description: "Plugins are independent packages that add new capabilities to Sutando or extend existing ones, without changing the core library."
+---
+
 # Plugin
 
 Plug-ins are independent programs that can add new functions and extend existing functions to Sutando

@@ -1,3 +1,7 @@
+---
+description: "Sutando 模型基于活动记录（Active Record）模式：每张数据表都对应一个模型类，用于读写记录、定义属性并维护关联关系。"
+---
+
 # 模型
 
 除了数据库查询构建器，Sutando 还拥有构建在 活动记录模式 (Active Record) 之上的数据模型。
@@ -184,7 +188,7 @@ flights.map(flight => {
 })
 ```
 
-#### 附加约束
+### 附加约束
 
 Sutando 的 `all` 方法会返回模型中所有的结果。由于每个 Sutando 模型都充当一个 [查询构造器](./query-builder) ，所以你也可以添加查询条件，然后使用 `get`/`first`/`find` 方法获取查询结果：
 
@@ -199,7 +203,7 @@ const flight = await Flight.query().where('active', 1).first();
 const flight = await Flight.query().find(5);
 ```
 
-#### 重新加载模型
+### 重新加载模型
 
 你可以使用 `fresh` 和 `refresh` 重新加载从数据库中检索的 Sutando 模型实例。`fresh` 方法会重新从数据库中检索模型。现有的模型实例不受影响： 
 
@@ -477,7 +481,7 @@ const flight = await Flight.query().find(1);
 await flight.delete();
 ```
 
-#### 通过其主键删除现有模型
+### 通过其主键删除现有模型
 
 上面的示例中，我们先检索，再用 `delete` 删除。若知道主键，则用 `destroy` 直接删除。 `destroy` 可以接受一个主键、多个主键、一个主键数组或一个主键集合 collection: 
 
@@ -489,7 +493,7 @@ await Flight.query().destroy(1, 2, 3);
 await Flight.query().destroy([1, 2, 3]);
 ```
  
-#### 使用查询删除模型
+### 使用查询删除模型
 
 通过 Sutando 查询来删除所有符合查询条件的模型。 例如，我们将删除所有标记为无效的航班。像批量更新一样，批量删除将不会为已删除的模型调度模型事件： 
 

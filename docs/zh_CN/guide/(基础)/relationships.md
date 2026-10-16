@@ -1,3 +1,7 @@
+---
+description: "在模型类中以方法定义 hasOne、hasMany、belongsTo、多对多等关联，并在关联上继续链式添加查询条件、排序与预加载等能力。"
+---
+
 # 模型关联
 
 Sutando 关联在 Sutando 模型类中以方法的形式呈现。如同 Sutando 模型本身，关联也可以作为强大的 [查询构造器](./query-builder) 使用，提供了强大的链式调用和查询功能。例如，我们可以在 `posts` 关联的链式调用中附加一个约束条件： 
@@ -161,7 +165,7 @@ relationPost() {
 }
 ```
 
-#### 默认模型
+### 默认模型
 
 当 `belongsTo`，`hasOne` 这些关联方法返回 null 的时候，你可以定义一个默认的模型返回。该模式通常被称为 空对象模式，它可以帮你省略代码中的一些条件判断。在下面这个例子中，如果 `Post` 模型中没有用户，那么 `user` 关联关系将会返回一个空的 `User` 实例：
 
@@ -191,7 +195,7 @@ reLationUser() {
 
 多对多关联比 `hasOne` 和 `hasMany` 关联稍微复杂些。举个例子，一个用户可以拥有多个角色，同时这些角色也可以分配给其他用户。例如，一个用户可是「作者」和「编辑」；当然，这些角色也可以分配给其他用户。所以，一个用户可以拥有多个角色，一个角色可以分配给多个用户。 
 
-#### 表结构
+### 表结构
 
 要定义这种关联，需要三个数据库表: `users`,`roles` 和 `role_user`。`role_user` 表的命名是由关联的两个模型按照字母顺序来的，并且包含了 `user_id` 和 `role_id` 字段。该表用作链接 users 和 roles 的中间表
 
@@ -211,7 +215,7 @@ role_user
   role_id - integer
 ```
 
-#### 模型结构
+### 模型结构
 
 多对多关系是通过编写一个返回 `belongsToMany` 方法结果的方法来定义的。 `belongsToMany` 方法由 Model 基类提供，您的应用程序的所有 Sutando 模型都使用该基类。 例如，让我们在 `User` 模型上定义一个 `relationRoles` 方法。 传递给此方法的第一个参数是相关模型类的名称：
 
@@ -244,7 +248,7 @@ return this.belongsToMany(Role, 'role_user');
 return this.belongsToMany(Role, 'role_user', 'user_id', 'role_id');
 ```
 
-#### 定义反向关联
+### 定义反向关联
 
 要定义多对多关系的反向关联，您应该在相关模型上定义一个方法，该方法也返回 `belongsToMany` 方法的结果。 为了完成我们的 `user` / `role` 示例，让我们在 `Role` 模型上定义 `relationUsers` 方法：
 
@@ -370,7 +374,7 @@ await user.related('posts').where('active', 1).get();
 
 你可以在关联上使用任意的 [查询构造器](./query-builder) 方法，所以一定要阅读查询构造器的文档，了解它的所有方法，这会对你非常有用。
 
-#### 在关联之后链式添加 `orWhere` 子句
+### 在关联之后链式添加 `orWhere` 子句
 
 如上例所示，你可以在查询关联时，自由的给关联添加额外的约束条件。但是，在将 `orWhere` 子句链接到关联上时，一定要小心，因为 `orWhere` 子句将在逻辑上与关联约束处于同一级别： 
 
@@ -576,7 +580,7 @@ select * from books
 select * from authors where id in (1, 2, 3, 4, 5, ...)
 ```
 
-#### 预加载多个关联
+### 预加载多个关联
 
 有时，你可能需要在单一操作中预加载几个不同的关联。要达成此目的，只要向 `with` 方法传递多个关联名称构成的数组参数： 
 
@@ -584,7 +588,7 @@ select * from authors where id in (1, 2, 3, 4, 5, ...)
 const books = await Book.query().with(['author', 'publisher']).get();
 ```
 
-#### 嵌套预加载
+### 嵌套预加载
 
 可以使用 「点」 语法预加载嵌套关联。比如在一个 Sutando 语句中预加载所有书籍作者及其联系方式：
 
@@ -592,7 +596,7 @@ const books = await Book.query().with(['author', 'publisher']).get();
 const books = await Book.query().with('author.contacts').get();
 ```
 
-#### 预加载指定列
+### 预加载指定列
 
 并不是总需要获取关系的每一列。在这种情况下，Sutando 允许你为关联指定想要获取的列: 
 

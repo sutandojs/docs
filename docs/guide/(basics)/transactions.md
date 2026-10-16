@@ -1,3 +1,7 @@
+---
+description: "Run a set of operations inside a database transaction with the connection's transaction method: exceptions roll the whole thing back."
+---
+
 # Transactions
 
 You may use the `transaction` method provided by the Sutando connection to run a set of operations within a database transaction. If an exception is thrown within the transaction closure, the transaction will automatically be rolled back and the exception is re-thrown. If the closure executes successfully, the transaction will automatically be committed. You don't need to worry about manually rolling back or committing while using the transaction method:
@@ -21,7 +25,7 @@ await db.transaction(async (trx) => {
 });
 ```
 
-### Manually Using Transactions
+## Manually Using Transactions
 
 If you would like to begin a transaction manually and have complete control over rollbacks and commits, you may use the `beginTransaction` method provided by the `sutando`:
 

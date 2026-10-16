@@ -8,7 +8,7 @@ mode: center
 ---
 
 
-![image](https://storage.sutando.org/og-1751395044936.jpg)
+<img src="https://storage.sutando.org/og-1751395044936.jpg" alt="" width="1200" height="630" loading="lazy" />
 
 ---
 TypeORM 在 Node.js 生态中存在多年。但随着 TypeScript 的进化和新 ORM 的涌现，TypeORM 的局限性越来越难以忽视。本文将对比 TypeORM 与 Sutando，说明为什么开发者正在切换。

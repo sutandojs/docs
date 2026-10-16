@@ -1,3 +1,7 @@
+---
+description: "Define hasOne, hasMany, belongsTo, and many-to-many relationships as model methods, then chain query constraints on them."
+---
+
 # Relationships
 
 Sutando relationships are defined as methods on your Sutando model classes. Since relationships also serve as powerful [query builders](query-builder), defining relationships as methods provides powerful method chaining and querying capabilities. For example, we may chain additional query constraints on this `posts` relationship:
@@ -161,7 +165,7 @@ relationPost() {
 }
 ```
 
-#### Default Models
+### Default Models
 
 The `belongsTo`, `hasOne` relationships allow you to define a default model that will be returned if the given relationship is null. This pattern is often referred to as the Null Object pattern and can help remove conditional checks in your code. In the following example, the `user` relation will return an empty `User` model if no user is attached to the `Post` model:
 
@@ -191,7 +195,7 @@ reLationUser() {
 
 Many-to-many relations are slightly more complicated than `hasOne` and `hasMany` relationships. An example of a many-to-many relationship is a user that has many roles and those roles are also shared by other users in the application. For example, a user may be assigned the role of "Author" and "Editor"; however, those roles may also be assigned to other users as well. So, a user has many roles and a role has many users.
 
-#### Table Structure
+### Table Structure
 
 To define this relationship, three database tables are needed: `users`, `roles`, and `role_user`. The `role_user` table is derived from the alphabetical order of the related model names and contains `user_id` and `role_id` columns. This table is used as an intermediate table linking the users and roles.
 
@@ -211,7 +215,7 @@ role_user
   role_id - integer
 ```
 
-#### Model Structure
+### Model Structure
 
 Many-to-many relationships are defined by writing a method that returns the result of the `belongsToMany` method. The `belongsToMany` method is provided by the Model base class that is used by all of your application's Sutando models. For example, let's define a `relationRoles` method on our `User` model. The first argument passed to this method is the name of the related model class:
 
@@ -244,7 +248,7 @@ In addition to customizing the name of the intermediate table, you may also cust
 return this.belongsToMany(Role, 'role_user', 'user_id', 'role_id');
 ```
 
-#### Defining The Inverse Of The Relationship
+### Defining The Inverse Of The Relationship
 
 To define the "inverse" of a many-to-many relationship, you should define a method on the related model which also returns the result of the `belongsToMany` method. To complete our `user` / `role` example, let's define the `relationUsers` method on the `Role` model:
 
@@ -370,7 +374,7 @@ await user.related('posts').where('active', 1).get();
 
 You are able to use any of the Sutando [query builder](query-builder)'s methods on the relationship, so be sure to explore the query builder documentation to learn about all of the methods that are available to you.
 
-#### Chaining `orWhere` Clauses After Relationships
+### Chaining `orWhere` Clauses After Relationships
 
 As demonstrated in the example above, you are free to add additional constraints to relationships when querying them. However, use caution when chaining `orWhere` clauses onto a relationship, as the `orWhere` clauses will be logically grouped at the same level as the relationship constraint:
 
@@ -575,7 +579,7 @@ select * from books
 select * from authors where id in (1, 2, 3, 4, 5, ...)
 ```
 
-#### Eager Loading Multiple Relationships
+### Eager Loading Multiple Relationships
 
 Sometimes you may need to eager load several different relationships. To do so, just pass an array of relationships to the `with` method:
 
@@ -583,7 +587,7 @@ Sometimes you may need to eager load several different relationships. To do so, 
 const books = await Book.query().with(['author', 'publisher']).get();
 ```
 
-#### Nested Eager Loading
+### Nested Eager Loading
 
 To eager load a relationship's relationships, you may use "dot" syntax. For example, let's eager load all of the book's authors and all of the author's personal contacts:
 
@@ -591,7 +595,7 @@ To eager load a relationship's relationships, you may use "dot" syntax. For exam
 const books = await Book.query().with('author.contacts').get();
 ```
 
-#### Eager Loading Specific Columns
+### Eager Loading Specific Columns
 
 You may not always need every column from the relationships you are retrieving. For this reason, Sutando allows you to specify which columns of the relationship you would like to retrieve:
 

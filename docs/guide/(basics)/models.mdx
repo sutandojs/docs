@@ -1,3 +1,7 @@
+---
+description: "Sutando models follow the active record pattern: each database table has a model class that reads, writes, and relates its rows."
+---
+
 # Models
 
 Sutando has data models built on top of the active record pattern .
@@ -182,7 +186,7 @@ flights.map(flight => {
 })
 ```
 
-#### Building Queries
+### Building Queries
 
 The Sutando `all` method will return all of the results in the model's table. However, since each Sutando model serves as a query builder, you may add additional constraints to queries and then invoke the `get`/`first`/`find` method to retrieve the results:
 
@@ -197,7 +201,7 @@ const flight = await Flight.query().where('active', 1).first();
 const flight = await Flight.query().find(5);
 ```
 
-#### Refreshing Models
+### Refreshing Models
 
 If you already have an instance of an Sutando model that was retrieved from the database, you can "refresh" the model using the `fresh` and `refresh` methods. The `fresh` method will re-retrieve the model from the database. The existing model instance will not be affected:
 
@@ -475,7 +479,7 @@ const flight = await Flight.query().find(1);
 await flight.delete();
 ```
 
-#### Deleting An Existing Model By Its Primary Key
+### Deleting An Existing Model By Its Primary Key
 
 In the example above, we are retrieving the model from the database before calling the `delete` method. However, if you know the primary key of the model, you may delete the model without explicitly retrieving it by calling the `destroy` method. In addition to accepting the single primary key, the `destroy` method will accept multiple primary keys, an array of primary keys, or a `Collection` of primary keys:
 
@@ -487,7 +491,7 @@ await Flight.query().destroy(1, 2, 3);
 await Flight.query().destroy([1, 2, 3]);
 ```
  
-#### Deleting Models Using Queries
+### Deleting Models Using Queries
 
 Of course, you may build an Sutando query to delete all models matching your query's criteria. In this example, we will delete all flights that are marked as inactive. Like mass updates, mass deletes will not dispatch model events for the models that are deleted:
 

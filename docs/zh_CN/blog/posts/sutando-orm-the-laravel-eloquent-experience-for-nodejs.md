@@ -8,7 +8,7 @@ mode: center
 ---
 
 
-![image](https://storage.sutando.org/og-1751395044936.jpg)
+<img src="https://storage.sutando.org/og-1751395044936.jpg" alt="" width="1200" height="630" loading="lazy" />
 
 ---
 ## 你熟悉的 Active Record，现在来到了 JavaScript {#你熟悉的-active-record-现在来到了-javascript}

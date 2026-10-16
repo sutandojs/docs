@@ -1,3 +1,7 @@
+---
+description: "Sutando 返回的所有结果集都是 Collection 实例，继承自 collect.js 集合，因此可以像操作数组一样遍历模型集合，并用数十种方法链式处理数据。"
+---
+
 # 集合
 
 Sutando 模型返回的所有结果集都是 `Collection` 对象的实例，包括通过 `get` 方法检索或通过访问关联关系获取到的结果。 Sutando 的集合对象继承了 [collect.js](https://collect.js.org/)， 因此它自然也继承了数十种能优雅地处理 Sutando 模型底层数组的方法。
@@ -51,7 +55,7 @@ const names = (await User.query().all()).reject(user => {
 - [toData](#todata) 
 - [toJson](#tojson) 
 
-#### contains(key, operator = null, value = null) {#contains-key-operator-null-value-null}
+### contains(key, operator = null, value = null) {#contains-key-operator-null-value-null}
 
 `contains` 方法可用于判断集合中是否包含指定的模型实例。这个方法接收一个主键或者模型实例：
 
@@ -62,7 +66,7 @@ const user = await User.query().find(1);
 users.contains(user);
 ```
 
-#### diff(items) {#diff-items}
+### diff(items) {#diff-items}
 
 `diff` 方法返回不在给定集合中的所有模型：
 
@@ -71,7 +75,7 @@ const otherUsers = await User.query().whereIn('id', [1, 2, 3]).get()
 const diffUsers = users.diff(otherUsers);
 ```
 
-#### except(keys) {#except-keys}
+### except(keys) {#except-keys}
 
 `except` 方法返回给定主键外的所有模型：
 
@@ -79,7 +83,7 @@ const diffUsers = users.diff(otherUsers);
 const exceptUsers = users.except([1, 2, 3]);
 ```
 
-#### find(key) {#find-key}
+### find(key) {#find-key}
 
 `find` 方法查找给定主键的模型。如果 `key` 是一个模型实例， `find` 将会尝试返回与主键匹配的模型。 如果 `key` 是一个关联数组， `find` 将返回所有数组主键匹配的模型:
 
@@ -89,7 +93,7 @@ const users = await User.query().all();
 const user = users.find(1);
 ```
 
-#### fresh(with = []) {#fresh-with}
+### fresh(with = []) {#fresh-with}
 
 `fresh` 方法用于从数据库中检索集合中每个模型的新实例。此外，还将加载任何指定的关联关系：
 
@@ -99,7 +103,7 @@ const newUsers = await users.fresh();
 const newUsers = await users.fresh('comments');
 ```
 
-#### intersect(items) {#intersect-items}
+### intersect(items) {#intersect-items}
 
 `intersect` 方法返回给定集合与当前模型的交集： 
 
@@ -108,7 +112,7 @@ const otherUsers = await User.query().whereIn('id', [1, 2, 3]).get();
 const newUsers = users.intersect(otherUsers);
 ```
 
-#### load(relations) {#load-relations}
+### load(relations) {#load-relations}
 
 `load` 方法为集合中的所有模型加载给定关联关系： 
 
@@ -118,7 +122,7 @@ await users.load(['comments', 'posts']);
 await users.load('comments.author');
 ```
 
-#### loadCount / loadMax / loadMin / loadSum / loadAvg {#loadcount-loadmax-loadmin-loadsum-loadavg}
+### loadCount / loadMax / loadMin / loadSum / loadAvg {#loadcount-loadmax-loadmin-loadsum-loadavg}
 
 ```ts
 await users.loadCount(['comments', 'posts']);
@@ -132,7 +136,7 @@ await users.loadSum('posts', 'vote');
 await users.loadAvg('posts', 'vote');
 ```
 
-#### modelKeys()
+### modelKeys()
 
 `modelKeys` 方法返回集合中所有模型的主键： 
 
@@ -142,7 +146,7 @@ users.modelKeys();
 // [1, 2, 3, 4, 5]
 ```
 
-#### makeVisible(attributes) {#makevisible-attributes}
+### makeVisible(attributes) {#makevisible-attributes}
 
 `makeVisible` 方法使模型上的隐藏属性可见： 
 
@@ -150,7 +154,7 @@ users.modelKeys();
 const newUsers = users.makeVisible(['address', 'phone_number']);
 ```
 
-#### makeHidden(attributes) {#makehidden-attributes}
+### makeHidden(attributes) {#makehidden-attributes}
 
 `makeHidden` 方法隐藏模型属性：
 
@@ -158,7 +162,7 @@ const newUsers = users.makeVisible(['address', 'phone_number']);
 const newUsers = users.makeHidden(['address', 'phone_number']);
 ```
 
-#### only(keys) {#only-keys}
+### only(keys) {#only-keys}
 
 `only` 方法返回具有给定主键的所有模型： 
 
@@ -166,7 +170,7 @@ const newUsers = users.makeHidden(['address', 'phone_number']);
 const newUsers = users.only([1, 2, 3]);
 ```
 
-#### toQuery()
+### toQuery()
 
 `toQuery` 方法返回一个查询生成器实例，该实例包含集合模型主键上的 whereIn 约束：
 
@@ -180,7 +184,7 @@ await users.toQuery().update([
 ]);
 ```
 
-#### unique(key = null, strict = false) {#unique-key-null-strict-false}
+### unique(key = null, strict = false) {#unique-key-null-strict-false}
 
 `unique` 方法返回集合中所有不重复的模型，若模型在集合中存在相同类型且相同主键的另一模型，该模型将被删除。
 
@@ -188,7 +192,7 @@ await users.toQuery().update([
 const newUsers = users.unique();
 ```
 
-#### toData()
+### toData()
 
 ```ts
 const users = await User.query().all();
@@ -196,7 +200,7 @@ const users = await User.query().all();
 return users.toData();
 ```
 
-#### toJson()
+### toJson()
 
 ```ts
 const users = await User.query().all();

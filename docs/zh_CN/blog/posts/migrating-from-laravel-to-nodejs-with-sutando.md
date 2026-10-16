@@ -8,7 +8,7 @@ mode: center
 ---
 
 
-![image](https://storage.sutando.org/og-1751395044936.jpg)
+<img src="https://storage.sutando.org/og-1751395044936.jpg" alt="" width="1200" height="630" loading="lazy" />
 
 ---
 如果你是 Laravel 开发者，考虑转向 Node.js，最大的顾虑通常是离开 Eloquent。有了 Sutando，你不必放弃。本指南将带你逐步迁移 Laravel 应用到 Node.js，将 Eloquent 的每个概念映射到 Sutando。

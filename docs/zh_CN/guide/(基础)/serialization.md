@@ -1,3 +1,7 @@
+---
+description: "将模型与关联转换为数组或 JSON，并通过 hidden、visible 等属性控制序列化时包含哪些字段，便于构建干净、稳定的 API 响应。"
+---
+
 # 序列化
 
 构建 JSON API 时，经常需要把模型和关联转化为对象或 JSON。针对这些操作，Sutando 提供了一些便捷方法，以及对序列化中的属性控制。 
@@ -91,7 +95,7 @@ class User extends Model {
 }
 ```
 
-#### 临时修改可见属性
+### 临时修改可见属性
 
 如果你想要在一个模型实例中显示隐藏的属性，你可以使用 `makeVisible` 方法。`makeVisible` 方法返回模型实例： 
 
@@ -145,7 +149,7 @@ class User extends Model {
 
 使用 `appends` 方法追加属性后，它将包含在模型的对象和 JSON 中。`appends` 数组中的属性也将遵循模型上配置的 `visible` 和 `hidden` 设置。
 
-#### 运行时追加
+### 运行时追加
 
 你可以在单个模型实例上使用 `append` 方法来追加属性。或者，使用 `setAppends` 方法来重写整个追加属性的数组： 
 

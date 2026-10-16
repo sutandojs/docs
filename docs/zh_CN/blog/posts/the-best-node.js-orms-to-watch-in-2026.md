@@ -8,7 +8,7 @@ mode: center
 ---
 
 
-![image](https://storage.sutando.org/og-1751395044936.jpg)
+<img src="https://storage.sutando.org/og-1751395044936.jpg" alt="" width="1200" height="630" loading="lazy" />
 
 ---
 2026 年的 Node.js 生态比以往任何时候都更快、更精简。随着 **边缘运行时**（Cloudflare Workers、Vercel Edge）的全面普及以及 **Bun** 成长为生产级运行时，我们与数据库交互的方式已经发生了根本性的变化。

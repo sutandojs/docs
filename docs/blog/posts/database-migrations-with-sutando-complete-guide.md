@@ -8,7 +8,7 @@ mode: center
 ---
 
 
-![image](https://storage.sutando.org/og-1751395044936.jpg)
+<img src="https://storage.sutando.org/og-1751395044936.jpg" alt="" width="1200" height="630" loading="lazy" />
 
 ---
 Database migrations are version control for your schema. Sutando includes a powerful schema builder that lets you create and modify tables programmatically. This guide covers everything from creating your first table to running migrations in production.

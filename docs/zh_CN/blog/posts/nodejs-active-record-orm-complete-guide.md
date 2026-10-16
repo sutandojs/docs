@@ -8,7 +8,7 @@ mode: center
 ---
 
 
-![image](https://storage.sutando.org/og-1751395044936.jpg)
+<img src="https://storage.sutando.org/og-1751395044936.jpg" alt="" width="1200" height="630" loading="lazy" />
 
 ---
 Active Record 是最直观的数据库交互模式之一。如果你用过 Laravel 的 Eloquent 或 Ruby on Rails，你就已经知道它有多高效。在本指南中，我们将探讨什么是 Active Record、它与其他 ORM 模式的区别，以及如何在 Node.js 中使用 Sutando 来实践这一模式。

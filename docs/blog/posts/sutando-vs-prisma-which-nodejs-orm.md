@@ -8,7 +8,7 @@ mode: center
 ---
 
 
-![image](https://storage.sutando.org/og-1751395044936.jpg)
+<img src="https://storage.sutando.org/og-1751395044936.jpg" alt="" width="1200" height="630" loading="lazy" />
 
 ---
 Prisma is the most popular ORM in the Node.js ecosystem. But popularity doesn't mean it's the right choice for every project. In this comparison, we'll look at where Sutando and Prisma differ, and help you decide which one fits your needs.

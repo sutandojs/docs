@@ -8,7 +8,7 @@ mode: center
 ---
 
 
-![image](https://storage.sutando.org/og-1751395044936.jpg)
+<img src="https://storage.sutando.org/og-1751395044936.jpg" alt="" width="1200" height="630" loading="lazy" />
 
 ---
 Drizzle ORM has become the go-to choice for developers who want SQL-level control with TypeScript type safety. Sutando takes the opposite approach — bringing Active Record elegance to Node.js. Let's compare them head-to-head.

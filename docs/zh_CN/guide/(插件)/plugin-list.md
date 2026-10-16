@@ -1,3 +1,7 @@
+---
+description: "Sutando 官方插件列表：SoftDeletes 提供软删除，HasUniqueIds 让模型使用字符串主键，以及更多可选的扩展功能与第三方插件。"
+---
+
 # 插件列表
 
 ## 自带插件

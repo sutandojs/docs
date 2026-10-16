@@ -1,0 +1,20 @@
+{
+  // Cloudflare Workers static assets, built by Workers Builds from this repo.
+  // The dashboard should have: build command `pnpm build`, deploy command
+  // `npx wrangler deploy`. Rename `name` if the Worker already has one.
+  "name": "sutando-org",
+  "compatibility_date": "2026-10-17",
+  "assets": {
+    "directory": "./dist",
+    // Every page is `<route>/index.html` and Blume's canonical tags, sitemap and
+    // internal links all point at `/route`. The default (auto-trailing-slash)
+    // would 308 each of those to `/route/`, leaving the served URL and the
+    // canonical disagreeing; this serves them as written.
+    "html_handling": "drop-trailing-slash",
+    // Serve Blume's dist/404.html instead of a bare Cloudflare 404.
+    "not_found_handling": "404-page"
+  },
+  "build": {
+    "command": "pnpm build"
+  }
+}

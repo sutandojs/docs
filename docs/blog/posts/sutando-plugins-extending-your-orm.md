@@ -8,7 +8,7 @@ mode: center
 ---
 
 
-![image](https://storage.sutando.org/og-1751395044936.jpg)
+<img src="https://storage.sutando.org/og-1751395044936.jpg" alt="" width="1200" height="630" loading="lazy" />
 
 ---
 Sutando is designed to be extensible. Whether you need custom cast types, global query modifications, or reusable model behaviors, Sutando's plugin system has you covered.

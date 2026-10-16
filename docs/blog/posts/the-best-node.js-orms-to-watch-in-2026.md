@@ -8,7 +8,7 @@ mode: center
 ---
 
 
-![image](https://storage.sutando.org/og-1751395044936.jpg)
+<img src="https://storage.sutando.org/og-1751395044936.jpg" alt="" width="1200" height="630" loading="lazy" />
 
 ---
 The Node.js ecosystem in 2026 is faster and leaner than ever. With the total dominance of **Edge Runtimes** (Cloudflare Workers, Vercel Edge) and the rise of **Bun** as a production-grade runtime, the way we interact with databases has fundamentally shifted. 
