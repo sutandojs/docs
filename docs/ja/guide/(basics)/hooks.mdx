@@ -1,0 +1,73 @@
+---
+description: "creating、created、updating、saved、deleting、restoring、forceDeleted などのイベントで、モデルのライフサイクルにフックできます。"
+---
+
+# フック
+
+Sutando のモデルはいくつかのイベントを発行し、モデルのライフサイクルにおける次のタイミングにフックできます：`creating`、`created`、`updating`、`updated`、`saving`、`saved`、`deleting`、`deleted`、`restoring`、`restored`、`trashed`、`forceDeleting`、`forceDeleted`。
+
+`-ing` で終わるイベント名はモデルへの変更が永続化される前に発行され、`-ed` で終わるイベントはモデルへの変更が永続化された後に発行されます。
+
+## 利用可能なフック
+
+|  フック  |  説明  |
+|  ----  | ----  |
+|  `creating`, `created`  |  新しいモデルが最初に保存されるとき  |
+|  `updating`, `updated`  |  既存のモデルが変更され、`save` メソッドが呼び出されたとき  |
+|  `saving`, `saved`  |  モデルが作成または更新されたとき - モデルの属性が変更されていない場合でも  |
+|  `deleting`, `deleted`  |  モデルが削除されたとき（ソフトデリートを含む）  |
+|  `restoring`, `restored`  |  モデルが復元されたとき  |
+|  `trashed`  |  モデルがソフトデリートされたとき  |
+|  `forceDeleteing`, `forceDeleted`  |  モデルが完全に削除されたとき  |
+
+:::tip
+Sutando を通じて一括更新や一括削除のクエリを発行する場合、影響を受けるモデルに対して `saved`、`updated`、`deleting`、`deleted` のモデルイベントは発行されません。これは、一括更新や一括削除を実行する際にモデルが実際には取得されないためです。
+:::
+
+## フックの宣言
+
+現在、プログラムからフックを追加する方法は 2 つあります：
+
+```ts
+class User extends Model {}
+
+User.creating(user => {
+  //
+});
+```
+
+```ts
+class User {
+  static booted() {
+    this.creating(user => {
+      //
+    });
+
+    this.created(user => {
+      //
+    });
+  }
+}
+```
+
+## フックとトランザクション
+
+```ts
+User.deleted(async (user, { client }) => {
+  const query = user.related('posts');
+
+  if (client) {
+    query.transacting(client);
+  }
+
+  await query.delete();
+});
+
+const trx = await sutando.beginTransaction();
+
+await user.delete({
+  client: trx
+});
+
+await trx.commit();
+```

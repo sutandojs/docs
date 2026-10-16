@@ -1,0 +1,289 @@
+---
+description: "アクセサとミューテーターは、モデルの属性を取得・設定するときにその値を変換します。日付や JSON、カスタムクラスへのキャストも説明します。"
+---
+
+# ミューテーター & キャスト [#mutators-casting]
+
+アクセサとミューテーターを使うと、モデルインスタンスの Sutando 属性値を取得または設定するときに、その値を変換できます。
+
+## アクセサ & ミューテーター [#accessors-mutators]
+
+### アクセサの定義
+
+アクセサを定義するには、アクセス可能な属性を表す camelCase 名の `attribute{Attribute}` メソッドをモデルに作成します。このメソッド名は、実際の基になるモデル属性 / データベースフィールドの表現に対応します。
+
+この例では、`first_name` 属性のアクセサを定義します。`first_name` 属性の値を取得しようとすると、Sutando は自動的にこのアクセサを呼び出します。
+
+```ts
+import { Model, Attribute } from 'sutando';
+
+class User extends Model {
+  attributeFirstName() {
+    return Attribute.make({
+      get: value => value.toUpperCase()
+    })
+  }
+}
+```
+
+すべてのアクセサメソッドは、属性へのアクセス方法と属性の変更方法を定義した `Attribute` インスタンスを返します。この例では、属性にアクセスする方法だけを定義しています。そのために、`Attribute` クラスのコンストラクタに `get` パラメータを渡しています。
+
+ご覧のとおり、カラムの元の値がアクセサに渡されるため、値を操作して返すことができます。アクセサの値にアクセスするには、モデルインスタンスの `first_name` 属性にアクセスするだけです。
+
+```ts
+const user = await User.query().find(1);
+ 
+const firstName = user.first_name;
+```
+
+:::tip
+これらの計算値をモデルの Object / JSON 表現に追加したい場合は、[それらを追加する必要があります](serialization#appending-values-to-json)。
+:::
+
+アクセサが複数のモデル属性を単一の「値オブジェクト」に変換する必要がある場合があります。そのためには、get クロージャで `attributes` の第 2 引数を受け取ります。これは自動的にクロージャに渡され、モデルの現在のすべての属性を含むオブジェクトが入ります。
+
+```ts
+attributeFullName() {
+  return Attribute.make({
+    get: (value, attributes) => `${attributes.first_name} ${attributes.last_name}`
+  })
+}
+```
+
+### ミューテーターの定義
+
+ミューテーターを定義するには、属性を定義するときに `set` 引数を指定します。`first_name` 属性のミューテーターを定義しましょう。このミューテーターは、モデルの `first_name` 属性の値を設定しようとすると自動的に呼び出されます。
+
+```ts
+import { Model, Attribute } from 'sutando';
+
+class User extends Model {
+  attributeFirstName() {
+    return Attribute.make({
+      get: value => value.toUpperCase(),
+      set: value => value.toLocalLowerCase()
+    })
+  }
+}
+```
+
+ミューテーターは属性に設定されようとしている値を受け取り、値を操作して、その操作後の値を Sutando モデルの内部 `attributes` プロパティに設定できます。ミューテーターを使用するには、Sutando モデルの `first_name` 属性を設定するだけです。
+
+```ts
+const user = User.query().find(1);
+
+user.first_name = 'Sally';
+```
+
+この例では、`set` コールバックが値 `Sally` で呼び出されます。ミューテーターはその名前に対して `toLocalLowerCase` 関数を適用し、その結果の値をモデルの内部 `attributes` に設定します。
+
+#### 複数の属性をミューテートする
+
+ミューテーターが基になるモデルの複数の属性を設定する必要がある場合があります。そのためには、`set` クロージャからオブジェクトを返します。オブジェクトの各キーは、モデルに関連付けられた基になる属性 / データベースカラムに対応している必要があります。
+
+```ts
+attributeFullName() {
+  return Attribute.make({
+    get: (value, attributes) => `${attributes.first_name} ${attributes.last_name}`,
+    set: (value) => ({
+      first_name: value.split(' ')[0],
+      last_name: value.split(' ')[1],
+    }),
+  });
+}
+```
+
+## 属性キャスト
+
+属性キャストは、モデルに追加のメソッドを定義することなく、アクセサやミューテーターと同様の機能を提供します。代わりに、モデルの `casts` プロパティが、属性を一般的なデータ型に変換する便利な方法を提供します。
+
+`casts` プロパティは、キーがキャストする属性の名前、値がカラムをキャストしたい型であるオブジェクトにします。サポートされているキャスト型は次のとおりです。
+
+- `integer` `int`
+- `float` `double`
+- `string`
+- `boolean` `bool`
+- `collection`
+- `date`
+- `datetime`
+- `json` `object`
+
+属性キャストを説明するために、データベースに整数（`0` または `1`）として格納されている `is_admin` 属性をブール値にキャストしてみましょう。
+
+```ts
+import { Model } from 'sutando';
+
+class User extends Model {
+  // The attributes that should be cast.
+  casts = {
+    is_admin: 'boolean',
+  };
+}
+```
+
+キャストを定義すると、基になる値がデータベースに整数として格納されていても、アクセスするたびに `is_admin` 属性は常にブール値にキャストされます。
+
+```ts
+const user = await User.query().find(1);
+
+if (user.is_admin) {
+  // ...
+}
+```
+
+:::tip
+リレーションと同じ名前のキャスト（または属性）を定義したり、モデルの主キーにキャストを割り当てたりしないでください。
+:::
+
+### JSON キャスト
+
+json キャストは、シリアライズされた `JSON` として格納されたカラムを扱うときに特に便利です。たとえば、データベースにシリアライズされた JSON を含む `JSON` または `TEXT` フィールド型がある場合、その属性に json キャストを追加すると、モデルでその属性にアクセスしたときに自動的にデシリアライズされます。
+
+```ts
+import { Model } from 'sutando';
+
+class User extends Model {
+    // The attributes that should be cast.
+    casts = {
+      options: 'json',
+    };
+}
+```
+
+キャストを定義すると、`options` 属性にアクセスでき、`JSON` からオブジェクトに自動的にデシリアライズされます。`options` 属性の値を設定すると、指定したオブジェクトは自動的に JSON にシリアライズされて格納されます。
+
+```ts
+import { Model } from 'sutando';
+
+const user = await User.query().find(1);
+
+const options = user.options;
+
+options.key = value;
+
+user.options = options;
+
+await user.save();
+```
+
+:::tip
+属性自体を直接変更してもモデルデータを更新することはできないため、次の使い方は正しくありません。
+
+```ts
+const user = await User.query().find(1);
+
+user.options.key = value;
+```
+:::
+
+### 日付キャスト
+
+デフォルトでは、Sutando は `created_at` と `updated_at` カラムを `Date` のインスタンスにキャストします。モデルの `casts` プロパティに追加の日付キャストを定義することで、さらに日付属性をキャストできます。通常、日付は `datetime` キャスト型を使用してキャストする必要があります。
+
+`date` または `datetime` キャストを定義するときは、日付のフォーマットも指定できます。このフォーマットは[モデルがオブジェクトまたは JSON にシリアライズされるとき](serialization)に使用されます。
+
+```ts
+casts = {
+  created_at: 'datetime:YYYY-MM-DD',
+};
+```
+
+モデルに `serializeDate` メソッドを定義することで、すべてのモデル日付のデフォルトのシリアライズフォーマットをカスタマイズできます。このメソッドは、データベースに格納するときの日付のフォーマットには影響しません。
+
+```ts
+import dayjs from 'dayjs';
+
+class User extends Model {
+  serializeDate(date) {
+    return dayjs(date).format('YYYY-MM-DD');
+  }
+}
+```
+
+データベース内でモデルの日付を実際に格納するときに使用するフォーマットを指定するには、モデルに `dateFormat` プロパティを定義する必要があります。
+
+```ts
+class User extends Model {
+  dateFormat = 'X'
+}
+```
+
+利用可能なすべてのフォーマットの一覧
+
+| フォーマット | 出力           | 説明                           |
+| ------ | ---------------- | ------------------------------------- |
+| `YY`   | 18               | 2 桁の年                        |
+| `YYYY` | 2018             | 4 桁の年                       |
+| `M`    | 1-12             | 月（1 から始まる）             |
+| `MM`   | 01-12            | 月（2 桁）                   |
+| `MMM`  | Jan-Dec          | 月名の略称            |
+| `MMMM` | January-December | 月名の完全な名称                   |
+| `D`    | 1-31             | 月の日                 |
+| `DD`   | 01-31            | 月の日（2 桁）        |
+| `d`    | 0-6              | 曜日（日曜日を 0 とする） |
+| `dd`   | Su-Sa            | 曜日の最小名   |
+| `ddd`  | Sun-Sat          | 曜日の短縮名 |
+| `dddd` | Sunday-Saturday  | 曜日の名前       |
+| `H`    | 0-23             | 時                              |
+| `HH`   | 00-23            | 時（2 桁）                    |
+| `h`    | 1-12             | 時（12 時間制）               |
+| `hh`   | 01-12            | 時（12 時間制、2 桁）     |
+| `m`    | 0-59             | 分                            |
+| `mm`   | 00-59            | 分（2 桁）                  |
+| `s`    | 0-59             | 秒                            |
+| `ss`   | 00-59            | 秒（2 桁）                  |
+| `SSS`  | 000-999          | ミリ秒（3 桁）             |
+| `Z`    | +05:00           | UTC からのオフセット、±HH:mm           |
+| `ZZ`   | +0500            | UTC からのオフセット、±HHmm            |
+| `A`    | AM PM            |                                       |
+| `a`    | am pm            |                                       |
+| `Q`    | 1-4              | 四半期                               |
+| `Do`   | 1st 2nd ... 31st | 序数付きの月の日             |
+| `k`    | 1-24             | 時（1 から始まる）              |
+| `kk`   | 01-24            | 時（2 桁、1 から始まる）    |
+| `X`    | 1360013296       | 秒単位の Unix タイムスタンプ              |
+| `x`    | 1360013296123    | ミリ秒単位の Unix タイムスタンプ         |
+
+#### 日付キャスト、シリアライズ、& タイムゾーン [#date-casting-serialization-timezones]
+
+デフォルトでは、`date` と `datetime` キャストは、アプリケーションのタイムゾーン設定オプションで指定されたタイムゾーンに関係なく、日付を UTC の ISO-8601 日付文字列（2012-12-12T12:25:36.000000Z）にシリアライズします。
+
+`datetime:YYYYY-MM-DD HH:mm:ss` のように `date` または `datetime` キャストにカスタムフォーマットを適用した場合、日付のシリアライズ中に UTC タイムゾーンが使用されます。
+
+### カスタムキャスト
+
+Sutando にはさまざまな便利な組み込みキャスト型がありますが、独自のキャスト型を定義する必要がある場合もあります。すべてのカスタムキャストクラスは `CastsAttributes` を継承します。このインターフェースを実装するクラスは `get` と `set` メソッドを定義する必要があります。`get` メソッドはデータベースからの生の値をキャスト値に変換する役割を担い、`set` メソッドはキャスト値をデータベースに格納できる生の値に変換します。例として、組み込みの `json` キャスト型をカスタムキャスト型として再実装します。
+
+```ts
+// casts/json.js
+import { Model, CastsAttributes } from 'sutando';
+
+class Json extends CastsAttributes {
+  // Cast the given value.
+  static get(model, key, value, attributes) {
+    try {
+      return JSON.parse(value);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // Prepare the given value for storage.
+  static set(model, key, value, attributes) {
+    return JSON.stringify(value);
+  }
+}
+```
+
+カスタムキャスト型を定義したら、そのクラスを使用してモデル属性にアタッチできます。
+
+```ts
+import Json from './casts/json';
+
+class User extends Model {
+  // The attributes that should be cast.
+  casts = {
+    options: Json,
+  };
+}
+```

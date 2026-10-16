@@ -1,0 +1,661 @@
+---
+description: "Sutando のモデルは Active Record パターンに基づき、各データベーステーブルに対応するモデルクラスがレコードの読み書きとリレーションを担います。"
+---
+
+# モデル
+
+Sutando には、Active Record パターンの上に構築されたデータモデルがあります。
+
+Sutando のデータモデル層を使うと、CRUD 操作の実行やモデル間のリレーションの管理がとても簡単になります。
+
+モデルを幅広く使い、特定のユースケースでは標準のクエリビルダを使うことをお勧めします。
+
+## 最初のモデルを作成する
+
+基本的なモデルクラスを見ながら、Sutando の重要な規約をいくつか説明します：
+
+```ts
+import { Model } from 'sutando';
+
+class Flight extends Model {
+  //
+}
+```
+
+### テーブル名
+
+上の例を見て、Sutando にどのデータベーステーブルが `Flight` モデルに対応するのかを伝えていないことに気づいたかもしれません。別の名前を明示的に指定しない限り、規約によりクラス名の「スネークケース」の複数形がテーブル名として使われます。したがってこの場合、Sutando は `Flight` モデルが `flights` テーブルにレコードを保存するとみなし、`AirTrafficController` モデルは `air_traffic_controllers` テーブルにレコードを保存するとみなします。
+
+モデルに対応するデータベーステーブルがこの規約に当てはまらない場合は、モデルに table プロパティを定義して手動でテーブル名を指定できます：
+
+```ts
+import { Model } from 'sutando';
+
+class Flight extends Model {
+  // The table associated with the model.
+  table = 'my_flights';
+}
+```
+
+### 主キー
+
+Sutando は、各モデルに対応するデータベーステーブルに `id` という名前の主キー列があることも想定します。必要であれば、モデルに `primaryKey` プロパティを定義して、モデルの主キーとして機能する別の列を指定できます：
+
+```ts
+import { Model } from 'sutando';
+
+class Flight extends Model {
+  // The primary key associated with the table.
+  primaryKey = 'flight_id';
+}
+```
+
+自動インクリメントされない主キーや数値以外の主キーを使いたい場合は、モデルに `incrementing` プロパティを定義して false に設定する必要があります：
+
+```ts
+class Flight extends Model {
+  // Indicates if the model's ID is auto-incrementing.
+  incrementing = false;
+}
+```
+
+モデルの主キーが整数でない場合は、モデルに `keyType` プロパティを定義する必要があります。このプロパティには文字列の値を設定します：
+
+```ts
+class Flight extends Model {
+  // The data type of the auto-incrementing ID.
+  keyType = 'string';
+}
+```
+
+### UUID と文字列キー [#uuid-string-keys]
+
+自動インクリメントされる整数の代わりに、文字列をモデルの主キーとして使うこともできます。たとえば、モデルに `newUniqueId` メソッドを定義して UUID を主キーとして使います：
+
+
+<CodeGroup>
+
+```sh [npm]
+$ npm install uuid --save
+```
+
+```sh [yarn]
+$ yarn add uuid
+```
+
+```sh [pnpm]
+$ pnpm add uuid
+```
+
+</CodeGroup>
+
+
+```ts
+
+import { Model, compose, HasUniqueIds } from 'sutando';
+import uuid from 'uuid';
+
+class Article extends compose(Model, HasUniqueIds) {
+  newUniqueId() {
+    return uuid.v4();
+  }
+
+  // ...
+}
+
+const article = await Article.create({
+  title: 'Traveling to Europe'
+});
+
+article.id; // "8f8e8478-9035-4d23-b9a7-62f4d2612ce5"
+```
+
+
+### タイムスタンプ
+
+デフォルトでは、Sutando はモデルに対応するデータベーステーブルに `created_at` と `updated_at` 列が存在することを想定します。Sutando はモデルの作成時や更新時にこれらの列の値を自動的に設定します。これらの列を Sutando に自動管理させたくない場合は、モデルに `timestamps` プロパティを定義して false に設定します：
+
+```ts
+import { Model } from 'sutando';
+
+class Flight extends Model {
+  // Indicates if the model should be timestamped.
+  timestamps = false;
+}
+```
+
+{/* If you need to customize the format of your model's timestamps, set the `dateFormat` property on your model. This property determines how date attributes are stored in the database as well as their format when the model is serialized to an array or JSON:
+
+```ts
+import { Model } from 'sutando';
+
+class Flight extends Model {
+  // The storage format of the model's date columns.
+  dateFormat = 'U';
+}
+``` */}
+
+タイムスタンプの保存に使用する列の名前をカスタマイズする必要がある場合は、モデルに `CREATED_AT` と `UPDATED_AT` プロパティを設定できます：
+
+```ts
+import { Model } from 'sutando';
+
+class Flight extends Model {
+  static CREATED_AT = 'creation_date';
+  static UPDATED_AT = 'updated_date';
+}
+```
+
+### データベース接続
+デフォルトでは、すべての Sutando モデルはアプリケーションに設定された `default` データベース接続を使用します。特定のモデルを扱うときに別の接続を指定したい場合は、モデルに `connection` プロパティを定義します：
+
+```ts
+import { Model } from 'sutando';
+
+class Flight extends Model {
+  connection = 'sqlite';
+}
+```
+
+### 属性のデフォルト値
+
+デフォルトでは、新しくインスタンス化されたモデルはどの属性値も持ちません。モデルの一部の属性にデフォルト値を定義したい場合は、モデルに `attributes` プロパティを定義できます。`attributes` に設定する属性値は、ちょうどデータベースから読み取ったばかりのような raw な「保存可能」形式である必要があります：
+
+```ts
+import { Model } from 'sutando';
+
+class Flight extends Model {
+  attributes = {
+    options: '[]',
+    delayed: false,
+  };
+}
+```
+
+## モデルの取得
+
+モデルとそれに対応するデータベーステーブルを作成したら、データベースからデータを取得できます。各 Sutando モデルは、モデルに対応するデータベーステーブルを流暢にクエリできる強力なクエリビルダと考えることができます。モデルの all メソッドは、モデルに対応するデータベーステーブルからすべてのレコードを取得します：
+
+```ts
+import { Flight } from './models';
+
+const flights = await Flight.query().all();
+
+flights.map(flight => {
+  console.log(flight.name)
+})
+```
+
+### クエリの構築
+
+Sutando の `all` メソッドはモデルのテーブルにあるすべての結果を返します。ただし、各 Sutando モデルはクエリビルダとして機能するため、クエリに追加の制約を加えてから `get`/`first`/`find` メソッドを呼び出して結果を取得できます：
+
+```ts
+const flights = await Flight.query().where('active', 1)
+  .orderBy('name')
+  .take(10)
+  .get();
+
+const flight = await Flight.query().where('active', 1).first();
+
+const flight = await Flight.query().find(5);
+```
+
+### モデルのリフレッシュ
+
+データベースから取得した Sutando モデルのインスタンスがすでにある場合、`fresh` と `refresh` メソッドを使ってモデルを「リフレッシュ」できます。`fresh` メソッドはデータベースからモデルを再取得します。既存のモデルインスタンスは影響を受けません：
+
+```ts
+const flight = await Flight.query().where('number', 'FR 900').first();
+ 
+const freshFlight = await flight.fresh();
+```
+
+`refresh` メソッドは、データベースからの新しいデータを使って既存のモデルを再ハイドレートします。さらに、ロード済みのすべてのリレーションもリフレッシュされます：
+
+```ts
+const flight = await Flight.query().where('number', 'FR 900').first();
+ 
+flight.number = 'FR 456';
+ 
+await flight.refresh();
+ 
+flight.number; // "FR 900"
+```
+
+### コレクション
+
+これまで見てきたように、`all` や `get` のような Sutando のメソッドはデータベースから複数のレコードを取得します。ただし、これらのメソッドは単なる配列を返しません。代わりに [Collection](collections) のインスタンスが返されます。
+
+Sutando の Collection クラスは [`collect.js`](https://collect.js.org/) クラスを継承しており、データコレクションを扱うための [variety of helpful methods](collections#available-methods) を提供します。たとえば、reject メソッドを使うと、呼び出したクロージャの結果に基づいてコレクションからモデルを削除できます：
+
+```ts
+const flights = await Flight.query().where('destination', 'Paris').get();
+ 
+const newFlights = flights.reject(flight => {
+  return flight.cancelled;
+});
+```
+
+`collect.js` の基本コレクションクラスが提供するメソッドに加えて、Sutando のコレクションクラスは Sutando モデルのコレクションを扱うために特別に用意された [a few extra methods](collections#available-methods) を提供します。
+
+すべての Sutando コレクションは Javascript の反復可能インターフェースを実装しているため、配列のようにコレクションをループできます：
+
+```ts
+for (let flight of flights) {
+  console.log(flight.name);
+}
+```
+
+### 結果の分割取得
+
+`all` や `get` メソッドで数万件の Sutando レコードをロードしようとすると、アプリケーションのメモリが不足する可能性があります。これらのメソッドを使う代わりに、`chunk` メソッドを使うと大量のモデルをより効率的に処理できます。
+
+`chunk` メソッドは Sutando モデルのサブセットを取得し、処理のためにクロージャに渡します。一度に取得するのは現在のチャンクの Sutando モデルだけなので、大量のモデルを扱うときに `chunk` メソッドはメモリ使用量を大幅に削減します：
+
+```ts
+import { Flight } from './models';
+ 
+await Flight.query().chunk(200, flights => {
+  flights.map(flight => {
+    //
+  });
+});
+```
+
+## 単一モデル / 集計の取得 [#retrieving-single-models-aggregates]
+
+指定したクエリに一致するすべてのレコードを取得するだけでなく、`find` や `first` メソッドを使って単一のレコードを取得することもできます。これらのメソッドはモデルのコレクションではなく、単一のモデルインスタンスを返します：
+
+```ts
+import { Flight } from './modles';
+ 
+// Retrieve a model by its primary key...
+const flight = await Flight.query().find(1);
+ 
+// Retrieve the first model matching the query constraints...
+const flight = await Flight.query().where('active', 1).first();
+```
+
+### 見つからない場合のエラー
+
+モデルが見つからない場合に例外をスローしたいことがあります。これはルートやコントローラで特に便利です。`findOrFail` と `firstOrFail` メソッドはクエリの最初の結果を取得しますが、結果が見つからない場合は `ModelNotFoundError` がスローされます：
+
+```ts
+const { ModelNotFoundError } = requre('sutando');
+
+try {
+  const flight = await Flight.query().findOrFail(1);
+  const flight = await Flight.query().where('legs', '>', 3).firstOrFail();
+} catch (e) {
+  e instanceof ModelNotFoundError;
+}
+```
+
+フレームワークが `ModelNotFoundError` を捕捉すると、404 HTTP レスポンスを自動的にクライアントに返すことができます：
+
+```ts
+import express from 'express';
+const app = express();
+import 'express-async-errors';
+const { ModelNotFoundError } = requre('sutando');
+
+app.get('/users/:id', async (req, res) => {
+  const user = await User.query().findOrFail(req.params.id);
+
+  res.send(user);
+});
+
+app.use((err, req, res, next) => {
+  if (err instanceof ModelNotFoundError) {
+    return res.status(404).send(err.message);
+  }
+
+  next(err);
+});
+```
+
+### モデルの取得または作成
+
+`firstOrCreate` メソッドは、指定した列と値のペアを使ってデータベースのレコードを探そうとします。データベースでモデルが見つからない場合は、最初の配列引数と省略可能な 2 番目の配列引数をマージした属性を持つレコードが挿入されます：
+
+`firstOrNew` メソッドは `firstOrCreate` と同様に、指定した属性に一致するレコードをデータベースで探そうとします。ただし、モデルが見つからない場合は新しいモデルインスタンスが返されます。`firstOrNew` が返すモデルはまだデータベースに永続化されていないことに注意してください。永続化するには `save` メソッドを手動で呼び出す必要があります：
+
+```ts
+import { Flight } from './modles';
+ 
+// Retrieve flight by name or create it if it doesn't exist...
+const flight = await Flight.query().firstOrCreate({
+  name: 'London to Paris'
+});
+ 
+// Retrieve flight by name or create it with the name, delayed, and arrival_time attributes...
+const flight = await Flight.query().firstOrCreate(
+  { name: 'London to Paris' },
+  { delayed: 1, arrival_time: '11:30' }
+);
+ 
+// Retrieve flight by name or instantiate a new Flight instance...
+const flight = await Flight.query().firstOrNew({
+  name: 'London to Paris'
+});
+ 
+// Retrieve flight by name or instantiate with the name, delayed, and arrival_time attributes...
+const flight = await Flight.query().firstOrNew(
+  { name: 'Tokyo to Sydney' },
+  { delayed: 1, arrival_time: '11:30' }
+);
+```
+
+### 集計の取得
+
+Sutando モデルを扱うときには、[クエリビルダ](./query-builder#aggregates) が提供する `count`、`sum`、`max` などの集計メソッドも使用できます。ご想像のとおり、これらのメソッドは Sutando モデルインスタンスではなくスカラー値を返します：
+
+```ts
+const count = await Flight.query().where('active', 1).count(); // 100
+ 
+const max = await Flight.query().where('active', 1).max('price'); // 104
+
+const flight = await Flight.query().find(1); // flight instanceof Flight
+```
+
+## モデルの挿入と更新 [#inserting-updating-models]
+
+### 挿入
+
+もちろん、Sutando を使うときはデータベースからモデルを取得するだけではありません。新しいレコードを挿入する必要もあります。ありがたいことに、Sutando はこれを簡単にします。データベースに新しいレコードを挿入するには、新しいモデルインスタンスを生成してモデルに属性を設定します。そして、モデルインスタンスの `save` メソッドを呼び出します：
+
+```ts
+// express
+import { Flight } from './model';
+
+app.post('/flights', async (req, res) => {
+  // Validate the request...
+
+  const flight = new Flight;
+  flight.name = req.name;
+  await flight.save();
+
+  res.send(flight);
+});
+```
+
+この例では、受信した HTTP リクエストの name フィールドを `Flight` モデルインスタンスの `name` 属性に代入しています。`save` メソッドを呼び出すと、データベースにレコードが挿入されます。モデルの `created_at` と `updated_at` タイムスタンプは `save` メソッドの呼び出し時に自動的に設定されるため、手動で設定する必要はありません。
+
+あるいは、`create` メソッドを使って 1 つの Javascript 文で新しいモデルを「保存」できます。挿入されたモデルインスタンスは `create` メソッドから返されます：
+
+```ts
+import { Flight } from './model';
+
+const flight = await Flight.query().create({
+  name: 'London to Paris',
+});
+```
+
+### 更新
+
+`save` メソッドは、データベースにすでに存在するモデルを `update` するためにも使用できます。モデルを更新するには、モデルを取得して更新したい属性を設定します。そして、モデルの save メソッドを呼び出します。ここでも `updated_at` タイムスタンプは自動的に更新されるため、手動で値を設定する必要はありません：
+
+```ts
+import { Flight } from './model';
+
+const flight = await Flight.query().find(1);
+flight.name = 'Paris to London';
+await flight.save();
+```
+
+#### 一括更新
+
+更新は、指定したクエリに一致するモデルに対しても実行できます。この例では、`active` で `destination` が `San Diego` であるすべてのフライトが遅延としてマークされます：
+
+```ts
+await Flight.query().where('active', 1)
+  .where('destination', 'San Diego')
+  .update({
+    delayed: 1,
+  });
+```
+
+`update` メソッドは、更新する列を表す列と値のペアの配列を期待します。`update` メソッドは影響を受けた行数を返します。
+
+:::tip
+一括更新を発行するとき、更新されるモデルに対して `saving`、`saved`、`updating`、`updated` モデルイベントは発火しません。これは、一括更新を発行するときにはモデルが実際には取得されないためです。
+:::
+
+#### 属性の変更を調べる
+
+Sutando は `isDirty` メソッドを提供しており、モデルの内部状態を調べて、モデルを最初に取得したときから属性がどのように変化したかを判定できます。
+
+`isDirty` メソッドは、モデルを取得してからモデルの属性が変更されたかどうかを判定します。`isDirty` メソッドに特定の属性名や属性の配列を渡して、いずれかの属性が「ダーティ」かどうかを判定できます。このメソッドは省略可能な属性引数も受け取ります：
+
+```ts
+import { Flight } from './model';
+
+const user = await User.query().create({
+  first_name: 'Taylor',
+  last_name: 'Otwell',
+  title: 'Developer',
+});
+ 
+user.title = 'Painter';
+ 
+user.isDirty(); // true
+user.isDirty('title'); // true
+user.isDirty('first_name'); // false
+user.isDirty(['first_name', 'title']); // true
+ 
+await user.save();
+ 
+user.isDirty(); // false
+```
+
+### アップサート
+
+既存のモデルを更新するか、一致するモデルが存在しない場合は新しいモデルを作成する必要があることがあります。`firstOrCreate` メソッドと同様に、`updateOrCreate` メソッドはモデルを永続化するため、手動で `save` メソッドを呼び出す必要はありません。
+
+以下の例では、departure が Oakland で destination が San Diego のフライトが存在する場合、その `price` と `discounted` 列が更新されます。そのようなフライトが存在しない場合は、最初の引数のオブジェクトと 2 番目の引数のオブジェクトをマージした属性を持つ新しいフライトが作成されます：
+
+```ts
+const flight = await Flight.query().updateOrCreate(
+  {
+    departure: 'Oakland',
+    destination: 'San Diego'
+  },
+  {
+    price: 99,
+    discounted: 1
+  }
+);
+```
+
+## モデルの削除
+
+モデルを削除するには、モデルインスタンスの `delete` メソッドを呼び出します：
+
+```ts
+import { Flight } from './models';
+
+const flight = await Flight.query().find(1);
+await flight.delete();
+```
+
+### 主キーによる既存モデルの削除
+
+上の例では、`delete` メソッドを呼び出す前にデータベースからモデルを取得しています。ただし、モデルの主キーがわかっている場合は、`destroy` メソッドを呼び出してモデルを明示的に取得せずに削除できます。`destroy` メソッドは単一の主キーに加えて、複数の主キー、主キーの配列、または主キーの `Collection` も受け取ります：
+
+```ts
+await Flight.query().destroy(1);
+ 
+await Flight.query().destroy(1, 2, 3);
+ 
+await Flight.query().destroy([1, 2, 3]);
+```
+ 
+### クエリを使ったモデルの削除
+
+もちろん、クエリの条件に一致するすべてのモデルを削除する Sutando クエリを構築できます。この例では、非アクティブとしてマークされているすべてのフライトを削除します。一括更新と同様に、一括削除では削除されるモデルのモデルイベントは発行されません：
+
+```ts
+const deleted = await Flight.query().where('active', 0).delete();
+```
+
+### ソフトデリート [#soft-deleting]
+
+データベースからレコードを実際に削除するだけでなく、Sutando はモデルを「ソフトデリート」することもできます。モデルがソフトデリートされたとき、それらはデータベースから実際に削除されるわけではありません。代わりに、モデルが「削除」された日時を示す `deleted_at` 属性がモデルに設定されます。モデルでソフトデリートを有効にするには、`SoftDeletes` プラグインを使い、対応するデータテーブルに `deleted_at` フィールドを追加します：
+
+```ts
+import { Model, compose, SoftDeletes } from 'sutando';
+
+class Flight extends compose(Model, SoftDeletes) {
+  // ...
+}
+```
+
+これで、モデルの `delete` メソッドを呼び出すと、`deleted_at` 列に現在の日時が設定されます。ただし、モデルのデータベースレコードはテーブルに残ります。ソフトデリートを使うモデルをクエリすると、ソフトデリートされたモデルはすべてのクエリ結果から自動的に除外されます。
+
+指定したモデルインスタンスがソフトデリートされているかどうかを判定するには、`trashed` メソッドを使用できます：
+
+```ts
+if (flight.trashed()) {
+  //
+}
+```
+
+#### ソフトデリートされたモデルの復元
+
+ソフトデリートされたモデルを「削除取り消し」したいことがあります。ソフトデリートされたモデルを復元するには、モデルインスタンスの `restore` メソッドを呼び出します。`restore` メソッドはモデルの deleted_at 列を null に設定します：
+
+```ts
+await flight.restore();
+```
+
+クエリで `restore` メソッドを使って複数のモデルを復元することもできます。繰り返しますが、他の「一括」操作と同様に、復元されるモデルのモデルイベントは発行されません：
+
+```ts
+await Flight.query().withTrashed()
+  .where('airline_id', 1)
+  .restore();
+```
+
+`restore` メソッドはリレーションのクエリを構築するときにも使用できます：
+
+```ts
+await flight.related('history').restore();
+```
+
+#### モデルの完全な削除
+
+データベースからモデルを本当に削除する必要があることがあります。`forceDelete` メソッドを使って、データベーステーブルからモデルを完全に削除できます：
+
+```ts
+await flight.forceDelete();
+```
+
+Sutando のリレーションクエリを構築するときにも `forceDelete` メソッドを使用できます：
+
+```ts
+await flight.related('history').forceDelete();
+```
+
+### ソフトデリートされたモデルのクエリ
+
+#### ソフトデリートされたモデルを含める
+
+前述のとおり、ソフトデリートされたモデルはクエリ結果から自動的に除外されます。ただし、クエリで `withTrashed` メソッドを呼び出すことで、ソフトデリートされたモデルをクエリの結果に含めることができます：
+
+```ts
+import { Flight } from './models';
+
+const flights = await Flight.query().withTrashed()
+  .where('account_id', 1)
+  .get();
+```
+
+`withTrashed` メソッドは、リレーションクエリを構築するときにも呼び出せます：
+
+```ts
+await flight.related('history').withTrashed().get();
+```
+
+#### ソフトデリートされたモデルのみを取得する
+
+`onlyTrashed` メソッドはソフトデリートされたモデルのみを取得します：
+
+```ts
+const flights = await Flight.query().onlyTrashed()
+  .where('airline_id', 1)
+  .get();
+```
+
+## クエリスコープ
+
+スコープを使うと、アプリケーション全体で簡単に再利用できる共通のクエリ制約のセットを定義できます。たとえば、「人気」とみなされるすべてのユーザーを頻繁に取得する必要があるかもしれません。スコープを定義するには、Sutando モデルのメソッド名に scope を付けます。
+
+スコープは常に同じクエリビルダインスタンスまたは void を返す必要があります：
+
+```ts
+import { Model } from './models';
+
+class User extends Model {
+  scopePopular(query){
+    return query.where('votes', '>', 100);
+  }
+
+  scopeActive(query){
+    query.where('active', 1);
+  }
+}
+```
+
+### スコープの使用
+
+スコープを定義したら、モデルをクエリするときにスコープメソッドを呼び出せます。ただし、メソッドを呼び出すときに `scope` プレフィックスを含めてはいけません。さまざまなスコープを連鎖して呼び出すこともできます：
+
+```ts
+import { User } from './models';
+
+const users = await User.query().popular().active().orderBy('created_at').get();
+```
+
+`or` クエリ演算子で複数の Sutando モデルスコープを組み合わせる場合、正しい論理グループ化を行うためにクロージャを使う必要があることがあります：
+
+```ts
+const users = await User.query().popular().orWhere(query => {
+  query.active();
+}).get();
+```
+
+### 動的スコープ
+
+パラメータを受け取るスコープを定義したいことがあります。まず、追加のパラメータをスコープメソッドのシグネチャに追加するだけです。スコープのパラメータは `query` パラメータの後に定義する必要があります：
+
+
+```ts
+import { Model } from './models';
+
+class User extends Model {
+  scopeOfType(query, type){
+    return query.where('type', type);
+  }
+}
+```
+
+スコープメソッドのシグネチャに期待される引数を追加したら、スコープを呼び出すときに引数を渡せます：
+
+```ts
+const users = await User.query().ofType('admin').get();
+```
+
+## モデルの比較
+
+2 つのモデルが「同じ」かどうかを判定する必要があることがあります。`is` と `isNot` メソッドを使うと、2 つのモデルが同じ主キー、テーブル、データベース接続を持っているかどうかをすばやく検証できます：
+
+```ts
+if (post.is(anotherPost)) {
+  //
+}
+ 
+if (post.isNot(anotherPost)) {
+  //
+}
+```

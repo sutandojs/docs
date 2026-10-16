@@ -1,0 +1,75 @@
+---
+description: "Sutando をインストールし、最初のモデルを定義してクエリを実行します。モデル、レコードの取得、挿入、更新、削除を一通り見ていきます。"
+---
+
+# はじめに
+
+## Sutando とは
+
+Sutando は、データベースとのやり取りを楽しくするオブジェクトリレーショナルマッパー（ORM）です。Sutando を使用すると、各データベーステーブルには対応する「モデル」があり、そのテーブルとのやり取りに使用されます。Sutando のモデルでは、データベーステーブルからレコードを取得できるだけでなく、テーブルへのレコードの挿入、更新、削除も行えます。
+
+Sutando は [Eloquent](https://laravel.com/docs/9.x/eloquent) から大きな影響を受けており、その動作はほとんど同じです。
+
+「sutando」という名前は、日本の漫画『ジョジョの奇妙な冒険』に登場する概念であるスタンドに由来します。スタンドがキャラクターに力を与えるように、Sutando が皆さんのアプリケーションに強力な機能と柔軟性をもたらすことを願っています。
+
+## クイックスタート
+
+Sutando と mysql データベースライブラリをインストールします
+
+
+
+<CodeGroup>
+
+```sh [npm]
+$ npm install sutando mysql2 --save
+```
+
+```sh [yarn]
+$ yarn add sutando mysql2
+```
+
+```sh [pnpm]
+$ pnpm add sutando mysql2
+```
+
+</CodeGroup>
+
+
+
+SQL クエリを実行する最も簡単な方法は、データベースクエリビルダを使用することです。JavaScript のメソッドを使って、シンプルな SQL クエリから複雑な SQL クエリまで構築できます。
+
+次の例では、users テーブルからすべての投稿を選択します。
+
+```ts
+import { sutando, Model } from 'sutando';
+
+// Add SQL Connection Info
+sutando.addConnection({
+  client: 'mysql2',
+  connection: {
+    host : '127.0.0.1',
+    port : 3306,
+    user : 'root',
+    password : '',
+    database : 'test'
+  },
+});
+
+const db = sutando.connection();
+
+// Using The Query Builder
+const users = await sutando.table('users').where('votes', '>', 100).get();
+// or
+const users = await db.table('users').where('votes', '>', 100).get();
+
+// Using The Schema Builder
+await sutando.schema().createTable('users', table => {
+  table.increments('id').primary();
+  table.integer('votes');
+  table.timestamps();
+});
+
+// Using The ORM
+class User extends Model {}
+const users = await User.query().where('votes', '>', 100).get();
+```

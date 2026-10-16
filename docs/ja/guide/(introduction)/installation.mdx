@@ -1,0 +1,158 @@
+---
+description: "sutando とデータベースドライバ（PostgreSQL は pg または pg-native、MySQL は mysql、SQLite3 は sqlite3、MSSQL は tedious）のインストール手順です。"
+---
+
+# インストール
+
+Sutando の主な対象環境は Node.js です。sutando ライブラリをインストールし、続いて使用するデータベースに応じたライブラリをインストールする必要があります：PostgreSQL、CockroachDB、Amazon Redshift には `pg`、ネイティブ C++ の `libpq` バインディングを使う PostgreSQL には `pg-native`（リンクするために PostgreSQL のインストールが必要）、MySQL または MariaDB には `mysql`、SQLite3 には `sqlite3`、MSSQL には `tedious` です。
+
+## インストール
+
+Sutando は npm（または yarn/pnpm）から利用できます。
+
+
+
+<CodeGroup>
+
+```sh [npm]
+$ npm install sutando --save
+```
+
+```sh [yarn]
+$ yarn add sutando
+```
+
+```sh [pnpm]
+$ pnpm add sutando
+```
+
+</CodeGroup>
+
+
+
+使用するデータベースに応じて、次のいずれかもインストールする必要があります：
+
+
+
+<CodeGroup>
+
+```sh [npm]
+$ npm install pg --save
+$ npm install sqlite3 --save
+$ npm install better-sqlite3 --save
+$ npm install mysql --save
+$ npm install mysql2 --save
+$ npm install tedious --save
+```
+
+```sh [yarn]
+$ yarn add pg
+$ yarn add sqlite3
+$ yarn add better-sqlite3
+$ yarn add mysql
+$ yarn add mysql2
+$ yarn add tedious
+```
+
+```sh [pnpm]
+$ pnpm add pg
+$ pnpm add sqlite3
+$ pnpm add better-sqlite3
+$ pnpm add mysql
+$ pnpm add mysql2
+$ pnpm add tedious
+```
+
+</CodeGroup>
+
+
+## 設定
+
+データベースに接続するには、接続を追加する必要があります。`client` パラメータは必須で、ライブラリと共に使用するクライアントアダプタを決定します。
+
+### MySQL
+
+```ts
+import { sutando } from './sutando';
+
+sutando.addConnection({
+  client: 'mysql2',
+  connection: {
+    host : '127.0.0.1',
+    port : 3306,
+    user : 'your_database_user',
+    password : 'your_database_password',
+    database : 'myapp_test'
+  },
+});
+
+// And you can add multiple connections, just specify the connection name.
+sutando.addConnection({
+  client: 'mysql2',
+  connection: {
+    host : '127.0.0.1',
+    port : 3306,
+    user : 'another_database_user',
+    password : 'another_database_password',
+    database : 'myapp_another'
+  },
+}, 'another_mysql');
+
+const db = sutando.connection('another_mysql');
+```
+
+接続オプションは接続を作成するために適切なデータベースクライアントへ直接渡され、オブジェクト、接続文字列、またはオブジェクトを返す関数のいずれかを指定できます：
+
+### SQLite3 or Better-SQLite3
+
+SQLite3 または Better-SQLite3 アダプタを使用する場合、ネットワーク接続ではなくファイル名が必要です。例えば：
+
+```ts
+sutando.addConnection({
+  client: 'sqlite3', // or 'better-sqlite3'
+  connection: {
+    filename: "./mydb.sqlite"
+  }
+});
+```
+
+ファイル名として `:memory:` を指定すると、SQLite3 または Better-SQLite3 をインメモリデータベースで実行することもできます。例えば：
+
+```ts
+sutando.addConnection({
+  client: 'sqlite3', // or 'better-sqlite3'
+  connection: {
+    filename: ":memory:"
+  }
+});
+```
+
+SQLite3 アダプタを使用する場合、接続を開く際に使用するフラグを設定できます。例えば：
+
+```ts
+sutando.addConnection({
+  client: 'sqlite3',
+  connection: {
+    filename: "file:memDb1?mode=memory&cache=shared",
+    flags: ['OPEN_URI', 'OPEN_SHAREDCACHE']
+  }
+});
+```
+
+### PostgreSQL
+
+PostgreSQL アダプタで非標準のデータベースに接続する場合は、sutando の設定でデータベースのバージョンを指定できます。
+
+```ts
+sutando.addConnection({
+  client: 'pg',
+  version: '7.2',
+  connection: {
+    host : '127.0.0.1',
+    port : 3306,
+    user : 'your_database_user',
+    password : 'your_database_password',
+    database : 'myapp_test'
+  }
+});
+```
