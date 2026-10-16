@@ -6,7 +6,7 @@ Sutando 内置了对基于偏移的分页的支持。 您可以通过链接 `pag
 
 ## 基本用法
 
-```js
+```ts
 const users = await db.table('users')
   .where('vote', '>', 1)
   .paginate(2, 15); // instanceof Paginator
@@ -32,7 +32,7 @@ users.map(user => {
 
 如果没有指定，每页行数默认为 15。如果使用模型，也可以通过设置 `perPage` 属性作为模型每页默认数量。
 
-```js
+```ts
 class Post extends Model {}
 class User extends Model {
   perPage = 20;
@@ -63,7 +63,7 @@ console.log(users.perPage()); // 20
 | `paginator.firstItem()` | 获取结果集中第一个数据的编号 |
 | `paginator.lastItem()` | 获取结果集中最后一个数据的编号 |
 
-## 序列化为对象/JSON
+## 序列化为对象/JSON {#序列化为对象-json}
 
 您还可以通过调用 `toData` 或 `toJson` 方法将分页器结果序列化为 Object/JSON。 它默认返回「蛇形命名」中的键名。 
 
@@ -89,8 +89,8 @@ console.log(users.perPage()); // 20
 
 您可以通过调用 `Paginator.setFormatter` 来覆盖默认的格式。
 
-```js
-const { Paginator } = require('sutando');
+```ts
+import { Paginator } from 'sutando';
 
 Paginator.setFormatter((paginator) => {
   return {
@@ -107,8 +107,9 @@ Paginator.setFormatter((paginator) => {
 
 分页器在转化为字符串的时候会转成 JSON， 因此可以在应用的路由或控制器中直接。你的 express/Koa 应用会自动序列化为 JSON：
 
-```js
-const app = require('express')();
+```ts
+import express from 'express';
+const app = express();
 
 app.get('/', async (req, res) => {
   const users = await User.query().paginate(req.query.page || 1);

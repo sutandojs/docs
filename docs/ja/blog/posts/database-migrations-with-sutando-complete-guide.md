@@ -129,4 +129,4 @@ await sutando.schema().createTable('comments', table => {
 
 Sutando のスキーマビルダーを使えば、データベースに依存しないマイグレーションを簡単に作成できます。バージョン管理とロールバック機能で、チーム開発でも安全にスキーマを管理できます。
 
-[ドキュメント](https://sutando.org/ja/guide/migrations.html) でさらに詳しく。
+[ドキュメント](https://sutando.org/ja/guide/migrations) でさらに詳しく。

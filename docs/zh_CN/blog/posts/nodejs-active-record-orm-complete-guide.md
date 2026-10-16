@@ -33,7 +33,7 @@ const user = await prisma.user.create({
 });
 ```
 
-### Active Record vs Data Mapper：哪个更好？
+### Active Record vs Data Mapper：哪个更好？ {#active-record-vs-data-mapper-哪个更好}
 
 没有绝对的"更好"，各有取舍：
 
@@ -47,13 +47,13 @@ const user = await prisma.user.create({
 
 对于大多数 Node.js 项目——尤其是 API、SaaS 产品和原型开发——Active Record 的简洁性是巨大优势。你写的代码更少，迭代更快，认知负担更低。
 
-## Node.js 中的 Active Record 实现
+## Node.js 中的 Active Record 实现 {#node-js-中的-active-record-实现}
 
 Node.js 生态有几个 Active Record 实现：
 
-### 1. Sutando ORM
+### 1. Sutando ORM {#_1-sutando-orm}
 
-[Sutando](https://sutando.org/zh_CN/guide/getting-started.html) 是 Laravel Eloquent 在 Node.js 中最忠实的移植。它支持 MySQL、PostgreSQL 和 SQLite，功能包括：
+[Sutando](https://sutando.org/zh_CN/guide/getting-started) 是 Laravel Eloquent 在 Node.js 中最忠实的移植。它支持 MySQL、PostgreSQL 和 SQLite，功能包括：
 
 - 流畅的查询构造器，支持 `where`、`orderBy`、`with`（预加载）
 - 模型关联：`hasMany`、`belongsTo`、`hasOne`、`morphTo`
@@ -84,11 +84,11 @@ await user.save();
 const user = await User.query().with('posts').find(1);
 ```
 
-### 2. AdonisJS Lucid
+### 2. AdonisJS Lucid {#_2-adonisjs-lucid}
 
 Lucid 是 AdonisJS 框架内置的 ORM，同样是 Active Record 风格，也受 Eloquent 启发。但它与 AdonisJS 生态紧密耦合——无法在独立的 Express 或 Fastify 项目中使用。
 
-### 3. TypeORM（Active Record 模式）
+### 3. TypeORM（Active Record 模式） {#_3-typeorm-active-record-模式}
 
 TypeORM 同时支持 Active Record 和 Data Mapper 两种模式。在 Active Record 模式下，模型继承 `BaseEntity`：
 
@@ -293,4 +293,4 @@ Post.deleting(async (post) => {
 
 Active Record 仍然是 Node.js 中最高产的数据库交互模式之一。通过 Sutando，你可以获得忠实的 Eloquent 风格体验——框架无关、轻量且直观。无论你是从 Laravel 迁移还是开始新的 Node.js 项目，Active Record + Sutando 都能让你专注于业务逻辑，而不是与 ORM 搏斗。
 
-准备好试试了吗？查看 [Sutando 文档](https://sutando.org/zh_CN/guide/getting-started.html) 或运行 `npm install sutando` 立即开始。
+准备好试试了吗？查看 [Sutando 文档](https://sutando.org/zh_CN/guide/getting-started) 或运行 `npm install sutando` 立即开始。

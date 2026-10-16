@@ -165,4 +165,4 @@ console.log(users[0].posts_count);
 
 Sutando のリレーション API は、Laravel Eloquent の直感的な設計を引き継いでいます。宣言的なメソッドでリレーションを定義し、事前読み込みでパフォーマンスを最適化できます。
 
-[ドキュメント](https://sutando.org/ja/guide/relationships.html) でさらに詳しく。
+[ドキュメント](https://sutando.org/ja/guide/relationships) でさらに詳しく。

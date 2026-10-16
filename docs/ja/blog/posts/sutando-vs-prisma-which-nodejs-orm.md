@@ -148,4 +148,4 @@ Prisma 7 は Rust クエリエンジンを TypeScript/WASM 実装に置き換え
 
 どちらの ORM も優れていますが、設計思想が異なります。Sutando は開発者体験（DX）とシンプルさを重視し、Prisma は型安全性とエコシステムを重視します。
 
-Sutando を試す準備ができたら：`npm install sutando` — または [ドキュメント](https://sutando.org/ja/guide/getting-started.html) を読んでください。
+Sutando を試す準備ができたら：`npm install sutando` — または [ドキュメント](https://sutando.org/ja/guide/getting-started) を読んでください。

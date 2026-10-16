@@ -145,4 +145,4 @@ class Event extends Model {
 
 Sutando's extension points — custom casts, traits, global scopes, and macros — let you build reusable functionality that integrates naturally with the ORM. This makes it easy to share patterns across projects and teams.
 
-Learn more in the [Sutando documentation](https://sutando.org/guide/getting-started.html).
+Learn more in the [Sutando documentation](https://sutando.org/guide/getting-started).

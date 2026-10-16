@@ -19,7 +19,7 @@ mode: center
 - 一个数据库（MySQL、PostgreSQL 或 SQLite）
 - 基本的 JavaScript/TypeScript 知识
 
-## 第 1 步：安装
+## 第 1 步：安装 {#第-1-步-安装}
 
 创建新项目并安装 Sutando：
 
@@ -42,7 +42,7 @@ npm install pg
 npm install better-sqlite3
 ```
 
-## 第 2 步：数据库配置
+## 第 2 步：数据库配置 {#第-2-步-数据库配置}
 
 创建 `database.ts` 文件配置连接：
 
@@ -73,7 +73,7 @@ sutando.addConnection({ /* ... */ }, 'replica');
 const db = sutando.connection('replica');
 ```
 
-## 第 3 步：用 Schema 构造器创建表
+## 第 3 步：用 Schema 构造器创建表 {#第-3-步-用-schema-构造器创建表}
 
 Sutando 内置 Schema 构造器，可以创建和修改表结构：
 
@@ -102,7 +102,7 @@ async function setup() {
 setup();
 ```
 
-## 第 4 步：定义模型
+## 第 4 步：定义模型 {#第-4-步-定义模型}
 
 模型是 Sutando 的核心，每个模型对应一张数据库表：
 
@@ -144,7 +144,7 @@ class Post extends Model {
 export { User, Post };
 ```
 
-## 第 5 步：基础 CRUD 操作
+## 第 5 步：基础 CRUD 操作 {#第-5-步-基础-crud-操作}
 
 ### 创建
 
@@ -210,7 +210,7 @@ await post.delete();
 await Post.query().where('published', false).delete();
 ```
 
-## 第 6 步：使用关联
+## 第 6 步：使用关联 {#第-6-步-使用关联}
 
 ### 预加载
 
@@ -242,7 +242,7 @@ const user = await User.find(1);
 const publishedPosts = await user.posts().where('published', true).get();
 ```
 
-## 第 7 步：整合到一起
+## 第 7 步：整合到一起 {#第-7-步-整合到一起}
 
 完整的 Express API：
 
@@ -302,8 +302,8 @@ app.listen(3000, () => console.log('服务器运行在 3000 端口'));
 
 ## 下一步
 
-- [模型关联](https://sutando.org/zh_CN/guide/relationships.html) — 掌握 `hasMany`、`belongsTo` 等
-- [数据库迁移](https://sutando.org/zh_CN/guide/migrations.html) — 版本控制你的表结构
-- [模型事件](https://sutando.org/zh_CN/guide/events.html) — 在模型生命周期中插入逻辑
+- [模型关联](https://sutando.org/zh_CN/guide/relationships) — 掌握 `hasMany`、`belongsTo` 等
+- [数据库迁移](https://sutando.org/zh_CN/guide/migrations) — 版本控制你的表结构
+- [模型事件](https://sutando.org/zh_CN/guide/hooks) — 在模型生命周期中插入逻辑
 
-你现在已经有了一个可用的 Sutando Node.js 应用。完整文档请访问 [sutando.org](https://sutando.org/zh_CN/guide/getting-started.html)。
+你现在已经有了一个可用的 Sutando Node.js 应用。完整文档请访问 [sutando.org](https://sutando.org/zh_CN/guide/getting-started)。

@@ -47,11 +47,11 @@ Neither is universally "better." Each has trade-offs:
 
 For most Node.js projects — especially APIs, SaaS products, and prototyping — Active Record's simplicity wins. You write less code, iterate faster, and the cognitive overhead is minimal.
 
-## Active Record Implementations in Node.js
+## Active Record Implementations in Node.js {#active-record-implementations-in-node-js}
 
 The Node.js ecosystem has several Active Record implementations:
 
-### 1. Sutando ORM
+### 1. Sutando ORM {#_1-sutando-orm}
 
 [Sutando](https://sutando.org) is the most faithful port of Laravel's Eloquent to Node.js. It supports MySQL, PostgreSQL, and SQLite, with features like:
 
@@ -84,11 +84,11 @@ await user.save();
 const user = await User.query().with('posts').find(1);
 ```
 
-### 2. AdonisJS Lucid
+### 2. AdonisJS Lucid {#_2-adonisjs-lucid}
 
 Lucid is the built-in ORM for the AdonisJS framework. It's also Active Record and inspired by Eloquent. However, it's tightly coupled to the AdonisJS ecosystem — you can't use it in a standalone Express or Fastify project.
 
-### 3. TypeORM (Active Record mode)
+### 3. TypeORM (Active Record mode) {#_3-typeorm-active-record-mode}
 
 TypeORM supports both Active Record and Data Mapper patterns. In Active Record mode, models extend a base `BaseEntity` class:
 
@@ -293,4 +293,4 @@ Post.deleting(async (post) => {
 
 Active Record remains one of the most productive patterns for database interaction in Node.js. With Sutando, you get a faithful Eloquent-style experience that's framework-agnostic, lightweight, and intuitive. Whether you're migrating from Laravel or just starting a new Node.js project, Active Record with Sutando lets you focus on your application logic rather than fighting your ORM.
 
-Ready to try it? Check out the [Sutando documentation](https://sutando.org/guide/getting-started.html) or run `npm install sutando` to get started.
+Ready to try it? Check out the [Sutando documentation](https://sutando.org/guide/getting-started) or run `npm install sutando` to get started.

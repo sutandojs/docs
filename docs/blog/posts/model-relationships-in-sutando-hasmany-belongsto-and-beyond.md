@@ -216,4 +216,4 @@ for (const user of users) {
 
 Sutando's relationship system mirrors Eloquent's, making complex data relationships simple to define and query. With eager loading, you avoid N+1 problems while keeping your code clean and readable.
 
-Learn more in the [Sutando documentation](https://sutando.org/guide/relationships.html).
+Learn more in the [Sutando documentation](https://sutando.org/guide/relationships).

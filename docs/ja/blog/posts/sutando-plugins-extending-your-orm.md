@@ -109,4 +109,4 @@ const Auditable = (Model) => {
 
 Sutando のプラグインシステムを使えば、プロジェクト間で再利用可能な機能を簡単に作成できます。ミックスインパターンにより、柔軟にモデルを拡張できます。
 
-[ドキュメント](https://sutando.org/ja/guide/plugin.html) でさらに詳しく。
+[ドキュメント](https://sutando.org/ja/guide/plugin) でさらに詳しく。

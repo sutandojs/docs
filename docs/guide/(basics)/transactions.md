@@ -2,8 +2,8 @@
 
 You may use the `transaction` method provided by the Sutando connection to run a set of operations within a database transaction. If an exception is thrown within the transaction closure, the transaction will automatically be rolled back and the exception is re-thrown. If the closure executes successfully, the transaction will automatically be committed. You don't need to worry about manually rolling back or committing while using the transaction method:
 
-```js
-const { sutando } = require('sutando');
+```ts
+import { sutando } from 'sutando';
 
 const db = sutando.connection();
 
@@ -25,8 +25,8 @@ await db.transaction(async (trx) => {
 
 If you would like to begin a transaction manually and have complete control over rollbacks and commits, you may use the `beginTransaction` method provided by the `sutando`:
 
-```js
-const { sutando } = require('sutando');
+```ts
+import { sutando } from 'sutando';
 
 const db = sutando.connection();
 const trx = await db.beginTransaction();
@@ -34,20 +34,20 @@ const trx = await db.beginTransaction();
 
 You can rollback the transaction via the `rollback` method:
 
-```js
+```ts
 await trx.rollback();
 ```
 
 Lastly, you can commit a transaction via the `commit` method:
 
-```js
+```ts
 await trx.commit();
 ```
 
 Here is a complete example:
 
-```js
-const { sutando } = require('sutando');
+```ts
+import { sutando } from 'sutando';
 
 const db = sutando.connection();
 const trx = await db.beginTransaction();

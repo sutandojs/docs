@@ -185,4 +185,4 @@ sutando.addConnection({
 
 Sutando integrates seamlessly with Next.js App Router. Use it in Server Components for data fetching, Route Handlers for APIs, and Server Actions for mutations — all with the same Active Record API.
 
-Learn more at [sutando.org](https://sutando.org/guide/getting-started.html).
+Learn more at [sutando.org](https://sutando.org/guide/getting-started).

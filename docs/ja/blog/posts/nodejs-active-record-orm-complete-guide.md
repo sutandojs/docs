@@ -10,7 +10,7 @@ mode: center
 
 Node.js で Active Record パターンの ORM を探しているなら、このガイドはあなたのためのものです。Active Record の基本から Sutando を使った実践的な使い方まで、すべてカバーします。
 
-## Active Record パターンとは？
+## Active Record パターンとは？ {#active-record-パターンとは}
 
 Active Record は、データベースの各行をモデルオブジェクトとして表現するデザインパターンです。モデルインスタンスは一行のデータを保持し、保存、更新、削除などの操作を直接行えます。
 
@@ -33,7 +33,7 @@ const user = await prisma.user.create({
 
 Active Record の利点はシンプルさと直感性です。Laravel の Eloquent や Ruby on Rails の ActiveRecord がこのパターンを採用しています。
 
-## なぜ Node.js で Active Record なのか？
+## なぜ Node.js で Active Record なのか？ {#なぜ-node-js-で-active-record-なのか}
 
 Node.js エコシステムには多くの ORM がありますが、Active Record パターンをちゃんと実装しているものは少ないです：
 
@@ -46,7 +46,7 @@ Sutando は、Laravel Eloquent の開発体験を Node.js にもたらすため�
 
 ## Sutando の主な機能
 
-### 1. シンプルなモデル定義
+### 1. シンプルなモデル定義 {#_1-シンプルなモデル定義}
 
 デコレーター不要、プレーンなクラスプロパティでモデルを定義：
 
@@ -67,7 +67,7 @@ class User extends Model {
 }
 ```
 
-### 2. 直感的なクエリビルダー
+### 2. 直感的なクエリビルダー {#_2-直感的なクエリビルダー}
 
 メソッドチェーンでクエリを構築：
 
@@ -83,7 +83,7 @@ const posts = await Post.query()
 const users = await User.query().with('posts').get();
 ```
 
-### 3. リレーション管理
+### 3. リレーション管理 {#_3-リレーション管理}
 
 hasMany、belongsTo、hasOne、belongsToMany など、一般的なリレーションタイプをサポート：
 
@@ -103,7 +103,7 @@ const user = await User.find(1);
 const posts = await user.posts; // ユーザーの記事を取得
 ```
 
-### 4. ソフトデリート
+### 4. ソフトデリート {#_4-ソフトデリート}
 
 `deleted_at` カラムを追加するだけで、論理削除が有効になります：
 
@@ -119,7 +119,7 @@ await post.delete(); // ソフトデリート（deleted_at に日付を設定）
 await post.forceDelete(); // 完全に削除
 ```
 
-### 5. モデルイベント（フック）
+### 5. モデルイベント（フック） {#_5-モデルイベント-フック}
 
 モデルのライフサイクルにフックできます：
 
@@ -133,7 +133,7 @@ Post.updating(async (post) => {
 });
 ```
 
-### 6. クエリスコープ
+### 6. クエリスコープ {#_6-クエリスコープ}
 
 再利用可能なクエリ条件を定義：
 
@@ -148,15 +148,15 @@ class Post extends Model {
 const posts = await Post.query().published().get();
 ```
 
-## 実践例：ブログ API
+## 実践例：ブログ API {#実践例-ブログ-api}
 
-### セットアップ
+### セットアップ {#セットアップ}
 
 ```bash
 npm install sutando mysql2 express
 ```
 
-### データベース設定
+### データベース設定 {#データベース設定}
 
 ```ts
 import { sutando } from 'sutando';
@@ -173,7 +173,7 @@ sutando.addConnection({
 });
 ```
 
-### モデル定義
+### モデル定義 {#モデル定義}
 
 ```ts
 import { Model } from 'sutando';
@@ -267,6 +267,6 @@ app.listen(3000);
 Active Record パターンは、特に Laravel や Rails の経験がある開発者にとって、最も直感的な ORM パターンです。Sutando はこのパターンを Node.js でもたらし、デコレーター不要のクリーンな API と豊富な機能を提供します。
 
 次のステップ：
-- [スタートガイド](https://sutando.org/ja/guide/getting-started.html)
-- [モデルリレーション](https://sutando.org/ja/guide/relationships.html)
-- [マイグレーション](https://sutando.org/ja/guide/migrations.html)
+- [スタートガイド](https://sutando.org/ja/guide/getting-started)
+- [モデルリレーション](https://sutando.org/ja/guide/relationships)
+- [マイグレーション](https://sutando.org/ja/guide/migrations)

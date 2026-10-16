@@ -11,7 +11,7 @@ Sutando 不仅可以在服务端运行，现在也支持在浏览器环境中使
 1. 创建一个基础模型类，包含前后端共用的逻辑
 2. 创建一个继承自基础模型的服务端模型类，在这里添加仅供服务端使用的功能
 
-```javascript
+```typescript
 // models/base/user.js - 前后端共用的基础模型
 export class BaseUser extends Model {
   // 共用的属性和方法
@@ -29,8 +29,8 @@ export class User extends BaseUser {
 
 `make` 函数用于将 API 返回的数据转换为模型实例。这样你就可以使用模型的所有功能，包括访问器（Accessor）和修改器（Mutator）等。
 
-```javascript
-const { make } = require('sutando');
+```typescript
+import { make } from 'sutando';
 const user = make(User, data);
 ```
 
@@ -38,8 +38,8 @@ const user = make(User, data);
 
 `makeCollection` 函数用于将 API 返回的数组数据转换为模型集合。
 
-```javascript
-const { makeCollection } = require('sutando');
+```typescript
+import { makeCollection } from 'sutando';
 const users = makeCollection(User, data);
 ```
 
@@ -47,14 +47,14 @@ const users = makeCollection(User, data);
 
 `makePaginator` 函数用于将通过 API 获取的分页数据转换为 Paginator 实例。
 
-```javascript
-const { makePaginator } = require('sutando');
+```typescript
+import { makePaginator } from 'sutando';
 const pageData = makePaginator(User, data);
 ```
 
 ## 使用示例
 
-```javascript
+```typescript
 // 从 API 获取用户数据后转换为模型实例
 const response = await fetch('/api/users/1');
 const data = await response.json();

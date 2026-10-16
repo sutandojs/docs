@@ -237,4 +237,4 @@ app.listen(3000);
 
 从 Laravel 迁移到 Node.js 不意味着放弃 Eloquent 的开发体验。Sutando 几乎是 Eloquent 在 Node.js 中的镜像——相同的 API、相同的思维模式、相同的功能集。你可以保持现有数据库，逐路由迁移，团队从第一天就能高效工作。
 
-从 `npm install sutando` 开始，查看[中文文档](https://sutando.org/zh_CN/guide/getting-started.html)。
+从 `npm install sutando` 开始，查看[中文文档](https://sutando.org/zh_CN/guide/getting-started)。

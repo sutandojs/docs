@@ -95,4 +95,4 @@ export async function down() {
 3. **生产环境跑迁移前备份数据库**
 4. **谨慎添加索引**——加速读取但减慢写入
 
-了解更多请查看 [Sutando 文档](https://sutando.org/zh_CN/guide/migrations.html)。
+了解更多请查看 [Sutando 文档](https://sutando.org/zh_CN/guide/migrations)。

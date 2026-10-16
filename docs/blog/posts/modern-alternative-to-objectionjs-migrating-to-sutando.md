@@ -313,4 +313,4 @@ Objection.js served the Node.js community well, but its maintenance status and T
 
 The migration can be done incrementally — both ORMs can coexist while you transition model by model. Start with a single model today and see the difference for yourself.
 
-👉 [Get started with Sutando](https://sutando.org/guide/getting-started.html) or run `npm install sutando` to try it out.
+👉 [Get started with Sutando](https://sutando.org/guide/getting-started) or run `npm install sutando` to try it out.

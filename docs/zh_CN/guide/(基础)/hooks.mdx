@@ -24,7 +24,7 @@ Sutando 模型触发几个事件，允许你挂接到模型生命周期的如下
 
 目前有两种方式添加钩子：
 
-```js
+```ts
 class User extends Model {}
 
 User.creating(user => {
@@ -32,7 +32,7 @@ User.creating(user => {
 });
 ```
 
-```js
+```ts
 class User {
   static booted() {
     this.creating(user => {
@@ -48,7 +48,7 @@ class User {
 
 ## 钩子与事务
 
-```js
+```ts
 User.deleted(async (user, { client }) => {
   const query = user.related('posts');
 

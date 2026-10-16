@@ -6,7 +6,7 @@ The `paginate` method accepts the page number as the first argument and the rows
 
 ## Basic Usage
 
-```js
+```ts
 const users = await db.table('users')
   .where('vote', '>', 1)
   .paginate(2, 15); // instanceof Paginator
@@ -32,7 +32,7 @@ users.map(user => {
 
 If not specified, the number of lines per page defaults to 15. If using models, you can also set the `perPage` attribute as the default number of pages per model.
 
-```js
+```ts
 class Post extends Model {}
 class User extends Model {
   perPage = 20;
@@ -60,7 +60,7 @@ Each paginator instance provides additional pagination information via the follo
 | `paginator.total()` | Determine the total number of matching items in the data store.  |
 
 
-## Serializing to Object/JSON
+## Serializing to Object/JSON {#serializing-to-object-json}
 
 You can also serialize the paginator results to Object/JSON by calling the `toData` or `toJson` method. It returns the key names in snake_case by default. However, you can pass a naming strategy to override the default convention.
 
@@ -86,8 +86,8 @@ You can also serialize the paginator results to Object/JSON by calling the `toDa
 
 You can override the default format by calling the `Paginator.setFormatter` method.
 
-```js
-const { Paginator } = require('sutando');
+```ts
+import { Paginator } from 'sutando';
 
 Paginator.setFormatter((paginator) => {
   return {
@@ -104,8 +104,9 @@ Paginator.setFormatter((paginator) => {
 
 The paginator will convert it to JSON when converting it to a string, so it can be used directly in the application's route or controller. Your express/Koa application will automatically serialize to JSON:
 
-```js
-const app = require('express')();
+```ts
+import express from 'express';
+const app = express();
 
 app.get('/', async (req, res) => {
   const users = await User.query().paginate(req.query.page || 1);

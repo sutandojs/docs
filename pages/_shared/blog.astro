@@ -50,6 +50,9 @@ const posts: Post[] = (await getCollection("docs"))
       image,
     };
   })
+  // The VitePress blog hid a post until its date; keep that convention, since
+  // posts are authored ahead of time.
+  .filter((p) => !p.date || p.date <= new Date().toISOString().slice(0, 10))
   .sort((a, b) => b.date.localeCompare(a.date));
 
 const featured = posts[0];

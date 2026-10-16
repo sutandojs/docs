@@ -310,8 +310,8 @@ Post.creating(async (post) => {
 
 ## 下一步
 
-- [模型关联文档](https://sutando.org/zh_CN/guide/relationships.html)
-- [数据库迁移文档](https://sutando.org/zh_CN/guide/migrations.html)
-- [软删除和事件文档](https://sutando.org/zh_CN/guide/soft-deletes.html)
+- [模型关联文档](https://sutando.org/zh_CN/guide/relationships)
+- [数据库迁移文档](https://sutando.org/zh_CN/guide/migrations)
+- [软删除和事件文档](https://sutando.org/zh_CN/guide/hooks)
 
-你现在已经有了一个完整的 Sutando 应用。完整文档请访问 [sutando.org](https://sutando.org/zh_CN/guide/getting-started.html)。
+你现在已经有了一个完整的 Sutando 应用。完整文档请访问 [sutando.org](https://sutando.org/zh_CN/guide/getting-started)。

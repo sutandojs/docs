@@ -158,4 +158,4 @@ export async function POST(request: NextRequest) {
 
 Next.js App Router と Sutando の組み合わせで、サーバーコンポーネントから直接データベースにアクセスできます。API ルートを別途用意する必要がなく、シンプルなアーキテクチャが実現できます。
 
-[ドキュメント](https://sutando.org/ja/guide/getting-started.html) でさらに詳しく。
+[ドキュメント](https://sutando.org/ja/guide/getting-started) でさらに詳しく。

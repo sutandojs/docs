@@ -100,4 +100,4 @@ export async function createPost(formData: FormData) {
 
 Sutando 与 Next.js App Router 无缝集成。在 Server Components 中获取数据，在 Route Handlers 中处理 API，在 Server Actions 中处理数据变更——全部使用同一个 Active Record API。
 
-了解更多请访问 [sutando.org](https://sutando.org/zh_CN/guide/getting-started.html)。
+了解更多请访问 [sutando.org](https://sutando.org/zh_CN/guide/getting-started)。

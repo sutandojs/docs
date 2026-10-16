@@ -169,4 +169,4 @@ app.get('/posts', async (req, res) => {
 
 从 Laravel 迁移到 Node.js 不意味着放弃 Eloquent。Sutando 带来了几乎相同的 Active Record 体验。你可以保持现有数据库 schema，逐路由迁移，团队从第一天就能高效工作。
 
-从 `npm install sutando` 开始，查看[文档](https://sutando.org/zh_CN/guide/getting-started.html)。
+从 `npm install sutando` 开始，查看[文档](https://sutando.org/zh_CN/guide/getting-started)。

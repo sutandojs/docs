@@ -173,4 +173,4 @@ app.use((err, req, res, next) => {
 
 Sutando と Express の組み合わせで、シンプルかつ強力な REST API を構築できます。Active Record パターンにより、コード量が少なく、可読性も高いです。
 
-[ドキュメント](https://sutando.org/ja/guide/getting-started.html) を参照してさらに学びましょう。
+[ドキュメント](https://sutando.org/ja/guide/getting-started) を参照してさらに学びましょう。

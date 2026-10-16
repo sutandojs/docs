@@ -167,4 +167,4 @@ Active Record 模式写 CRUD 最快。Sutando 的方法链语法简洁直观，�
 
 根据你的团队背景、项目需求和技术栈来选择。如果你是 Laravel 开发者，Sutando 几乎是零成本切换。如果你追求极致类型安全，选 Prisma。如果你在 Edge 上构建，选 Drizzle。
 
-试试 Sutando：`npm install sutando`——或查看[中文文档](https://sutando.org/zh_CN/guide/getting-started.html)。
+试试 Sutando：`npm install sutando`——或查看[中文文档](https://sutando.org/zh_CN/guide/getting-started)。

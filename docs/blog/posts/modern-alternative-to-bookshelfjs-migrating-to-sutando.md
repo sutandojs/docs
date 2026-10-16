@@ -325,4 +325,4 @@ Bookshelf.js was a great ORM in its time, but with no updates since 2022 and no 
 
 The migration is straightforward: convert models from `extend()` to ES6 classes, update query patterns, and remove the Bookshelf dependency. Both ORMs can coexist during the transition, so you can migrate model by model.
 
-👉 [Get started with Sutando](https://sutando.org/guide/getting-started.html) or run `npm install sutando` to try it out.
+👉 [Get started with Sutando](https://sutando.org/guide/getting-started) or run `npm install sutando` to try it out.

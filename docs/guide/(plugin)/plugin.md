@@ -8,8 +8,8 @@ You can load multiple plugins to meet various needs.
 
 For example, Sutando comes with two plug-ins. `SoftDeletes` allows the model to support soft deletion, and `HasUniqueIds` provides the function of strings as primary keys. You can use the plugin like this:
 
-```js
-const { Model, compose, SoftDeletes, HasUniqueIds } = require('sutando');
+```ts
+import { Model, compose, SoftDeletes, HasUniqueIds } from 'sutando';
 
 class User extends SoftDeletes(Model) {}
 
@@ -18,8 +18,8 @@ class Post extends HasUniqueIds(SoftDeletes(Model)) {}
 
 However, we still recommend using the `compose` helper function to use plugins:
 
-```js
-const { Model, compose, SoftDeletes, HasUniqueIds } = require('sutando');
+```ts
+import { Model, compose, SoftDeletes, HasUniqueIds } from 'sutando';
 
 class User extends compose(Model, SoftDeletes) {}
 
@@ -30,7 +30,7 @@ class Post extends compose(Model, SoftDeletes, HasUniqueIds) {}
 
 If possible, Sutando plugins should be implemented as class mixins. A `mixin` is just a function that takes a class as argument and returns a subclass.
 
-```js
+```ts
 const SomeMixin = (Model) => {
   return class extends Model {
     // Your code
@@ -42,9 +42,9 @@ To better understand how to build a Sutando plugin, we can try to write a simple
 
 It is recommended to create and export it in a separate file to ensure better management of the logic, as follows:
 
-```js
+```ts
 // plugins/sutando-slug.js
-const _ = require('lodash');
+import _ from 'lodash';
 
 const HasSlug = (Model) => {
   return class extends Model {
@@ -63,14 +63,14 @@ const HasSlug = (Model) => {
   }
 }
 
-module.exports = HasSlug;
+export default 
 ```
 
 This example uses [hooks](hooks). After completion, you can use the plug-in like this:
 
-```js
-const { Model, compose } = require('sutando');
-const HasSlug = require('./plugins/sutando-slug');
+```ts
+import { Model, compose } from 'sutando';
+import HasSlug from './plugins/sutando-slug';
 
 class Post extends compose(
   Model,
@@ -88,9 +88,9 @@ console.log(post.slug); // the-first-post-title
 
 So there is a question, what if my database field name is not `slug`, but `slug_name`, or another name? We just need to adjust the plugin so that it accepts a field name parameter:
 
-```js{4,13,14,15}
+```ts
 // plugins/sutando-slug.js
-const _ = require('lodash');
+import _ from 'lodash';
 
 const HasSlug = ({ column }) => (Model) => {
   return class extends Model {
@@ -109,14 +109,14 @@ const HasSlug = ({ column }) => (Model) => {
   }
 }
 
-module.exports = HasSlug;
+export default 
 ```
 
 Usage will also change:
 
-```js{6}
-const { Model, compose } = require('sutando');
-const HasSlug = require('./plugins/sutando-slug');
+```ts
+import { Model, compose } from 'sutando';
+import HasSlug from './plugins/sutando-slug';
 
 class Post extends compose(
   Model,

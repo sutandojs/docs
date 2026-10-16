@@ -177,4 +177,4 @@ Prisma 社区更大，教程更多，第三方集成更丰富。遇到问题更�
 
 两者都是优秀的 ORM。Prisma 在类型安全、工具链和生态方面出色。Sutando 在简洁性、Active Record 开发体验和内置功能（模型事件、软删除）方面胜出。如果你是 Laravel 开发者转向 Node.js，Sutando 会让你宾至如归。如果你想要最类型安全的体验加可视化工具，Prisma 是更好的选择。
 
-试试 Sutando：`npm install sutando`——或阅读[文档](https://sutando.org/zh_CN/guide/getting-started.html)。
+试试 Sutando：`npm install sutando`——或阅读[文档](https://sutando.org/zh_CN/guide/getting-started)。

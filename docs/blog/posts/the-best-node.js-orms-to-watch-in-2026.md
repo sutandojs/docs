@@ -23,17 +23,17 @@ In this guide, we’ll look at the top contenders for 2026 and why a new (yet fa
 
 For years, developers were forced to choose: do you want the "Magic" of a heavy abstraction (at the cost of performance), or the "Speed" of raw SQL (at the cost of productivity)? In 2026, that gap is closing.
 
-### 1. Prisma 7: The Managed Ecosystem
+### 1. Prisma 7: The Managed Ecosystem {#_1-prisma-7-the-managed-ecosystem}
 Prisma remains a titan. In its latest **v7 release**, Prisma has moved entirely to a **WASM-based engine**, significantly reducing the cold-start issues that plagued earlier versions on Edge functions.
 * **Best For:** Large teams who need a strict, schema-first approach and a built-in GUI (Prisma Studio).
 * **The Catch:** The generated client can still be bulky, and the "Shadow Database" migration flow remains a bit complex for rapid prototyping.
 
-### 2. Drizzle ORM: The SQL-First Standard
+### 2. Drizzle ORM: The SQL-First Standard {#_2-drizzle-orm-the-sql-first-standard}
 Drizzle has become the go-to for performance purists. It’s essentially "SQL in TypeScript clothing." With zero runtime overhead, it’s the king of the Edge.
 * **Best For:** Maximum performance and developers who *love* writing SQL.
 * **The Catch:** It requires a high level of SQL knowledge. For teams moving fast, the lack of "Active Record" style magic can make managing complex relationships tedious.
 
-### 3. Sutando ORM: The "Eloquent" Revolution for Node.js
+### 3. Sutando ORM: The "Eloquent" Revolution for Node.js {#_3-sutando-orm-the-eloquent-revolution-for-node-js}
 While others focus on either heavy abstraction or raw SQL, **Sutando ORM** has carved out a massive niche by focusing on **Developer Happiness (DX)** without the bloat.
 
 Inspired by **Laravel's Eloquent**, Sutando brings the **Active Record** pattern to the Node.js/TypeScript world in a way that feels modern, lightweight, and incredibly intuitive.
@@ -82,4 +82,4 @@ In 2026, we are seeing a "re-simplification" of the backend. Developers are tire
 ### Ready to build faster?
 If you're starting a new project in 2026 or looking to migrate away from a "heavyweight" legacy ORM, give Sutando a try. It’s the ORM that makes interacting with your database enjoyable again.
 
-👉 Check out the [Sutando Documentation](https://sutando.org/guide/getting-started.html) or run `npm install sutando` to get started today.
+👉 Check out the [Sutando Documentation](https://sutando.org/guide/getting-started) or run `npm install sutando` to get started today.

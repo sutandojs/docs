@@ -68,8 +68,8 @@ To connect to the database, you must add a connection. The client parameter is r
 
 ### MySQL
 
-```js
-const { sutando } = require('./sutando');
+```ts
+import { sutando } from './sutando';
 
 sutando.addConnection({
   client: 'mysql2',
@@ -103,7 +103,7 @@ The connection options are passed directly to the appropriate database client to
 
 When you use the SQLite3 or Better-SQLite3 adapter, there is a filename required, not a network connection. For example:
 
-```js
+```ts
 sutando.addConnection({
   client: 'sqlite3', // or 'better-sqlite3'
   connection: {
@@ -114,7 +114,7 @@ sutando.addConnection({
 
 You can also run either SQLite3 or Better-SQLite3 with an in-memory database by providing `:memory:` as the filename. For example:
 
-```js
+```ts
 sutando.addConnection({
   client: 'sqlite3', // or 'better-sqlite3'
   connection: {
@@ -125,7 +125,7 @@ sutando.addConnection({
 
 When you use the SQLite3 adapter, you can set flags used to open the connection. For example:
 
-```js
+```ts
 sutando.addConnection({
   client: 'sqlite3',
   connection: {
@@ -139,7 +139,7 @@ sutando.addConnection({
 
 The database version can be added in sutando configuration, when you use the PostgreSQL adapter to connect a non-standard database.
 
-```js
+```ts
 sutando.addConnection({
   client: 'pg',
   version: '7.2',

@@ -209,4 +209,4 @@ For most applications, the performance difference is negligible — database que
 
 Both are excellent ORMs. Prisma excels in type safety, tooling, and ecosystem. Sutando wins on simplicity, developer experience for Active Record fans, and built-in features like model events and soft deletes. If you're a Laravel developer moving to Node.js, Sutando will feel like home. If you want the most type-safe experience with a visual tool, Prisma is the way to go.
 
-Try Sutando: `npm install sutando` — or read the [documentation](https://sutando.org/guide/getting-started.html).
+Try Sutando: `npm install sutando` — or read the [documentation](https://sutando.org/guide/getting-started).

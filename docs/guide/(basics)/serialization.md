@@ -2,13 +2,13 @@
 
 When building APIs you will often need to convert your models and relationships to object or JSON. Sutando includes convenient methods for making these conversions, as well as controlling which attributes are included in the serialized representation of your models.
 
-## Serializing Models & Collections
+## Serializing Models & Collections {#serializing-models-collections}
 
 ### Serializing To Data Object
 
 To convert a model and its loaded relationships to an array, you should use the `toData` method. This method is recursive, so all attributes and all relations (including the relations of relations) will be converted to object:
 
-```js
+```ts
 const user = await User.query().with('roles').first();
 
 return user.toData();
@@ -16,7 +16,7 @@ return user.toData();
 
 The `attributesToData` method may be used to convert a model's attributes to an object but not its relationships:
 
-```js
+```ts
 const user = await User.query().first();
  
 return user.attributesToData();
@@ -24,7 +24,7 @@ return user.attributesToData();
 
 You may also convert entire collections of models to data object by calling the `toData` method on the collection instance:
 
-```js
+```ts
 const users = await User.query().all();
  
 return users.toData();
@@ -34,7 +34,7 @@ return users.toData();
 
 To convert a model to JSON, you should use the `toJson` method. Like `toData`, the `toJson` method is recursive, so all attributes and relations will be converted to JSON. You may also specify any JSON encoding options that are supported by Javascript:
 
-```js
+```ts
 const user = await User.query().find(1);
  
 return user.toJson();
@@ -44,7 +44,7 @@ return user.toJson(null, 2);
 
 Alternatively, you may cast a model or collection to a string, which will automatically call the `toJson` method on the model or collection:
 
-```js
+```ts
 const user = await User.query().find(1);
 
 return String(user);
@@ -54,8 +54,9 @@ return JSON.stringify(user);
 
 Since models and collections are converted to JSON when cast to a string, you can return Sutando objects directly from your `express`/`Koa` application. Sutando will automatically serialize your models and collections to JSON when they are returned from routes or controllers:
 
-```js
-const app = require('express')();
+```ts
+import express from 'express';
+const app = express();
 
 app.get('/', async (req, res) => {
   const user = await User.query().find(1);
@@ -72,7 +73,7 @@ When an Sutando model is converted to JSON, its loaded relationships will automa
 
 Sometimes you may wish to limit the attributes, such as passwords, that are included in your model's data object or JSON representation. To do so, add a `hidden` property to your model. In attributes that are listed in the `hidden` property's array will not be included in the serialized representation of your model:
 
-```js
+```ts
 const { Model } = requre('sutando');
 
 class User extends Model {
@@ -82,7 +83,7 @@ class User extends Model {
 
 Alternatively, you may use the `visible` property to define an "allow list" of attributes that should be included in your model's data objectt and JSON representation. All attributes that are not present in the `visible` array will be hidden when the model is converted to an data objectt or JSON:
 
-```js
+```ts
 const { Model } = requre('sutando');
 
 class User extends Model {
@@ -94,7 +95,7 @@ class User extends Model {
 
 If you would like to make some typically hidden attributes visible on a given model instance, you may use the `makeVisible` method. The `makeVisible` method returns the model instance:
 
-```js
+```ts
 user.makeVisible('attribute').toData();
 
 user.makeVisible(['attribute', 'another_attribute']).toData();
@@ -102,7 +103,7 @@ user.makeVisible(['attribute', 'another_attribute']).toData();
 
 Likewise, if you would like to hide some attributes that are typically visible, you may use the `makeHidden` method.
 
-```js
+```ts
 user.makeHidden('attribute').toData();
 
 user.makeHidden(['attribute', 'another_attribute']).toData();
@@ -110,7 +111,7 @@ user.makeHidden(['attribute', 'another_attribute']).toData();
 
 If you wish to temporarily override all of the visible or hidden attributes, you may use the `setVisible` and `setHidden` methods respectively:
 
-```js
+```ts
 user.setVisible(['id', 'name']).toData();
 
 user.setHidden(['email', 'password', 'remember_token']).toData();
@@ -120,7 +121,7 @@ user.setHidden(['email', 'password', 'remember_token']).toData();
 
 Occasionally, when converting models to data object or JSON, you may wish to add attributes that do not have a corresponding column in your database. To do so, first define an accessor for the value:
 
-```js
+```ts
 const { Model, Attribute } = requre('sutando');
 
 class User extends Model {
@@ -134,7 +135,7 @@ class User extends Model {
 
 After creating the accessor, add the attribute name to the appends property of your model. Note that attribute names are typically referenced using their "snake case" serialized representation, even though the accessor's method is defined using "camel case":
 
-```js
+```ts
 const { Model } = requre('sutando');
 
 class User extends Model {
@@ -148,7 +149,7 @@ Once the attribute has been added to the appends list, it will be included in bo
 
 At runtime, you may instruct a model instance to append additional attributes using the `append` method. Or, you may use the `setAppends` method to override the entire array of appended properties for a given model instance:
 
-```js
+```ts
 user.append('is_admin').toData();
  
 user.setAppends(['is_admin']).toData();

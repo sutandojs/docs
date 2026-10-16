@@ -325,4 +325,4 @@ Bookshelf.js 在它的时代是一个优秀的 ORM，但自 2022 年停止更新
 
 迁移过程简单直接：将模型从 `extend()` 转换为 ES6 类，更新查询模式，移除 Bookshelf 依赖。两个 ORM 在过渡期间可以共存，因此你可以逐个模型地迁移。
 
-👉 [开始使用 Sutando](https://sutando.org/zh_CN/guide/getting-started.html) 或运行 `npm install sutando` 来试试。
+👉 [开始使用 Sutando](https://sutando.org/zh_CN/guide/getting-started) 或运行 `npm install sutando` 来试试。

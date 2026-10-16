@@ -76,4 +76,4 @@ export const HasUuid = { /* ... */ };
 export const TimestampsCast = new Cast({ /* ... */ });
 ```
 
-了解更多请查看 [Sutando 文档](https://sutando.org/zh_CN/guide/getting-started.html)。
+了解更多请查看 [Sutando 文档](https://sutando.org/zh_CN/guide/getting-started)。

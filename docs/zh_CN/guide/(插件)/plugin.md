@@ -8,8 +8,8 @@
 
 例如 Sutando 自带了两个插件， `SoftDeletes` 可以让模型支持软删除，`HasUniqueIds` 则是提供字符串作为主键的功能。可以像这样使用插件：
 
-```js
-const { Model, compose, SoftDeletes, HasUniqueIds } = require('sutando');
+```ts
+import { Model, compose, SoftDeletes, HasUniqueIds } from 'sutando';
 
 class User extends SoftDeletes(Model) {}
 
@@ -18,8 +18,8 @@ class Post extends HasUniqueIds(SoftDeletes(Model)) {}
 
 不过我们还是推荐使用 `compose` 助手函数来使用插件：
 
-```js
-const { Model, compose, SoftDeletes, HasUniqueIds } = require('sutando');
+```ts
+import { Model, compose, SoftDeletes, HasUniqueIds } from 'sutando';
 
 class User extends compose(Model, SoftDeletes) {}
 
@@ -30,7 +30,7 @@ class Post extends compose(Model, SoftDeletes, HasUniqueIds) {}
 
 如果可能，Sutando 插件应实现为 class mixin。`mixin` 只是一个以类作为参数并返回子类的函数。
 
-```js
+```ts
 const SomeMixin = (Model) => {
   return class extends Model {
     // 你的插件代码
@@ -42,9 +42,9 @@ const SomeMixin = (Model) => {
 
 建议在一个单独的文件中创建并导出它，以保证更好地管理逻辑，如下所示：
 
-```js
+```ts
 // plugins/sutando-slug.js
-const _ = require('lodash');
+import _ from 'lodash';
 
 const HasSlug = (Model) => {
   return class extends Model {
@@ -63,14 +63,14 @@ const HasSlug = (Model) => {
   }
 }
 
-module.exports = HasSlug;
+export default 
 ```
 
 这个例子之中使用了[钩子](hooks)，完成之后，可以这样使用插件：
 
-```js
-const { Model, compose } = require('sutando');
-const HasSlug = require('./plugins/sutando-slug');
+```ts
+import { Model, compose } from 'sutando';
+import HasSlug from './plugins/sutando-slug';
 
 class Post extends compose(
   Model,
@@ -88,9 +88,9 @@ console.log(post.slug); // the-first-post-title
 
 那么有个问题，如果我的数据库字段名称不是 `slug`，而是 `slug_name`，或者其他名称呢？我们只需要调整一下插件，让它能够接受一个字段名参数：
 
-```js{4,13,14,15}
+```ts
 // plugins/sutando-slug.js
-const _ = require('lodash');
+import _ from 'lodash';
 
 const HasSlug = ({ column }) => (Model) => {
   return class extends Model {
@@ -109,14 +109,14 @@ const HasSlug = ({ column }) => (Model) => {
   }
 }
 
-module.exports = HasSlug;
+export default 
 ```
 
 使用方式也会改变：
 
-```js{6}
-const { Model, compose } = require('sutando');
-const HasSlug = require('./plugins/sutando-slug');
+```ts
+import { Model, compose } from 'sutando';
+import HasSlug from './plugins/sutando-slug';
 
 class Post extends compose(
   Model,

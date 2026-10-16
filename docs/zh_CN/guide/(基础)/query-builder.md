@@ -16,7 +16,7 @@ Sutando 查询构造器允许你编写和执行 SQL 查询。 它建立在 [Knex
 
 一旦配置好数据库连接，你可以使用 `raw` 方法来执行原生 SQL 语句：
 
-```js
+```ts
 const db = sutando.connection();
 
 const response = await db.raw('SET TIME_ZONE = ?', ['UTC']);
@@ -27,7 +27,7 @@ const response = await db.raw('SET TIME_ZONE = ?', ['UTC']);
 
 你可以使用 `table` 方法来开始查询。`table` 方法为给定的表返回一个查询构造器实例，允许你在查询上链式调用更多的约束，最后使用 `get` 方法获取结果：
 
-```js
+```ts
 const db = sutando.connection();
 
 const users = await db.table('users').get();
@@ -35,7 +35,7 @@ const users = await db.table('users').get();
 
 `get` 方法返回一个包含查询结果的数组，其中每个结果都是对象。你可以访问字段作为对象的属性来访问每列的值：
 
-```js
+```ts
 const users = await db.table('users').get();
  
 users.map(user => {
@@ -47,7 +47,7 @@ users.map(user => {
 
 如果你只需要从数据表中获取一行数据，你可以使用 `first` 方法：
 
-```js
+```ts
 const user = await db.table('users').where('name', 'John').first();
  
 console.log(user.email);
@@ -55,7 +55,7 @@ console.log(user.email);
 
 如果是通过 `id` 字段值获取一行数据，可以使用 `find` 方法：
 
-```js
+```ts
 const user = await db.table('users').find(3);
 ```
 
@@ -63,7 +63,7 @@ const user = await db.table('users').find(3);
 
 如果你想获取包含单列值的集合，则可以使用 `pluck` 方法。在下面的例子中，我们将获取角色表中标题的集合：
 
-```js
+```ts
 const titles = await db.table('users').pluck('title');
  
 titles.map(title => {
@@ -75,7 +75,7 @@ titles.map(title => {
 
 如果您需要处理成千上万的数据库记录，请考虑使用 `chunk` 方法。 这个方法一次检索一小块结果，并将每个块反馈到闭包函数中进行处理。 例如，让我们以一次 100 条记录的块为单位检索整个 `users` 表:
 
-```js
+```ts
 await db.table('users').orderBy('id').chunk(100, users => {
   users.map(user => {
     // do something...
@@ -85,7 +85,7 @@ await db.table('users').orderBy('id').chunk(100, users => {
 
 您可以通过从闭包中返回 `false` 来停止处理其他块:
 
-```js
+```ts
 await db.table('users').orderBy('id').chunk(100, users => {
   // Process the records...
  
@@ -97,7 +97,7 @@ await db.table('users').orderBy('id').chunk(100, users => {
 
 查询构造器还提供了各种聚合方法，比如 `count`，`max`，`min`，`avg`，还有 `sum`。你可以在构造查询后调用任何方法:
 
-```js
+```ts
 const count = await db.table('users').count();
  
 const price = await db.table('orders').max('price');
@@ -105,7 +105,7 @@ const price = await db.table('orders').max('price');
 
 当然，你也可以将这些聚合方法与其他的查询语句相结合: 
 
-```js
+```ts
 const price = await db.table('orders')
   .where('finalized', 1)
   .avg('price');
@@ -115,7 +115,7 @@ const price = await db.table('orders')
 
 除了通过 `count` 方法可以确定查询条件的结果是否存在之外，还可以使用 `exists` 方法：
 
-```js
+```ts
 const isExists = await table('orders').where('finalized', 1).exists()
 if (isExists) {
     // ...
@@ -128,7 +128,7 @@ if (isExists) {
 
 当然你可能不是总是希望从数据库表中获取所有列。使用 `select` 方法，你可以自定义一个 select 查询语句来查询指定的字段：
 
-```js
+```ts
 const users = await db.table('users')
   .select('name', 'email as user_email')
   .get();
@@ -136,7 +136,7 @@ const users = await db.table('users')
 
 `distinct` 方法会强制让查询返回的结果不重复: 
 
-```js
+```ts
 const users = await db.table('users').distinct().get();
 ```
 
@@ -144,7 +144,7 @@ const users = await db.table('users').distinct().get();
 
 有时候你可能需要在查询中使用原生表达式。你可以使用 `raw` 创建一个原生表达式：
 
-```js
+```ts
 const users = await db.table('users')
   .select(db.raw('count(*) as user_count, status'))
   .where('status', '<>', 1)
@@ -160,7 +160,7 @@ const users = await db.table('users')
 
 `whereRaw` 方法将原生的 where 注入到你的查询中。这两个方法的第二个参数是可选项，值是一个绑定参数的数组：
 
-```js
+```ts
 const orders = await db.table('orders')
   .whereRaw('price > IF(state = "TX", ?, 100)', [200])
   .get();
@@ -170,7 +170,7 @@ const orders = await db.table('orders')
 
 `havingRaw` 方法可以用于将原生字符串作为 having 语句的值。这两个方法的第二个参数是可选项，值是一个绑定参数的数组：
 
-```js
+```ts
 const orders = await db.table('orders')
   .select('department', db.raw('SUM(price) as total_sales'))
   .groupBy('department')
@@ -182,7 +182,7 @@ const orders = await db.table('orders')
 
 `orderByRaw` 方法可用于将原生字符串设置为 order by 语句的值：
 
-```js
+```ts
 const orders = await db.table('orders')
   .orderByRaw('updated_at - created_at DESC')
   .get();
@@ -192,7 +192,7 @@ const orders = await db.table('orders')
 
 `groupByRaw` 方法可以用于将原生字符串设置为 group by 语句的值：
 
-```js
+```ts
 const orders = await db.table('orders')
   .select('city', 'state')
   .groupByRaw('city, state')
@@ -205,7 +205,7 @@ const orders = await db.table('orders')
 
 查询构造器也可以编写 `join` 方法。若要执行基本的「内链接」，你可以在查询构造器实例上使用 `join` 方法。传递给 `join` 方法的第一个参数是你需要连接的表的名称，而其他参数则使用指定连接的字段约束。你还可以在单个查询中连接多个数据表：
 
-```js
+```ts
 const users = await db.table('users')
   .join('contacts', 'users.id', '=', 'contacts.user_id')
   .join('orders', 'users.id', '=', 'orders.user_id')
@@ -213,11 +213,11 @@ const users = await db.table('users')
   .get();
 ```
 
-### Left Join / Right Join 语句
+### Left Join / Right Join 语句 {#left-join-right-join-语句}
 
 如果你想使用 「左连接」或者 「右连接」代替「内连接」 ，可以使用 `leftJoin` 或者 `rightJoin` 方法。这两个方法与 `join` 方法用法相同：
 
-```js
+```ts
 const users = await db.table('users')
   .leftJoin('posts', 'users.id', '=', 'posts.user_id')
   .get();
@@ -231,7 +231,7 @@ const users = await db.table('users')
 
 你可以使用 `crossJoin` 方法和你想要连接的表名做「交叉连接」: 
 
-```js
+```ts
 const sizes = await db.table('sizes')
   .crossJoin('colors')
   .get();
@@ -241,7 +241,7 @@ const sizes = await db.table('sizes')
 
 你还可以指定更高级的 join 语句。比如传递一个闭包作为 `join` 方法的第二个参数。 
 
-```js
+```ts
 await db.table('users')
   .join('contacts', () => {
     this.on('users.id', '=', 'contacts.user_id').orOn(/* ... */);
@@ -253,7 +253,7 @@ await db.table('users')
 
 查询构造器还提供了一种简洁的方式将两个或者多个查询联合在一起。例如，你可以先创建一个查询，然后使用 `union` 方法来连接更多的查询： 
 
-```js
+```ts
 const first = db.table('users')
   .whereNull('first_name');
  
@@ -273,7 +273,7 @@ const users = await db.table('users')
 
 例如。在 `users` 表中查询 `votes` 字段等于 100 并且 `age` 字段大于 `35` 的数据： 
 
-```js
+```ts
 const users = await db.table('users')
   .where('votes', '=', 100)
   .where('age', '>', 35)
@@ -282,13 +282,13 @@ const users = await db.table('users')
 
 为了方便起见。如果你想要比较一个字段的值是否等于给定的值。你可以将这个给定的值作为第二个参数传递给 `where` 方法。那么，Sutando 会默认使用 `=` 操作符
 
-```js
+```ts
 const users = await db.table('users').where('votes', 100).get();
 ```
 
 如上所述，您可以使用数据库支持的任意操作符: 
 
-```js
+```ts
 const users = await db.table('users')
   .where('votes', '>=', 100)
   .get();
@@ -306,7 +306,7 @@ const users = await db.table('users')
 
 当链式调用多个 `where` 方法的时候，这些 where 语句将会被看成是 `and` 关系。另外，您也可以在查询语句中使用 `orWhere` 方法来表示 `or` `关系。orWhere` 方法接收的参数和 `where` 方法接收的参数一样： 
 
-```js
+```ts
 const users = await db.table('users')
   .where('votes', '>', 100)
   .orWhere('name', 'John')
@@ -315,7 +315,7 @@ const users = await db.table('users')
 
 如果您需要在括号内对 `or` 条件进行分组，那么可以传递一个闭包作为 `orWhere` 方法的第一个参数： 
 
-```js
+```ts
 const users = await db.table('users')
   .where('votes', '>', 100)
   .orWhere(query => {
@@ -335,7 +335,7 @@ select * from users where votes > 100 or (name = 'Abigail' and votes > 50)
 
 `whereNot` 和 `orWhereNot` 方法可用于否定一组给定的查询条件。例如，下面的查询排除了正在清仓甩卖或价格低于 10 的产品：
 
-```js
+```ts
 const products = await db.table('products')
   .whereNot(() => {
     this.where('clearance', true).orWhere('price', '<', 10);
@@ -346,31 +346,31 @@ const products = await db.table('products')
 ### 其他 Where 语句
  
  
-#### whereBetween / orWhereBetween
+#### whereBetween / orWhereBetween {#wherebetween-orwherebetween}
 
 `whereBetween` 方法是用来验证字段的值是否在给定的两个值之间： 
 
-```js
+```ts
 const users = await db.table('users')
   .whereBetween('votes', [1, 100])
   .get();
 ```
 
-#### whereNotBetween / orWhereNotBetween
+#### whereNotBetween / orWhereNotBetween {#wherenotbetween-orwherenotbetween}
 
 `whereNotBetween` 方法是用来验证字段的值是否不在给定的两个值之间： 
 
-```js
+```ts
 const users = await db.table('users')
   .whereNotBetween('votes', [1, 100])
   .get();
 ```
 
-#### whereIn / whereNotIn / orWhereIn / orWhereNotIn
+#### whereIn / whereNotIn / orWhereIn / orWhereNotIn {#wherein-wherenotin-orwherein-orwherenotin}
 
 `whereIn` 方法是用来验证一个字段的值是否在给定的数组中： 
 
-```js
+```ts
 const users = await db.table('users')
   .whereIn('id', [1, 2, 3])
   .get();
@@ -378,17 +378,17 @@ const users = await db.table('users')
 
 `whereNotIn` 方法是用来验证一个字段的值是否不在给定的数组中： 
 
-```js
+```ts
 const users = await db.table('users')
   .whereNotIn('id', [1, 2, 3])
   .get();
 ```
 
-#### whereNull / whereNotNull / orWhereNull / orWhereNotNull
+#### whereNull / whereNotNull / orWhereNull / orWhereNotNull {#wherenull-wherenotnull-orwherenull-orwherenotnull}
 
 `whereNull` 方法是用来验证给定字段的值是否为 `null`： 
 
-```js
+```ts
 const users = await db.table('users')
   .whereNull('updated_at')
   .get();
@@ -396,7 +396,7 @@ const users = await db.table('users')
 
 `whereNotNull` 方法是用来验证给定字段的值是否不为 `null`： 
 
-```js
+```ts
 const users = await db.table('users')
   .whereNotNull('updated_at')
   .get();
@@ -406,14 +406,14 @@ const users = await db.table('users')
 
 有一种简便的方式来改变这些查询： 
 
-```js
+```ts
 const users = await User.query().where('approved', 1).get();
 const posts = await Post.query().where('views_count', '>', 100).get();
 ```
 
 用下面的替代： 
 
-```js
+```ts
 const users = await User.query().whereApproved(1).get();
 const posts = await Post.query().whereViewsCount('>', 100).get();
 ```
@@ -422,7 +422,7 @@ const posts = await Post.query().whereViewsCount('>', 100).get();
 
 有时您可能需要将括号内的几个 “where” 子句分组，以实现查询所需的逻辑分组。实际上应该将 `orWhere` 方法的调用分组到括号中，以避免不可预料的查询逻辑误差。因此可以传递闭包给 `where` 方法： 
 
-```js
+```ts
 const users = await db.table('users')
   .where('name', '=', 'John')
   .where(() => {
@@ -445,7 +445,7 @@ select * from users where name = 'John' and (votes > 100 or title = 'Admin')
 
 `orderBy` 方法允许你通过给定字段对结果集进行排序。 `orderBy` 的第一个参数应该是你希望排序的字段，第二个参数控制排序的方向，可以是 `asc` 或 `desc`： 
 
-```js
+```ts
 const users = await db.table('users')
   .orderBy('name', 'desc')
   .get();
@@ -453,18 +453,18 @@ const users = await db.table('users')
 
 如果你需要使用多个字段进行排序，你可以多次引用 `orderBy`: 
 
-```js
+```ts
 const users = await db.table('users')
   .orderBy('name', 'desc')
   .orderBy('email', 'asc')
   .get();
 ```
 
-#### `latest` & `oldest` 方法 
+#### `latest` & `oldest` 方法 {#latest-oldest-方法}
  
 `latest` 和 `oldest` 方法让你以一种便捷的方式通过日期进行排序。它们默认使用 `created_at` 列作为排序依据。当然，你也可以传递自定义的列名： 
 
-```js
+```ts
 const user = await db.table('users')
   .latest()
   .first();
@@ -474,7 +474,7 @@ const user = await db.table('users')
 
 `inRandomOrder` 方法被用来将结果进行随机排序。例如，你可以使用此方法随机找到一个用户： 
 
-```js
+```ts
 const randomUser = await db.table('users')
   .inRandomOrder()
   .first();
@@ -484,7 +484,7 @@ const randomUser = await db.table('users')
 
 `clearOrder` 方法允许你删除已经存在的所有排序，如果你愿意，可以在之后附加一个新的排序。例如，你可以删除所有已存在的排序： 
 
-```js
+```ts
 const query = db.table('users').orderBy('name');
  
 const unorderedUsers = await query.clearOrder().get();
@@ -492,11 +492,11 @@ const unorderedUsers = await query.clearOrder().get();
 
 ### Grouping
 
-#### `groupBy` & `having` 方法
+#### `groupBy` & `having` 方法 {#groupby-having-方法}
 
 如您所料，`groupBy` 和 `having` 方法用于将结果分组。 `having` 方法的使用与 `where` 方法十分相似：
 
-```js
+```ts
 const users = await db.table('users')
   .groupBy('account_id')
   .having('account_id', '>', 100)
@@ -505,7 +505,7 @@ const users = await db.table('users')
 
 You can use the `havingBetween` method to filter the results within a given range:
 
-```js
+```ts
 const report = await db.table('orders')
   .selectRaw('count(id) as number_of_orders, customer_id')
   .groupBy('customer_id')
@@ -515,7 +515,7 @@ const report = await db.table('orders')
 
 你可以向 `groupBy` 方法传递多个参数，来对结果使用多个字段进行分组： 
 
-```js
+```ts
 const users = await db.table('users')
   .groupBy('first_name', 'status')
   .having('account_id', '>', 100)
@@ -524,19 +524,19 @@ const users = await db.table('users')
 
 对于更高级的 `having` 语法，参见 `havingRaw` 方法。
 
-## Limit & Offset
+## Limit & Offset {#limit-offset}
 
-#### `skip` & `take` 方法
+#### `skip` & `take` 方法 {#skip-take-方法}
 
 要限制结果的返回数量，或跳过指定数量的结果，你可以使用 `skip` 和 `take` 方法： 
 
-```js
+```ts
 const users = await db.table('users').skip(10).take(5).get();
 ```
 
 或者你也可以使用 `limit` 和 `offset` 方法，这些方法在功能上分别等效于 `take` 和 `skip` 方法：
 
-```js
+```ts
 const users = await db.table('users')
   .offset(10)
   .limit(5)
@@ -547,7 +547,7 @@ const users = await db.table('users')
 
 查询构造器还提供了 `insert` 方法用于插入记录到数据库中。 `insert` 方法接收数组形式的字段名和字段值进行插入操作：
 
-```js
+```ts
 await db.table('users').insert({
   email: 'kayla@example.com',
   votes: 0
@@ -556,7 +556,7 @@ await db.table('users').insert({
 
 你甚至可以将数组传递给 `insert` 方法，依次将多个记录插入到表中：
 
-```js
+```ts
 await db.table('users').insert([
   { email: 'picard@example.com', votes: 0 },
   { email: 'janeway@example.com', votes: 0 },
@@ -567,7 +567,7 @@ await db.table('users').insert([
 
 当然， 除了插入记录到数据库中，查询构造器也可以通过 `update` 方法更新已有的记录。 `update` 方法和 `insert` 方法一样，接受包含要更新的字段及值的数组。你可以通过 `where` 子句对 `update` 查询进行约束：
 
-```js
+```ts
 await db.table('users')
   .where('id', 1)
   .update({
@@ -579,7 +579,7 @@ await db.table('users')
 
 查询构造器还提供了方便的方法来递增或递减给定列的值。这两个方法都至少接受一个参数：要修改的列。可以提供第二个参数来指定列的递增或递减量：
 
-```js
+```ts
 await db.table('users').increment('votes');
  
 await db.table('users').increment('votes', 5);
@@ -593,7 +593,7 @@ await db.table('users').decrement('votes', 5);
 
 查询构造器也可以使用 `delete` 方法从表中删除记录。 在使用 `delete` 前，可以添加 `where` 子句来约束 `delete` 语法：
 
-```js
+```ts
 const deleted = await db.table('users').delete();
  
 const deleted = await db.table('users').where('votes', '>', 100).delete();
@@ -603,7 +603,7 @@ const deleted = await db.table('users').where('votes', '>', 100).delete();
 
 查询构造器也包含了一些能够帮助您在 `select` 语句中实现「悲观锁」的函数。要执行一个含有「共享锁」的语句，您可以在查询中使用 `forShare` 方法。共享锁可防止指定的数据列被篡改，直到事务被提交为止： 
 
-```js
+```ts
 await db.table('users')
   .where('votes', '>', 100)
   .forShare()
@@ -612,7 +612,7 @@ await db.table('users')
 
 或者，您亦可使用 `forUpdate` 方法。使用「 update 」锁可以避免数据行被其他共享锁修改或选定：
 
-```js
+```ts
 await db.table('users')
   .where('votes', '>', 100)
   .forUpdate()

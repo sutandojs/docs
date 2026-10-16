@@ -174,4 +174,4 @@ run();
 
 Sutando's schema builder gives you full control over your database schema with a clean, chainable API. Whether you're creating tables, adding columns, or managing foreign keys, it's all straightforward and readable.
 
-Learn more in the [Sutando documentation](https://sutando.org/guide/migrations.html).
+Learn more in the [Sutando documentation](https://sutando.org/guide/migrations).

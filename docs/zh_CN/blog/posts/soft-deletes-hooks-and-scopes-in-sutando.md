@@ -142,4 +142,4 @@ const allPosts = await Post.query().withoutGlobalScope('published').get();
 
 软删除、模型事件和查询作用域让 Sutando 不仅仅是一个查询构造器。它们让你将业务逻辑直接编码到模型中，保持控制器简洁、数据一致。
 
-了解更多请查看 [Sutando 文档](https://sutando.org/zh_CN/guide/soft-deletes.html)。
+了解更多请查看 [Sutando 文档](https://sutando.org/zh_CN/guide/hooks)。

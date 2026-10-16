@@ -2,7 +2,7 @@
 
 Sutando relationships are defined as methods on your Sutando model classes. Since relationships also serve as powerful [query builders](query-builder), defining relationships as methods provides powerful method chaining and querying capabilities. For example, we may chain additional query constraints on this `posts` relationship:
 
-```js
+```ts
 await user.related('posts').where('active', 1).get();
 ```
 
@@ -12,8 +12,8 @@ But, before diving too deep into using relationships, let's learn how to define 
 
 A one-to-one relationship is a very basic type of database relationship. For example, a `User` model might be associated with one `Phone` model. To define this relationship, we will place a phone method on the `User` model. The `relationPhone` method should call the `hasOne` method and return its result. The `hasOne` method is available to your model via the model's `Model` base class:
 
-```js
-const { Model } = require('sutando');
+```ts
+import { Model } from 'sutando';
 
 class Phone extends Model {}
 
@@ -26,20 +26,20 @@ class User extends Model {
 
 The first argument passed to the `hasOne` method is the name of the related model class. Once the relationship is defined, we may retrieve the related record using `getRelated` method
 
-```js
+```ts
 const user = await User.query().find(1);
 const phone = await user.getRelated('phone');
 ```
 
 Sutando determines the foreign key of the relationship based on the parent model name. In this case, the `Phone` model is automatically assumed to have a `user_id` foreign key. If you wish to override this convention, you may pass a second argument to the `hasOne` method:
 
-```js
+```ts
 return this.hasOne(Phone, 'foreign_key');
 ```
 
 Additionally, Sutando assumes that the foreign key should have a value matching the primary key column of the parent. In other words, Sutando will look for the value of the user's `id` column in the `user_id` column of the `Phone` record. If you would like the relationship to use a primary key value other than id or your model's `primaryKey` property, you may pass a third argument to the `hasOne` method:
 
-```js
+```ts
 return this.hasOne(Phone, 'foreign_key', 'local_key');
 ```
 
@@ -47,8 +47,8 @@ return this.hasOne(Phone, 'foreign_key', 'local_key');
 So, we can access the `Phone` model from our `User` model. Next, let's define a relationship on the `Phone` model that will let us access the user that owns the phone. We can define the inverse of a `hasOne` relationship using the `belongsTo` method:
 
 
-```js
-const { Model } = require('sutando');
+```ts
+import { Model } from 'sutando';
 
 class User extends Model {
   relationPhone() {
@@ -67,7 +67,7 @@ When invoking the `related('user')`, Sutando will attempt to find a `User` model
 
 Sutando determines the foreign key name by examining the name of the relationship method and suffixing the method name with `_id`. So, in this case, Sutando assumes that the `Phone` model has a user_id column. However, if the foreign key on the `Phone` model is not `user_id`, you may pass a custom key name as the second argument to the `belongsTo` method:
 
-```js
+```ts
 relationUser() {
   return this.belongsTo(User, 'foreign_key');
 }
@@ -75,7 +75,7 @@ relationUser() {
 
 If the parent model does not use id as its primary key, or you wish to find the associated model using a different column, you may pass a third argument to the `belongsTo` method specifying the parent table's custom key:
 
-```js
+```ts
 relationUser() {
   return this.belongsTo(User, 'foreign_key', 'owner_key');
 }
@@ -85,8 +85,8 @@ relationUser() {
 
 A one-to-many relationship is used to define relationships where a single model is the parent to one or more child models. For example, a blog post may have an infinite number of comments. Like all other Sutando relationships, one-to-many relationships are defined by defining a method on your Sutando model:
 
-```js
-const { Model } = require('sutando');
+```ts
+import { Model } from 'sutando';
 
 class Post extends Model {
   relationComments() {
@@ -99,8 +99,8 @@ Remember, Sutando will automatically determine the proper foreign key column for
 
 Once the relationship method has been defined, we can access the collection of related comments by accessing the `getRelated('comments')` method:
 
-```js
-const { Post } = require('./models');
+```ts
+import { Post } from './models';
 
 const post = await Post.query().find(1);
 const comments = await post.getRelated('comments');
@@ -112,7 +112,7 @@ comments.map(comment => {
 
 Since all relationships also serve as query builders, you may add further constraints to the relationship query by calling the `related('comments')` method and continuing to chain conditions onto the query:
 
-```js
+```ts
 const post = await Post.query().find(1);
 const comment = await post.related('comments')
   .where('title', 'foo')
@@ -121,18 +121,18 @@ const comment = await post.related('comments')
 
 Like the `hasOne` method, you may also override the foreign and local keys by passing additional arguments to the `hasMany` method:
 
-```js
+```ts
 return this.hasMany(Comment, 'foreign_key');
  
 return this.hasMany(Comment, 'foreign_key', 'local_key');
 ```
 
-## One To Many (Inverse) / Belongs To
+## One To Many (Inverse) / Belongs To {#one-to-many-inverse-belongs-to}
 
 Now that we can access all of a post's comments, let's define a relationship to allow a comment to access its parent post. To define the inverse of a `hasMany` relationship, define a relationship method on the child model which calls the `belongsTo` method:
 
-```js
-const { Model } = require('sutando');
+```ts
+import { Model } from 'sutando';
 
 class Comment extends Model {
   relationPost() {
@@ -147,7 +147,7 @@ Sutando determines the default foreign key name by examining the name of the rel
 
 However, if the foreign key for your relationship does not follow these conventions, you may pass a custom foreign key name as the second argument to the belongsTo method:
 
-```js
+```ts
 relationPost() {
   return this.belongsTo(Post, 'foreign_key');
 }
@@ -155,7 +155,7 @@ relationPost() {
 
 If your parent model does not use id as its primary key, or you wish to find the associated model using a different column, you may pass a third argument to the `belongsTo` method specifying your parent table's custom key:
 
-```js
+```ts
 relationPost() {
   return this.belongsTo(Post, 'foreign_key', 'owner_key');
 }
@@ -165,7 +165,7 @@ relationPost() {
 
 The `belongsTo`, `hasOne` relationships allow you to define a default model that will be returned if the given relationship is null. This pattern is often referred to as the Null Object pattern and can help remove conditional checks in your code. In the following example, the `user` relation will return an empty `User` model if no user is attached to the `Post` model:
 
-```js
+```ts
 reLationUser() {
   return this.belongsTo(User).withDefault();
 }
@@ -173,7 +173,7 @@ reLationUser() {
 
 To populate the default model with attributes, you may pass a object or closure to the `withDefault` method:
 
-```js
+```ts
 reLationUser() {
   return this.belongsTo(User).withDefault({
     name: 'Guest Author'
@@ -215,8 +215,8 @@ role_user
 
 Many-to-many relationships are defined by writing a method that returns the result of the `belongsToMany` method. The `belongsToMany` method is provided by the Model base class that is used by all of your application's Sutando models. For example, let's define a `relationRoles` method on our `User` model. The first argument passed to this method is the name of the related model class:
 
-```js
-const { Model } = require('sutando');
+```ts
+import { Model } from 'sutando';
 
 class User extends Model {
   relationRoles() {
@@ -227,20 +227,20 @@ class User extends Model {
 
 Since all relationships also serve as query builders, you may add further constraints to the relationship query by calling the `related('roles')` method and continuing to chain conditions onto the query:
 
-```js
+```ts
 const user = await User.query().find(1);
 const roles = await user.related('roles').orderBy('name').get();
 ```
 
 To determine the table name of the relationship's intermediate table, Sutando will join the two related model names in alphabetical order. However, you are free to override this convention. You may do so by passing a second argument to the `belongsToMany` method:
 
-```js
+```ts
 return this.belongsToMany(Role, 'role_user');
 ```
 
 In addition to customizing the name of the intermediate table, you may also customize the column names of the keys on the table by passing additional arguments to the `belongsToMany` method. The third argument is the foreign key name of the model on which you are defining the relationship, while the fourth argument is the foreign key name of the model that you are joining to:
 
-```js
+```ts
 return this.belongsToMany(Role, 'role_user', 'user_id', 'role_id');
 ```
 
@@ -248,8 +248,8 @@ return this.belongsToMany(Role, 'role_user', 'user_id', 'role_id');
 
 To define the "inverse" of a many-to-many relationship, you should define a method on the related model which also returns the result of the `belongsToMany` method. To complete our `user` / `role` example, let's define the `relationUsers` method on the `Role` model:
 
-```js
-const { Model } = require('sutando');
+```ts
+import { Model } from 'sutando';
 
 class Role extends Model {
   relationUsers() {
@@ -264,8 +264,8 @@ As you can see, the relationship is defined exactly the same as its `User` model
 
 As you have already learned, working with many-to-many relations requires the presence of an intermediate table. Sutando provides some very helpful ways of interacting with this table. For example, let's assume our `User` model has many Role models that it is related to. After accessing this relationship, we may access the intermediate table using the `pivot` attribute on the models:
 
-```js
-const { User } = require('./models');
+```ts
+import { User } from './models';
 
 const user = await User.query().find(1);
 const roles = await user.getRelated('roles');
@@ -279,13 +279,13 @@ Notice that each `Role` model we retrieve is automatically assigned a pivot attr
 
 By default, only the model keys will be present on the pivot model. If your intermediate table contains extra attributes, you must specify them when defining the relationship:
 
-```js
+```ts
 return this.belongsToMany(Role).withPivot('active', 'created_by');
 ```
 
 If you would like your intermediate table to have `created_at` and `updated_at` timestamps that are automatically maintained by Sutando, call the `withTimestamps` method when defining the relationship:
 
-```js
+```ts
 return this.belongsToMany(Role).withTimestamps();
 ```
 
@@ -295,7 +295,7 @@ As noted previously, attributes from the intermediate table may be accessed on m
 
 For example, if your application contains users that may subscribe to podcasts, you likely have a many-to-many relationship between users and podcasts. If this is the case, you may wish to rename your intermediate table attribute to `subscription` instead of `pivot`. This can be done using the `as` method when defining the relationship:
 
-```js
+```ts
 return this.belongsToMany(Podcast)
     .as('subscription')
     .withTimestamps();
@@ -305,7 +305,7 @@ return this.belongsToMany(Podcast)
 
 You can also filter the results returned by `belongsToMany` relationship queries using the `wherePivot`, `wherePivotIn`, `wherePivotNotIn`, `wherePivotBetween`, `wherePivotNotBetween`, `wherePivotNull`, and `wherePivotNotNull` methods when defining the relationship:
 
-```js
+```ts
 return this.belongsToMany(Role)
   .wherePivot('approved', 1);
  
@@ -336,7 +336,7 @@ return this.belongsToMany(Podcast)
 
 You can order the results returned by `belongsToMany` relationship queries using the `orderByPivot` method. In the following example, we will retrieve all of the latest badges for the user:
 
-```js
+```ts
 return this.belongsToMany(Badge)
   .where('rank', 'gold')
   .orderByPivot('created_at', 'desc');
@@ -348,8 +348,8 @@ Since all Sutando relationships are defined via methods, you may call those meth
 
 For example, imagine a blog application in which a `User` model has many associated `Post` models:
 
-```js
-const { Model } = require('sutando');
+```ts
+import { Model } from 'sutando';
 
 class User extends Model {
   relationPosts() {
@@ -360,8 +360,8 @@ class User extends Model {
 
 You may query the posts relationship and add additional constraints to the relationship like so:
 
-```js
-const { User } = require('./models');
+```ts
+import { User } from './models';
  
 const user = await User.query().find(1);
  
@@ -374,7 +374,7 @@ You are able to use any of the Sutando [query builder](query-builder)'s methods 
 
 As demonstrated in the example above, you are free to add additional constraints to relationships when querying them. However, use caution when chaining `orWhere` clauses onto a relationship, as the `orWhere` clauses will be logically grouped at the same level as the relationship constraint:
 
-```js
+```ts
 await user.related('posts')
   .where('active', 1)
   .orWhere('votes', '>=', 100)
@@ -391,7 +391,7 @@ where user_id = ? and active = 1 or votes >= 100
 
 In most situations, you should use logical groups to group the conditional checks between parentheses:
 
-```js
+```ts
 await user.related('posts')
   .where(query => {
     return query.where('active', 1).orWhere('votes', '>=', 100);
@@ -411,29 +411,29 @@ where user_id = ? and (active = 1 or votes >= 100)
 
 When retrieving model records, you may wish to limit your results based on the existence of a relationship. For example, imagine you want to retrieve all blog posts that have at least one comment. To do so, you may pass the name of the relationship to the `has` and `orHas` methods:
 
-```js
-const { Post } = require('./models');
+```ts
+import { Post } from './models';
 // Retrieve all posts that have at least one comment...
 const posts = await Post.query().has('comments').get();
 ```
 
 You may also specify an operator and count value to further customize the query:
 
-```js
+```ts
 // Retrieve all posts that have three or more comments...
 const posts = await Post.query().has('comments', '>=', 3).get();
 ```
 
 Nested has statements may be constructed using "dot" notation. For example, you may retrieve all posts that have at least one comment that has at least one image:
 
-```js
+```ts
 // Retrieve posts that have at least one comment with images...
 const posts = await Post.query().has('comments.images').get();
 ```
 
 If you need even more power, you may use the `whereHas` and `orWhereHas` methods to define additional query constraints on your has queries, such as inspecting the content of a comment:
 
-```js
+```ts
 // Retrieve posts with at least one comment containing words like code%...
 const posts = await Post.query().whereHas('comments', query => {
   query.where('content', 'like', 'code%');
@@ -451,8 +451,8 @@ const posts = await Post.query().whereHas('comments', query => {
 
 Sometimes you may want to count the number of related models for a given relationship without actually loading the models. To accomplish this, you may use the `withCount` method. The `withCount` method will place a `{relation}_count` attribute on the resulting models:
 
-```js
-const { Post } = require('./models');
+```ts
+import { Post } from './models';
 
 const posts = await Post.query().withCount('comments').get();
 
@@ -463,7 +463,7 @@ posts.map(post => {
 
 By passing an array to the `withCount` method, you may add the "counts" for multiple relations as well as add additional constraints to the queries:
 
-```js
+```ts
 const posts = await Post.query().withCount({
   comments: query => query.where('content', 'like', 'code%');
 }).get();
@@ -475,7 +475,7 @@ console.log(posts.get(0).comments_count);
 
 Using the `loadCount` method, you may load a relationship count after the parent model has already been retrieved:
 
-```js
+```ts
 const book = await Book.query().first();
  
 await book.loadCount('genres');
@@ -483,17 +483,17 @@ await book.loadCount('genres');
 
 If you need to set additional query constraints on the count query, you may pass an array keyed by the relationships you wish to count. The array values should be closures which receive the query builder instance:
 
-```js
+```ts
 await book.loadCount({
   reviews: query => query.where('rating', 5);
 })
 ```
 
-### Relationship Counting & Custom Select Statements
+### Relationship Counting & Custom Select Statements {#relationship-counting-custom-select-statements}
 
 If you're combining `withCount` with a select statement, ensure that you call `withCount` after the `select` method:
 
-```js
+```ts
 const posts = await Post.query().select(['title', 'body'])
   .withCount('comments')
   .get();
@@ -503,8 +503,8 @@ const posts = await Post.query().select(['title', 'body'])
 
 In addition to the `withCount` method, Sutando provides `withMin`, `withMax`, `withAvg`, `withSum`, and `withExists` methods. These methods will place a `{relation}_{function}_{column}` attribute on your resulting models:
 
-```js
-const { Post } = require('./models');
+```ts
+import { Post } from './models';
 
 const posts = await Post.query().withSum('comments', 'votes').get();
  
@@ -515,7 +515,7 @@ posts.map(post => {
 
 Like the `loadCount` method, deferred versions of these methods are also available. These additional aggregate operations may be performed on Sutando models that have already been retrieved:
 
-```js
+```ts
 const post = await Post.query().first();
  
 await post.loadSum('comments', 'votes');
@@ -523,7 +523,7 @@ await post.loadSum('comments', 'votes');
 
 If you're combining these aggregate methods with a `select` statement, ensure that you call the aggregate methods after the `select` method:
 
-```js
+```ts
 const posts = await Post.query().select(['title', 'body'])
   .withExists('comments')
   .get();
@@ -533,8 +533,8 @@ const posts = await Post.query().select(['title', 'body'])
 
 When accessing Sutando relationships as properties, the related models are "lazy loaded". This means the relationship data is not actually loaded until you first access the property. However, Sutando can "eager load" relationships at the time you query the parent model. Eager loading alleviates the `N + 1` query problem. To illustrate the `N + 1` query problem, consider a `Book` model that "belongs to" to an `Author` model:
 
-```js
-const { Model } = require('sutando');
+```ts
+import { Model } from 'sutando';
 
 class Book extends Model {
   relationAuthor() {
@@ -545,8 +545,8 @@ class Book extends Model {
 
 Now, let's retrieve all books and their authors:
 
-```js
-const { Book } = require('./models');
+```ts
+import { Book } from './models';
 
 const books = await Book.query().all();
 books.map(async book => {
@@ -559,7 +559,7 @@ This loop will execute one query to retrieve all of the books within the databas
 
 Thankfully, we can use eager loading to reduce this operation to just two queries. When building a query, you may specify which relationships should be eager loaded using the `with` method:
 
-```js
+```ts
 const books = await Book.query().with('author').get();
 
 books.map(book => {
@@ -579,7 +579,7 @@ select * from authors where id in (1, 2, 3, 4, 5, ...)
 
 Sometimes you may need to eager load several different relationships. To do so, just pass an array of relationships to the `with` method:
 
-```js
+```ts
 const books = await Book.query().with(['author', 'publisher']).get();
 ```
 
@@ -587,7 +587,7 @@ const books = await Book.query().with(['author', 'publisher']).get();
 
 To eager load a relationship's relationships, you may use "dot" syntax. For example, let's eager load all of the book's authors and all of the author's personal contacts:
 
-```js
+```ts
 const books = await Book.query().with('author.contacts').get();
 ```
 
@@ -595,7 +595,7 @@ const books = await Book.query().with('author.contacts').get();
 
 You may not always need every column from the relationships you are retrieving. For this reason, Sutando allows you to specify which columns of the relationship you would like to retrieve:
 
-```js
+```ts
 const books = await Book.query().with('author:id,name,book_id').get();
 ```
 
@@ -603,7 +603,7 @@ const books = await Book.query().with('author:id,name,book_id').get();
 
 Sometimes you may wish to eager load a relationship but also specify additional query conditions for the eager loading query. You can accomplish this by passing an array of relationships to the `with` method where the object key is a relationship name and the object value is a closure that adds additional constraints to the eager loading query:
 
-```js
+```ts
 const users = await User.query().with({
   posts: query => query.where('title', 'like', '%code%')
 }).get();
@@ -615,7 +615,7 @@ const users = await User.query().with('posts', query => {
 
 In this example, Sutando will only eager load posts where the post's `title` column contains the word code. You may call other query builder methods to further customize the eager loading operation:
 
-```js
+```ts
 const users = await User.query().with({
   posts: query => query.orderBy('created_at', 'desc')
 }).get();
@@ -625,8 +625,8 @@ const users = await User.query().with({
 
 Sometimes you may need to eager load a relationship after the parent model has already been retrieved. For example, this may be useful if you need to dynamically decide whether to load related models:
 
-```js
-const { Book } = require('./models');
+```ts
+import { Book } from './models';
 const books = await Book.query().all();
  
 if (someCondition) {
@@ -636,20 +636,20 @@ if (someCondition) {
 
 If you need to set additional query constraints on the eager loading query, you may pass an object keyed by the relationships you wish to load. The object values should be closure instances which receive the query instance:
 
-```js
+```ts
 await author.load({
   books: query => query.orderBy('published_date', 'asc')
 });
 ```
 
-## Inserting & Updating Related Models
+## Inserting & Updating Related Models {#inserting-updating-related-models}
 
 ### The `save` Method
 
 Sutando provides convenient methods for adding new models to relationships. For example, perhaps you need to add a new comment to a post. Instead of manually setting the `post_id` attribute on the `Comment` model you may insert the comment using the relationship's `save` method:
 
-```js
-const { Post, Comment } = require('./models');
+```ts
+import { Post, Comment } from './models';
 
 const comment = new Comment({
   message: 'A new comment.'
@@ -664,7 +664,7 @@ Note that we did not access the `comments` relationship as a dynamic property. I
 
 If you need to save multiple related models, you may use the `saveMany` method:
 
-```js
+```ts
 await post.related('comments').saveMany([
   new Comment({ message: 'A new comment.' }),
   new Comment({ message: 'Another new comment.' }),
@@ -673,7 +673,7 @@ await post.related('comments').saveMany([
 
 The `save` and `saveMany` methods will persist the given model instances, but will not add the newly persisted models to any in-memory relationships that are already loaded onto the parent model. If you plan on accessing the relationship after using the `save` or `saveMany` methods, you may wish to use the `refresh` method to reload the model and its relationships:
 
-```js
+```ts
 await post.related('comments').save(comment);
 await post.refresh();
  
@@ -681,11 +681,11 @@ await post.refresh();
 post.comments;
 ```
 
-#### Recursively Saving Models & Relationships
+#### Recursively Saving Models & Relationships {#recursively-saving-models-relationships}
 
 If you would like to save your model and all of its associated relationships, you may use the `push` method. In this example, the `Post` model will be saved as well as its comments and the comment's authors:
 
-```js
+```ts
 post.comments.get(0).message = 'Message';
 post.comments.get(0).author.name = 'Author Name';
  
@@ -696,8 +696,8 @@ await post.push();
 
 In addition to the `save` and `saveMany` methods, you may also use the `create` method, which accepts an object of attributes, creates a model, and inserts it into the database. The difference between `save` and `create` is that `save` accepts a full Sutando model instance while create accepts a plain `object`. The newly created model will be returned by the `create` method:
 
-```js
-const { Post } = require('./models');
+```ts
+import { Post } from './models';
 
 const post = await Post.query().find(1);
 
@@ -708,7 +708,7 @@ const comment = await post.related('comments').create({
 
 You may use the `createMany` method to create multiple related models:
 
-```js
+```ts
 await post.related('comments').createMany([
   { message: 'A new comment.' },
   { message: 'Another new comment.' },
@@ -721,8 +721,8 @@ You may also use the `findOrNew`, `firstOrNew`, `firstOrCreate`, and `updateOrCr
 
 If you would like to assign a child model to a new parent model, you may use the `associate` method. In this example, the `User` model defines a `belongsTo` relationship to the `Account` model. This `associate` method will set the foreign key on the child model:
 
-```js
-const { Account } = require('./models');
+```ts
+import { Account } from './models';
 
 const account = await Account.query().find(10);
 user.related('account').associate(account);
@@ -732,7 +732,7 @@ await user.save();
 
 To remove a parent model from a child model, you may use the `dissociate` method. This method will set the relationship's foreign key to null:
 
-```js
+```ts
 user.related('account').dissociate();
  
 await user.save();
@@ -740,12 +740,12 @@ await user.save();
 
 ### Many To Many Relationships
 
-#### Attaching / Detaching
+#### Attaching / Detaching {#attaching-detaching}
 
 Sutando also provides methods to make working with many-to-many relationships more convenient. For example, let's imagine a user can have many roles and a role can have many users. You may use the attach method to attach a role to a user by inserting a record in the relationship's intermediate table:
 
-```js
-const { User } = require('./models');
+```ts
+import { User } from './models';
 
 const user = await User.query().find(1);
 
@@ -754,7 +754,7 @@ await user.related('roles').attach(roleId);
 
 When attaching a relationship to a model, you may also pass an array of additional data to be inserted into the intermediate table:
 
-```js
+```ts
 await user.related('roles').attach(roleId, {
   expires: expires,
 });
@@ -762,7 +762,7 @@ await user.related('roles').attach(roleId, {
 
 Sometimes it may be necessary to remove a role from a user. To remove a many-to-many relationship record, use the `detach` method. The `detach` method will delete the appropriate record out of the intermediate table; however, both models will remain in the database:
 
-```js
+```ts
 // Detach a single role from the user...
 await user.related('roles').detach(roleId);
  
@@ -772,7 +772,7 @@ await user.related('roles').detach();
 
 For convenience, `attach` and `detach` also accept arrays of IDs as input:
 
-```js
+```ts
 const user = await User.query().find(1);
  
 await user.related('roles').detach([1, 2, 3]);
@@ -784,25 +784,25 @@ await user.related('roles').attach([1, 2]);
 
 You may also use the `sync` method to construct many-to-many associations. The `sync` method accepts an array of IDs to place on the intermediate table. Any IDs that are not in the given array will be removed from the intermediate table. So, after this operation is complete, only the IDs in the given array will exist in the intermediate table:
 
-```js
+```ts
 await user.related('roles').sync([1, 2, 3]);
 ```
 
 You may also pass additional intermediate table values with the IDs:
 
-```js
+```ts
 await user.related('roles').sync({ 1: { expires: true }, 2: {}, 3: {} });
 ```
 
 If you would like to insert the same intermediate table values with each of the synced model IDs, you may use the `syncWithPivotValues` method:
 
-```js
+```ts
 await user.related('roles').syncWithPivotValues([1, 2, 3], { active: true });
 ```
 
 If you do not want to detach existing IDs that are missing from the given array, you may use the `syncWithoutDetaching` method:
 
-```js
+```ts
 await user.related('roles').syncWithoutDetaching([1, 2, 3]);
 ```
 
@@ -810,7 +810,7 @@ await user.related('roles').syncWithoutDetaching([1, 2, 3]);
 
 If you need to update an existing row in your relationship's intermediate table, you may use the `updateExistingPivot` method. This method accepts the intermediate record foreign key and an object of attributes to update:
 
-```js
+```ts
 await user.related('roles').updateExistingPivot(roleId, {
   active: false,
 });

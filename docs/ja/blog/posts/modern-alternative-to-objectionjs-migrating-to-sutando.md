@@ -313,4 +313,4 @@ Objection.js は Node.js コミュニティに貢献してきましたが、メ�
 
 移行は段階的に行えます——両方の ORM が共存しながら、モデルごとに移行できます。今日からひとつのモデルで始めて、違いを実感してください。
 
-👉 [Sutando を始める](https://sutando.org/ja/guide/getting-started.html) または `npm install sutando` を実行して試してみましょう。
+👉 [Sutando を始める](https://sutando.org/ja/guide/getting-started) または `npm install sutando` を実行して試してみましょう。

@@ -319,4 +319,4 @@ Some Laravel features need manual implementation in Node.js:
 
 Migrating from Laravel to Node.js doesn't mean abandoning Eloquent. Sutando brings the same Active Record experience to Node.js with nearly identical API. You can keep your database schema, migrate routes incrementally, and your team can be productive from day one.
 
-Start with `npm install sutando` and check the [documentation](https://sutando.org/guide/getting-started.html).
+Start with `npm install sutando` and check the [documentation](https://sutando.org/guide/getting-started).

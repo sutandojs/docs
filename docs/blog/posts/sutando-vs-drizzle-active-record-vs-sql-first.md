@@ -258,4 +258,4 @@ Drizzle was built for the serverless era. It works seamlessly with Turso, Neon, 
 
 Drizzle and Sutando serve different needs. Drizzle is for developers who love SQL and want minimal abstraction. Sutando is for developers who want Active Record elegance and automatic relationship management. If your app is relationship-heavy and you value rapid development, Sutando is the better choice. If you need SQL-level control and minimal overhead, go with Drizzle.
 
-Try Sutando: `npm install sutando` — or read the [documentation](https://sutando.org/guide/getting-started.html).
+Try Sutando: `npm install sutando` — or read the [documentation](https://sutando.org/guide/getting-started).

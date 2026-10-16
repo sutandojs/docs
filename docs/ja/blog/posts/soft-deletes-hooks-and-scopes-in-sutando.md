@@ -135,4 +135,4 @@ const posts = await Post.query().get();
 
 ソフトデリート、フック、クエリスコープを組み合わせることで、データ整合性を保ちながら開発効率を大幅に向上できます。これらの機能は Laravel Eloquent から直接インスピレーションを得ており、直感的に使えます。
 
-[ドキュメント](https://sutando.org/ja/guide/hooks.html) でさらに詳しく。
+[ドキュメント](https://sutando.org/ja/guide/hooks) でさらに詳しく。

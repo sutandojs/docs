@@ -158,4 +158,4 @@ Drizzle 为 Serverless 时代而生，与 Turso、Neon、Supabase 等现代无�
 
 Drizzle 和 Sutando 服务于不同需求。Drizzle 适合热爱 SQL、想要最小抽象的开发者。Sutando 适合想要 Active Record 优雅和自动关联管理的开发者。如果你的应用关联密集且重视开发速度，Sutando 是更好的选择。如果你需要 SQL 级别的控制和最小开销，选 Drizzle。
 
-试试 Sutando：`npm install sutando`——或阅读[文档](https://sutando.org/zh_CN/guide/getting-started.html)。
+试试 Sutando：`npm install sutando`——或阅读[文档](https://sutando.org/zh_CN/guide/getting-started)。

@@ -313,4 +313,4 @@ Objection.js 为 Node.js 社区做出了贡献，但它的维护状态和 TypeSc
 
 迁移可以增量进行——两个 ORM 可以共存，你逐个模型地过渡。今天就从一个模型开始，亲自感受差异。
 
-👉 [开始使用 Sutando](https://sutando.org/zh_CN/guide/getting-started.html) 或运行 `npm install sutando` 来试试。
+👉 [开始使用 Sutando](https://sutando.org/zh_CN/guide/getting-started) 或运行 `npm install sutando` 来试试。

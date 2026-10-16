@@ -131,4 +131,4 @@ Drizzle は Cloudflare Workers や Vercel Edge などのエッジ環境で非常
 
 Sutando は開発速度を、Drizzle は制御力を優先します。CRUD アプリなら Sutando、複雑なクエリが中心なら Drizzle が適しています。
 
-Sutando を試す：`npm install sutando` — [ドキュメント](https://sutando.org/ja/guide/getting-started.html)
+Sutando を試す：`npm install sutando` — [ドキュメント](https://sutando.org/ja/guide/getting-started)

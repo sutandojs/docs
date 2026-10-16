@@ -11,11 +11,11 @@ mode: center
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-## The Familiar Active‑Record You Love, Now for JavaScript
+## The Familiar Active‑Record You Love, Now for JavaScript {#the-familiar-active‐record-you-love-now-for-javascript}
 
 > **Sutando ORM** speaks the same language as Laravel’s Eloquent—methods, naming, and conventions—yet runs anywhere in the Node.js ecosystem, without tying you to a full‑stack framework.
 
-## Nearly Drop‑In Compatible with Laravel Eloquent
+## Nearly Drop‑In Compatible with Laravel Eloquent {#nearly-drop‐in-compatible-with-laravel-eloquent}
 
 If you’ve written an Eloquent query, you already know Sutando:
 
@@ -56,7 +56,7 @@ const users = await User.query().with('posts').get();
 - Soft deletes, events, global scopes, and eager loading work just like in Laravel  
 - Migrations, factories, and seeders share the same philosophies—moving from PHP feels effortless  
 
-## Framework‑Agnostic by Design—A Contrast to AdonisJS
+## Framework‑Agnostic by Design—A Contrast to AdonisJS {#framework‐agnostic-by-design—a-contrast-to-adonisjs}
 
 Full‑stack solutions such as **AdonisJS** ship with Lucid ORM, which shines when you commit to the entire framework. **Sutando takes the opposite route**:
 
@@ -81,7 +81,7 @@ const latestActive = await User.query()
 
 You read it like a sentence, just as in Laravel—no extra boilerplate, no new mental model.
 
-## Powerful Plugins & Lifecycle Hooks
+## Powerful Plugins & Lifecycle Hooks {#powerful-plugins-lifecycle-hooks}
 
 Need soft deletes, multi‑tenancy, or automatic timestamps? Write it once and apply everywhere:
 
@@ -97,7 +97,7 @@ User.saving(async (model) => {
 npm install sutando --save
 ```
 
-Configure your database, create your first model, and run queries—no framework migration required. Full docs live at **https://sutando.org/guide/getting-started.html**.
+Configure your database, create your first model, and run queries—no framework migration required. Full docs live at **https://sutando.org/guide/getting-started**.
 
 ```ts
 import { sutando, Model } from 'sutando';

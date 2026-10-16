@@ -121,4 +121,4 @@ const users = await User.query().with('posts').get();
 | `morphMany` | 多态一对多 | Post/Video → Tags |
 | `morphTo` | 多态反向 | Tag → Post/Video |
 
-了解更多请查看 [Sutando 文档](https://sutando.org/zh_CN/guide/relationships.html)。
+了解更多请查看 [Sutando 文档](https://sutando.org/zh_CN/guide/relationships)。

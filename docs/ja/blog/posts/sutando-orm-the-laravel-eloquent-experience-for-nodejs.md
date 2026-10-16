@@ -25,7 +25,7 @@ Sutando は Node.js 向けのモダンな ORM で、Laravel Eloquent の API パ
 - **タイプキャスト** — 属性の自動型変換
 - **マイグレーション** — スキーマビルダー付き
 
-## なぜ Sutando なのか？
+## なぜ Sutando なのか？ {#なぜ-sutando-なのか}
 
 Node.js エコシステムには多くの ORM がありますが、それぞれ課題があります：
 
@@ -41,7 +41,7 @@ Sutando は、Laravel Eloquent のシンプルさと開発速度を Node.js に�
 npm install sutando --save
 ```
 
-データベースを設定し、最初のモデルを作成して、クエリを実行しましょう。完全なドキュメントは **https://sutando.org/ja/guide/getting-started.html** にあります。
+データベースを設定し、最初のモデルを作成して、クエリを実行しましょう。完全なドキュメントは **https://sutando.org/ja/guide/getting-started** にあります。
 
 ```ts
 import { sutando, Model } from 'sutando';
@@ -95,4 +95,4 @@ console.log(users);
 
 Sutando は、Laravel Eloquent の開発体験を Node.js でもたらす ORM です。Active Record パターン、デコレーター不要のモデル定義、豊富な機能により、高速な開発が可能になります。
 
-[スタートガイド](https://sutando.org/ja/guide/getting-started.html) を読んで始めましょう。
+[スタートガイド](https://sutando.org/ja/guide/getting-started) を読んで始めましょう。

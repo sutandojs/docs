@@ -247,4 +247,4 @@ const popularPosts = await Post.query()
 
 Soft deletes, model events, and query scopes are three features that make Sutando more than just a query builder. They let you encode business logic directly into your models, keeping your controllers clean and your data consistent.
 
-Learn more in the [Sutando documentation](https://sutando.org/guide/soft-deletes.html).
+Learn more in the [Sutando documentation](https://sutando.org/guide/hooks).

@@ -11,7 +11,7 @@ However, if you need to use Node.js-specific features in your models (like file 
 1. Create a base model class containing shared logic for both frontend and backend
 2. Create a server-side model class that extends the base model for Node.js-specific features
 
-```javascript
+```typescript
 // models/base/user.js - Shared base model
 export class BaseUser extends Model {
   // Shared properties and methods
@@ -29,8 +29,8 @@ export class User extends BaseUser {
 
 The `make` function converts API response data into model instances, allowing you to use all model features including accessors and mutators.
 
-```javascript
-const { make } = require('sutando');
+```typescript
+import { make } from 'sutando';
 const user = make(User, data);
 ```
 
@@ -38,8 +38,8 @@ const user = make(User, data);
 
 The `makeCollection` function transforms an array of API response data into a collection of model instances.
 
-```javascript
-const { makeCollection } = require('sutando');
+```typescript
+import { makeCollection } from 'sutando';
 const users = makeCollection(User, data);
 ```
 
@@ -47,14 +47,14 @@ const users = makeCollection(User, data);
 
 The `makePaginator` function converts paginated API response data into a Paginator instance.
 
-```javascript
-const { makePaginator } = require('sutando');
+```typescript
+import { makePaginator } from 'sutando';
 const pageData = makePaginator(User, data);
 ```
 
 ## Usage Examples
 
-```javascript
+```typescript
 // Convert API response to model instance
 const response = await fetch('/api/users/1');
 const data = await response.json();

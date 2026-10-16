@@ -246,4 +246,4 @@ await user.save();
 
 TypeORM served the Node.js community well, but its decorator dependency, string-based queries, and maintenance issues make it hard to recommend for new projects. Sutando offers the same Active Record pattern with a cleaner API, no decorator requirement, and built-in features that TypeORM lacks.
 
-If you're starting a new project or considering a TypeORM replacement, give Sutando a try: `npm install sutando` — or read the [documentation](https://sutando.org/guide/getting-started.html).
+If you're starting a new project or considering a TypeORM replacement, give Sutando a try: `npm install sutando` — or read the [documentation](https://sutando.org/guide/getting-started).

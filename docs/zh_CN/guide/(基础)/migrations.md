@@ -21,10 +21,10 @@ $ sutando init
 
 这会在项目目录生成一个 `sutando.config.js` 文件，用来设置数据库连接等信息。
 
-```js
+```ts
 // Update with your config settings.
 
-module.exports = {
+export default 
   client: 'mysql2',
   connection: {
     host: 'localhost',
@@ -70,10 +70,10 @@ Sutando 将使用迁移文件的名称来猜测表名以及迁移是否会创建
 
 在这两种方法中，可以使用 Schema 构建器来富有表现力地创建和修改表。要了解 Schema 构建器上可用的所有方法，查看其文档。例如，以下迁移会创建一个 `flights` 表：
 
-```js
-const { Migration } = require('sutando');
+```ts
+import { Migration } from 'sutando';
 
-module.exports = class extends Migration {
+export default 
   /**
     * Run the migrations.
     */
@@ -99,8 +99,8 @@ module.exports = class extends Migration {
 
 如果你的迁移将与应用程序默认数据库连接以外的数据库连接进行交互，你应该设置迁移的 `connection` 属性：
 
-```js
-module.exports = class extends Migration {
+```ts
+export default 
   connection = 'pgsql';
 
   /**
@@ -146,10 +146,10 @@ $ npx sutando migrate:rollback --step=5
 
 接下来我们将使用 `createTable` 方法创建一个新的数据表。`createTable` 接受两个参数：第一个参数是表名，而第二个参数是一个回调函数：
 
-```js
-const { Migration } = require('sutando');
+```ts
+import { Migration } from 'sutando';
 
-module.exports = class extends Migration {
+export default 
   /**
     * Run the migrations.
     */
@@ -173,11 +173,11 @@ module.exports = class extends Migration {
 
 创建表时，可以使用数据库结构构建器的 列方法 来定义表的列。
 
-#### 检查表 / 列是否存在
+#### 检查表 / 列是否存在 {#检查表-列是否存在}
 
 你可以使用 `hasTable` 和 `hasColumn` 方法检查表或列是否存在：
 
-```js
+```ts
 if (await schema.hasTable('users')) {
   // 「users」表存在...
 }
@@ -189,7 +189,7 @@ if (await schema.hasColumn('users', 'email')) {
 
 此外，还可以使用其他一些属性和方法来定义表创建的其他地方。使用 MySQL 时，可以使用 engine 方法指定表的存储引擎：
 
-```js
+```ts
 await schema.createTable('users', (table) => {
   table.engine('InnoDB');
 
@@ -199,7 +199,7 @@ await schema.createTable('users', (table) => {
 
 `charset` 和 `collate` 方法可用于在使用 MySQL 时为创建的表指定字符集和排序规则：
 
-```js
+```ts
 await schema.createTable('users', (table) => {
   table.charset('utf8mb4');
   table.collate('utf8mb4_unicode_ci');
@@ -210,7 +210,7 @@ await schema.createTable('users', (table) => {
 
 如果你想给数据库表添加「注释」，你可以在表实例上调用 `comment` 方法。目前只有 MySQL 和 Postgres 支持表注释：
 
-```js
+```ts
 await schema.createTable('calculations', (table) => {
   table.comment('Business calculations');
 
@@ -222,23 +222,23 @@ await schema.createTable('calculations', (table) => {
 
 Schema 的 `table` 方法可用于更新现有表。与 `createTable` 方法一样，`table` 方法接受两个参数：表的名称和接收可用于向表添加列或索引的回调函数：
 
-```js
+```ts
 await schema.table('users', (table) => {
   table.integer('votes');
 });
 ```
 
-### 重命名 / 删除表
+### 重命名 / 删除表 {#重命名-删除表}
 
 要重命名已存在的数据表，使用 `renameTable` 方法：
 
-```js
+```ts
 await schema.renameTable(from, to);
 ```
 
 要删除已存在的表，你可以使用 `dropTable` 或 `dropTableIfExists` 方法：
 
-```js
+```ts
 await schema.dropTable('users');
 
 await schema.dropTableIfExists('users');
@@ -250,7 +250,7 @@ await schema.dropTableIfExists('users');
 
 Schema 的 `table` 方法可用于更新表。与 `createTable` 方法一样， `table` 方法接受两个参数：表名和一个回调函数，可以使用该实例向表中添加列：
 
-```js
+```ts
 await schema.table('users', (table) => {
   table.integer('votes');
 });
@@ -264,7 +264,7 @@ Schema 构建器提供了多种方法，用来创建表中对应类型的列。�
 
 `bigIncrements` 方法用于在数据表中创建一个自增的 `UNSIGNED BIGINT` 类型（主键）的列：
 
-```js
+```ts
 table.bigIncrements('id');
 ```
 
@@ -272,7 +272,7 @@ table.bigIncrements('id');
 
 `bigInteger` 方法用于在数据表中创建一个 `BIGINT` 类型的列：
 
-```js
+```ts
 table.bigInteger('votes');
 ```
 
@@ -280,7 +280,7 @@ table.bigInteger('votes');
 
 `binary` 方法用于在数据表中创建一个 `BLOB` 类型的列：
 
-```js
+```ts
 table.binary('photo');
 ```
 
@@ -288,7 +288,7 @@ table.binary('photo');
 
 `boolean` 方法用于在数据表中创建一个 `BOOLEAN` 类型的列：
 
-```js
+```ts
 table.boolean('confirmed');
 ```
 
@@ -296,7 +296,7 @@ table.boolean('confirmed');
 
 `datetime` 方法用于在数据表中创建一个 `DATETIME` 类型的列，可选参数为精度的总位数：
 
-```js
+```ts
 table.datetime('created_at', { precision: 6 });
 ```
 
@@ -304,7 +304,7 @@ table.datetime('created_at', { precision: 6 });
 
 `date` 方法用于在数据表中创建一个 `DATE` 类型的列：
 
-```js
+```ts
 table.date('date');
 ```
 
@@ -312,7 +312,7 @@ table.date('date');
 
 `decimal` 方法用于在数据表中创建一个 `DECIMAL` 类型的列，可选参数分别为有效字数总位数、小数部分总位数：
 
-```js
+```ts
 table.decimal('amount');
 table.decimal('amount', 8, 2);
 ```
@@ -321,7 +321,7 @@ table.decimal('amount', 8, 2);
 
 `double` 方法用于在数据表中创建一个 `DOUBLE` 类型的列，可选参数分别为有效字数总位数、小数部分总位数：
 
-```js
+```ts
 table.double('amount', 8, 2);
 ```
 
@@ -329,7 +329,7 @@ table.double('amount', 8, 2);
 
 `enum` 方法用于在数据表中创建一个 `ENUM` 类型的列：
 
-```js
+```ts
 table.enum('difficulty', ['easy', 'hard']);
 ```
 
@@ -337,7 +337,7 @@ table.enum('difficulty', ['easy', 'hard']);
 
 `float` 方法用于在数据表中创建一个 `FLOAT` 类型的列，可选参数分别为有效字数总位数、小数部分总位数：
 
-```js
+```ts
 table.float('amount', 8, 2);
 ```
 
@@ -345,7 +345,7 @@ table.float('amount', 8, 2);
 
 `geometry` 方法相当于 `GEOMETRY`：
 
-```js
+```ts
 table.geometry('positions');
 ```
 
@@ -353,7 +353,7 @@ table.geometry('positions');
 
 `increments` 方法创建一个自动递增相当于 `UNSIGNED INTEGER` 的列作为主键：
 
-```js
+```ts
 table.increments('id');
 ```
 
@@ -361,7 +361,7 @@ table.increments('id');
 
 `integer` 方法用于在数据表中创建一个 `INTEGER` 类型的列：
 
-```js
+```ts
 table.integer('votes');
 ```
 
@@ -369,7 +369,7 @@ table.integer('votes');
 
 `json` 方法用于在数据表中创建一个 `JSON` 类型的列：
 
-```js
+```ts
 table.json('options');
 ```
 
@@ -377,7 +377,7 @@ table.json('options');
 
 `jsonb` 方法用于在数据表中创建一个 `JSONB` 类型的列：
 
-```js
+```ts
 table.jsonb('options');
 ```
 
@@ -385,7 +385,7 @@ table.jsonb('options');
 
 `point` 方法用于在数据表中创建一个 `POINT` 类型的列：
 
-```js
+```ts
 table.point('position');
 ```
 
@@ -393,7 +393,7 @@ table.point('position');
 
 `smallint` 方法用于在数据表中创建一个 `SMALLINT` 类型的列：
 
-```js
+```ts
 table.smallint('votes');
 ```
 
@@ -401,7 +401,7 @@ table.smallint('votes');
 
 `string` 方法创建一个给定长度的 `VARCHAR` 等效列，相当于指定长度的 VARCHAR：
 
-```js
+```ts
 table.string('name', 100);
 ```
 
@@ -409,7 +409,7 @@ table.string('name', 100);
 
 `text` 方法用于在数据表中创建一个 `TEXT` 类型的列：
 
-```js
+```ts
 table.text('description');
 ```
 
@@ -417,7 +417,7 @@ table.text('description');
 
 `time` 方法创建一个具有可选精度（总位数）的 `TIME` 等效列：
 
-```js
+```ts
 table.time('sunrise', { precision: 6 });
 ```
 
@@ -425,7 +425,7 @@ table.time('sunrise', { precision: 6 });
 
 `timestamp` 方法创建一个具有可选精度（总位数）的 `TIMESTAMP` 类型的列：
 
-```js
+```ts
 table.timestamp('sunrise', { precision: 6 });
 ```
 
@@ -433,7 +433,7 @@ table.timestamp('sunrise', { precision: 6 });
 
 `timestamps` 方法创建 `created_at` 和 `updated_at` `TIMESTAMP`等效列：
 
-```js
+```ts
 table.timestamps();
 ```
 
@@ -441,7 +441,7 @@ table.timestamps();
 
 `tinyint` 方法用于在数据表中创建一个 `TINYINT` 类型的列：
 
-```js
+```ts
 table.tinyint('votes');
 ```
 
@@ -449,7 +449,7 @@ table.tinyint('votes');
 
 `uuid` 方法用于在数据表中创建一个 `UUID` 类型的列：
 
-```js
+```ts
 table.uuid('id');
 ```
 
@@ -457,7 +457,7 @@ table.uuid('id');
 
 除了上面列出的列类型外，在向数据库表添加列时还有几个可以使用的「修饰符」。例如，如果要把列设置为要使列为「可空」，你可以使用 `nullable` 方法：
 
-```js
+```ts
 await schema.table('users', (table) => {
   table.string('email').nullable();
 })
@@ -480,7 +480,7 @@ await schema.table('users', (table) => {
 
 `alter` 方法可以将现有的字段类型修改为新的类型或修改属性。比如，你可能想增加 `string` 字段的长度，可以使用 `alter` 方法把 `name` 字段的长度从 25 增加到 50。所以，我们可以简单的更新字段属性然后调用 `alter` 方法：
 
-```js
+```ts
 await schema.table('users', (table) => {
   table.string('name', 50).alter();
 });
@@ -488,7 +488,7 @@ await schema.table('users', (table) => {
 
 当修改一个列时，你必须明确包括所有你想在列定义上保留的修改器 —— 任何缺失的属性都将被丢弃。例如，为了保留 unsigned、default 和 comment 属性，你必须在修改列时明确每个属性的修改。
 
-```js
+```ts
 await schema.table('users', (table) => {
   table.integer('votes').unsigned().defaultTo(1).comment('my comment').alter();
 });
@@ -498,7 +498,7 @@ await schema.table('users', (table) => {
 
 要重命名一个列，你可以使用模式构建器提供的 `renameColumn` 方法：
 
-```js
+```ts
 await schema.table('users', (table) => {
   table.renameColumn('from', 'to');
 });
@@ -508,7 +508,7 @@ await schema.table('users', (table) => {
 
 要删除一个列，你可以使用 `dropColumn` 方法。
 
-```js
+```ts
 await schema.table('users', (table) => {
   table.dropColumn('votes');
 });
@@ -516,7 +516,7 @@ await schema.table('users', (table) => {
 
 如果要删除多个列，你可以使用 `dropColumns` 方法。
 
-```js
+```ts
 await schema.table('users', (table) => {
   table.dropColumns('votes', 'avatar', 'location');
 });
@@ -528,26 +528,26 @@ await schema.table('users', (table) => {
 
 结构生成器支持多种类型的索引。下面的例子中新建了一个值唯一的 `email` 字段。我们可以将 `unique` 方法链式地添加到字段定义上来创建索引：
 
-```js
+```ts
 await schema.table('users', (table) => {
   table.string('email').unique();
 });
 ```
 或者，你也可以在定义完字段之后创建索引。为此，你应该调用结构生成器上的 `unique` 方法，此方法应该传入唯一索引的列名称：
 
-```js
+```ts
 table.unique('email');
 ```
 
 你甚至可以将数组传递给索引方法来创建一个复合（或合成）索引：
 
-```js
+```ts
 table.index(['account_id', 'created_at']);
 ```
 
 创建索引时，Sutando 会自动生成一个合理的索引名称，但你也可以传递参数来自定义索引名称：
 
-```js
+```ts
 table.index(['name', 'last_name'], 'idx_name_last_name');
 table.unique('email', {
   indexName: 'unique_email'
@@ -579,7 +579,7 @@ table.unique('email', {
 
 Sutando 还支持创建用于在数据库层中的强制引用完整性的外键约束。例如，让我们在 `posts` 表上定义一个引用 `users` 表的 `id` 字段的 `user_id` 字段：
 
-```js
+```ts
 await schema.createTable('posts', (table) => {
   table.integer('user_id').unsigned().notNullable();
   table.string('title', 30);

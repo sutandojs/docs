@@ -325,4 +325,4 @@ Bookshelf.js はその時代において優れた ORM でしたが、2022 年以
 
 移行はシンプルです：モデルを `extend()` から ES6 クラスに変換し、クエリパターンを更新し、Bookshelf の依存を削除します。両方の ORM は移行期間中に共存できるため、モデルごとに段階的に移行できます。
 
-👉 [Sutando を始める](https://sutando.org/ja/guide/getting-started.html) または `npm install sutando` を実行して試してみましょう。
+👉 [Sutando を始める](https://sutando.org/ja/guide/getting-started) または `npm install sutando` を実行して試してみましょう。

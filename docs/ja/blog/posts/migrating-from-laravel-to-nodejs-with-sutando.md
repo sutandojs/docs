@@ -182,4 +182,4 @@ app.listen(3000);
 
 Laravel 開発者にとって、Sutando は Node.js への最も自然な移行パスです。Eloquent の概念がそのまま使えるため、学習コストが最小限に抑えられます。
 
-[ドキュメント](https://sutando.org/ja/guide/getting-started.html) を読んで始めましょう。
+[ドキュメント](https://sutando.org/ja/guide/getting-started) を読んで始めましょう。

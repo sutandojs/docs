@@ -141,4 +141,4 @@ const posts = await Post.query()
 
 TypeORM は Node.js コミュニティに貢献してきましたが、デコレーター依存、文字列ベースのクエリ、メンテナンスの停滞により、新規プロジェクトには推奨しづらい状況です。Sutando は同じ Active Record パターンを提供しつつ、よりクリーンな API と TypeORM に欠けている機能を備えています。
 
-`npm install sutando` — または [ドキュメント](https://sutando.org/ja/guide/getting-started.html) をお読みください。
+`npm install sutando` — または [ドキュメント](https://sutando.org/ja/guide/getting-started) をお読みください。

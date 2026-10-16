@@ -185,4 +185,4 @@ app.listen(3000, () => console.log('API running on port 3000'));
 - Add CORS configuration
 - Deploy to your preferred platform
 
-Full documentation at [sutando.org](https://sutando.org/guide/getting-started.html).
+Full documentation at [sutando.org](https://sutando.org/guide/getting-started).

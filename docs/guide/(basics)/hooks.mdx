@@ -24,7 +24,7 @@ When issuing a mass update or delete query via Sutando, the `saved`, `updated`, 
 
 There are currently two ways to programmatically add hooks:
 
-```js
+```ts
 class User extends Model {}
 
 User.creating(user => {
@@ -32,7 +32,7 @@ User.creating(user => {
 });
 ```
 
-```js
+```ts
 class User {
   static booted() {
     this.creating(user => {
@@ -48,7 +48,7 @@ class User {
 
 ## Hooks and Transactions
 
-```js
+```ts
 User.deleted(async (user, { client }) => {
   const query = user.related('posts');
 

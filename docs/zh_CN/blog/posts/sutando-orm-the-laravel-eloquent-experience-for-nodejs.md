@@ -11,7 +11,7 @@ mode: center
 ![image](https://storage.sutando.org/og-1751395044936.jpg)
 
 ---
-## 你熟悉的 Active Record，现在来到了 JavaScript
+## 你熟悉的 Active Record，现在来到了 JavaScript {#你熟悉的-active-record-现在来到了-javascript}
 
 > **Sutando ORM** 与 Laravel Eloquent 一脉相承——相同的方法、命名和约定——同时可以在 Node.js 生态中的任何地方运行，无需绑定全栈框架。
 
@@ -56,7 +56,7 @@ const users = await User.query().with('posts').get();
 - 软删除、事件、全局作用域和预加载的工作方式与 Laravel 完全一致
 - 迁移、工厂和种子遵循相同的理念——从 PHP 迁移轻而易举
 
-## 框架无关设计——与 AdonisJS 对比
+## 框架无关设计——与 AdonisJS 对比 {#框架无关设计——与-adonisjs-对比}
 
 **AdonisJS** 这类全栈方案自带 Lucid ORM，在你全面采用该框架时表现出色。**Sutando 则走了一条不同的路**：
 
@@ -97,7 +97,7 @@ User.saving(async (model) => {
 npm install sutando --save
 ```
 
-配置你的数据库，创建你的第一个模型，然后运行查询——无需框架迁移。完整文档请访问 **https://sutando.org/zh_CN/guide/getting-started.html**。
+配置你的数据库，创建你的第一个模型，然后运行查询——无需框架迁移。完整文档请访问 **https://sutando.org/zh_CN/guide/getting-started**。
 
 ```ts
 import { sutando, Model } from 'sutando';
@@ -133,6 +133,6 @@ class User extends Model {}
 const users = await User.query().where('votes', '>', 100).get();
 ```
 
-## 更快地开发，保持灵活性
+## 更快地开发，保持灵活性 {#更快地开发-保持灵活性}
 
 Sutando ORM 带来了 Laravel 爱好者钟爱的 Eloquent 开发体验，同时保持架构的开放性。无论你是在升级 JavaScript 代码库、尝试 Serverless 架构，还是只是想要一个用起来顺手的 Active Record，Sutando 都已准备好为你的下一个应用赋能——无需框架。

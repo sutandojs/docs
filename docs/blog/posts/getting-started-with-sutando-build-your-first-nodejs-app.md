@@ -302,8 +302,8 @@ app.listen(3000, () => console.log('Server running on port 3000'));
 
 ## Next Steps
 
-- [Model Relationships](https://sutando.org/guide/relationships.html) — master `hasMany`, `belongsTo`, and more
-- [Database Migrations](https://sutando.org/guide/migrations.html) — version-control your schema
-- [Model Events](https://sutando.org/guide/events.html) — hook into the model lifecycle
+- [Model Relationships](https://sutando.org/guide/relationships) — master `hasMany`, `belongsTo`, and more
+- [Database Migrations](https://sutando.org/guide/migrations) — version-control your schema
+- [Model Events](https://sutando.org/guide/hooks) — hook into the model lifecycle
 
-You now have a working Node.js app with Sutando. The full documentation is at [sutando.org](https://sutando.org/guide/getting-started.html).
+You now have a working Node.js app with Sutando. The full documentation is at [sutando.org](https://sutando.org/guide/getting-started).

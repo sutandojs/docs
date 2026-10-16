@@ -173,4 +173,4 @@ await user.save();
 
 TypeORM 曾为 Node.js 社区做出了贡献，但它对装饰器的依赖、基于字符串的查询和维护问题使其难以推荐用于新项目。Sutando 提供了同样的 Active Record 模式，但 API 更干净、无需装饰器，且内置了 TypeORM 缺少的功能。
 
-试试 Sutando：`npm install sutando`——或阅读[文档](https://sutando.org/zh_CN/guide/getting-started.html)。
+试试 Sutando：`npm install sutando`——或阅读[文档](https://sutando.org/zh_CN/guide/getting-started)。

@@ -61,8 +61,8 @@ $ pnpm add tedious
 
 要连接到数据库，你必须添加一个连接。 `client` 参数是必需的，它决定了哪个客户端适配器将与 Sutando 一起使用。
 
-```js
-const { sutando } = require('./sutando');
+```ts
+import { sutando } from './sutando';
 
 sutando.addConnection({
   client: 'mysql2',
@@ -96,7 +96,7 @@ const db = sutando.connection('another_mysql');
 
 当你使用 `SQLite3` 或 `Better-SQLite3` 适配器时，需要一个文件名，而不是网络连接。 例如：
 
-```js
+```ts
 sutando.addConnection({
   client: 'sqlite3', // or 'better-sqlite3'
   connection: {
@@ -107,7 +107,7 @@ sutando.addConnection({
 
 你还可以通过提供 `:memory:` 作为文件名来使用内存数据库运行 `SQLite3` 或 `Better-SQLite3`。 例如：
 
-```js
+```ts
 sutando.addConnection({
   client: 'sqlite3', // or 'better-sqlite3'
   connection: {
@@ -118,7 +118,7 @@ sutando.addConnection({
 
 当你使用 `SQLite3` 适配器时，你可以设置用于打开连接的标志。 例如：
 
-```js
+```ts
 sutando.addConnection({
   client: 'sqlite3',
   connection: {
@@ -132,7 +132,7 @@ sutando.addConnection({
 
 当你使用 PostgreSQL 适配器连接非标准数据库时，可以在 sutando 配置中添加数据库版本。
 
-```js
+```ts
 sutando.addConnection({
   client: 'pg',
   version: '7.2',
