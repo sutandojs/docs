@@ -259,7 +259,12 @@ export default defineConfig({
   },
 
   agents: {
-    llmsTxt: true,
+    // The llms.txt spec's "details" block: what an agent should know before it
+    // picks a page — when to reach for Sutando, and how to install and drive it.
+    llmsTxt: {
+      details:
+        "Sutando is a modern Node.js ORM with an Active Record API modelled on Laravel's Eloquent: models, relationships, a fluent query builder, migrations, transactions, hooks, and soft deletes, over MySQL, PostgreSQL, SQLite, MariaDB, SQL Server, or Oracle. Install it with `npm install sutando` plus the driver for your database; `npx sutando init` scaffolds a project and `npx sutando migrate:make` / `npx sutando migrate:run` handle migrations. The Guide below is the reference; the Blog covers comparisons and tutorials.",
+    },
     catalog: true,
     skillMd: true,
   },
