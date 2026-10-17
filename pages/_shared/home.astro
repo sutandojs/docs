@@ -154,6 +154,9 @@ const pm = [
         >
           {copy.badge}
         </span>
+        {/* 1.3, not the 1.0 `text-6xl` gives: the gradient tail is painted with
+            `background-clip: text`, so its descenders get shaved when the box
+            is tighter than the glyphs. CJK needs the room most. */}
         <h1 class="mt-8 font-display text-4xl/[1.3] font-bold tracking-tight text-balance sm:text-6xl/[1.3]">
           <span>{copy.heading}</span>
           {
