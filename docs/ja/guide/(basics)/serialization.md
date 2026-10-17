@@ -79,7 +79,7 @@ Sutando モデルが JSON に変換されると、ロード済みのリレーシ
 パスワードなど、モデルのデータオブジェクトまたは JSON 表現に含める属性を制限したい場合があります。そのためには、モデルに `hidden` プロパティを追加します。`hidden` プロパティの配列に列挙された属性は、モデルのシリアライズ表現に含まれません。
 
 ```ts
-const { Model } = requre('sutando');
+import { Model } from 'sutando';
 
 class User extends Model {
   hidden = ['password'];
@@ -89,7 +89,7 @@ class User extends Model {
 あるいは、`visible` プロパティを使用して、モデルのデータオブジェクトと JSON 表現に含める属性の「許可リスト」を定義できます。`visible` 配列に存在しない属性はすべて、モデルがデータオブジェクトまたは JSON に変換されるときに非表示になります。
 
 ```ts
-const { Model } = requre('sutando');
+import { Model } from 'sutando';
 
 class User extends Model {
   visible = ['first_name', 'last_name'];
@@ -127,7 +127,7 @@ user.setHidden(['email', 'password', 'remember_token']).toData();
 モデルをデータオブジェクトや JSON に変換するときに、データベースに対応するカラムがない属性を追加したい場合があります。そのためには、まずその値のアクセサを定義します。
 
 ```ts
-const { Model, Attribute } = requre('sutando');
+import { Model, Attribute } from 'sutando';
 
 class User extends Model {
   attributeIsAdmin() {
@@ -141,7 +141,7 @@ class User extends Model {
 アクセサを作成したら、モデルの appends プロパティにその属性名を追加します。アクセサのメソッドは「camelCase」で定義しますが、属性名は通常「snake_case」のシリアライズ表現で参照されることに注意してください。
 
 ```ts
-const { Model } = requre('sutando');
+import { Model } from 'sutando';
 
 class User extends Model {
   appends = ['is_admin'];

@@ -79,7 +79,7 @@ When an Sutando model is converted to JSON, its loaded relationships will automa
 Sometimes you may wish to limit the attributes, such as passwords, that are included in your model's data object or JSON representation. To do so, add a `hidden` property to your model. In attributes that are listed in the `hidden` property's array will not be included in the serialized representation of your model:
 
 ```ts
-const { Model } = requre('sutando');
+import { Model } from 'sutando';
 
 class User extends Model {
   hidden = ['password'];
@@ -89,7 +89,7 @@ class User extends Model {
 Alternatively, you may use the `visible` property to define an "allow list" of attributes that should be included in your model's data objectt and JSON representation. All attributes that are not present in the `visible` array will be hidden when the model is converted to an data objectt or JSON:
 
 ```ts
-const { Model } = requre('sutando');
+import { Model } from 'sutando';
 
 class User extends Model {
   visible = ['first_name', 'last_name'];
@@ -127,7 +127,7 @@ user.setHidden(['email', 'password', 'remember_token']).toData();
 Occasionally, when converting models to data object or JSON, you may wish to add attributes that do not have a corresponding column in your database. To do so, first define an accessor for the value:
 
 ```ts
-const { Model, Attribute } = requre('sutando');
+import { Model, Attribute } from 'sutando';
 
 class User extends Model {
   attributeIsAdmin() {
@@ -141,7 +141,7 @@ class User extends Model {
 After creating the accessor, add the attribute name to the appends property of your model. Note that attribute names are typically referenced using their "snake case" serialized representation, even though the accessor's method is defined using "camel case":
 
 ```ts
-const { Model } = requre('sutando');
+import { Model } from 'sutando';
 
 class User extends Model {
   appends = ['is_admin'];

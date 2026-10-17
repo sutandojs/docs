@@ -282,7 +282,7 @@ const flight = await Flight.query().where('active', 1).first();
 Sometimes you may wish to throw an exception if a model is not found. This is particularly useful in routes or controllers. The `findOrFail` and `firstOrFail` methods will retrieve the first result of the query; however, if no result is found, an `ModelNotFoundError` will be thrown:
 
 ```ts
-const { ModelNotFoundError } = requre('sutando');
+import { ModelNotFoundError } from 'sutando';
 
 try {
   const flight = await Flight.query().findOrFail(1);

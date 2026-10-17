@@ -282,7 +282,7 @@ const flight = await Flight.query().where('active', 1).first();
 モデルが見つからない場合に例外をスローしたいことがあります。これはルートやコントローラで特に便利です。`findOrFail` と `firstOrFail` メソッドはクエリの最初の結果を取得しますが、結果が見つからない場合は `ModelNotFoundError` がスローされます：
 
 ```ts
-const { ModelNotFoundError } = requre('sutando');
+import { ModelNotFoundError } from 'sutando';
 
 try {
   const flight = await Flight.query().findOrFail(1);

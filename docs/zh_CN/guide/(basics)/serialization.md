@@ -79,7 +79,7 @@ app.get('/', async (c) => {
 有时要将模型对象或 JSON 中的某些属性进行隐藏，比如密码。则可以在模型中添加 `hidden` 属性。模型序列化后，`hidden` 数组中列出的属性将不会被显示：
 
 ```ts
-const { Model } = requre('sutando');
+import { Model } from 'sutando';
 
 class User extends Model {
   hidden = ['password'];
@@ -89,7 +89,7 @@ class User extends Model {
 此外，也可以使用属性 `visible` 定义一个模型数组和 JSON 可见的「白名单」。转化后的数组或 JSON 不会出现其他的属性：
 
 ```ts
-const { Model } = requre('sutando');
+import { Model } from 'sutando';
 
 class User extends Model {
   visible = ['first_name', 'last_name'];
@@ -127,7 +127,7 @@ user.setHidden(['email', 'password', 'remember_token']).toData();
 有时，需要在模型转换为对象或 JSON 时添加一些数据库中不存在字段的对应属性。要实现这个功能，首先要定义一个访问器：
 
 ```ts
-const { Model, Attribute } = requre('sutando');
+import { Model, Attribute } from 'sutando';
 
 class User extends Model {
   attributeIsAdmin() {
@@ -141,7 +141,7 @@ class User extends Model {
 然后，在模型属性 `appends` 中添加该属性名。注意，尽管访问器使用「驼峰命名法」方式定义，但是属性名通常以「蛇形命名法」的方式来引用：
 
 ```ts
-const { Model } = requre('sutando');
+import { Model } from 'sutando';
 
 class User extends Model {
   appends = ['is_admin'];

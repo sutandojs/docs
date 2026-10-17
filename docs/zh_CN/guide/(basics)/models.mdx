@@ -284,7 +284,7 @@ const flight = await Flight.query().where('active', 1).first();
 有时，如果找不到模型，您可能希望抛出异常。 这在路由或控制器中特别有用。 `findOrFail` 和 `firstOrFail` 方法将检索查询的第一个结果； 但是，如果没有找到结果，将会抛出一个 `ModelNotFoundError`： 
 
 ```ts
-const { ModelNotFoundError } = requre('sutando');
+import { ModelNotFoundError } from 'sutando';
 
 try {
   const flight = await Flight.query().findOrFail(1);
