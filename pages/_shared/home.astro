@@ -53,7 +53,7 @@ const str = mut;
 
 // Code samples are language-agnostic, so the template owns them rather than each locale.
 // Every API below is taken from the guide under docs/guide/ — keep it that way.
-const files = ["app/queries.ts", "models/user.ts", "migrations/create_users_table.ts"];
+const files = ["app/queries.ts", "models/user.ts", "migrations/create_users_table.js"];
 
 // Database name -> brand mark in db-logos.ts.
 const dbIcons: Record<string, string> = {
@@ -91,9 +91,9 @@ const codes = [
 <span class="${acc}">const</span> user = <span class="${acc}">await</span> User.query().<span class="${acc}">with</span>(<span class="${str}">'posts'</span>).<span class="${acc}">find</span>(<span class="${str}">1</span>);
 
 user.posts.<span class="${acc}">count</span>();`,
-  `<span class="${acc}">import</span> { Migration } <span class="${acc}">from</span> <span class="${str}">'sutando'</span>;
+  `<span class="${acc}">const</span> { Migration } = <span class="${acc}">require</span>(<span class="${str}">'sutando'</span>);
 
-<span class="${acc}">export default class extends</span> <span class="${mut}">Migration</span> {
+<span class="${acc}">module.exports</span> = <span class="${acc}">class extends</span> <span class="${mut}">Migration</span> {
   <span class="${acc}">async</span> <span class="text-foreground">up</span>(schema) {
     <span class="${acc}">await</span> schema.<span class="${acc}">createTable</span>(<span class="${str}">'users'</span>, (table) <span class="${acc}">=&gt;</span> {
       table.<span class="${acc}">increments</span>(<span class="${str}">'id'</span>);
@@ -106,7 +106,7 @@ user.posts.<span class="${acc}">count</span>();`,
   <span class="${acc}">async</span> <span class="text-foreground">down</span>(schema) {
     <span class="${acc}">await</span> schema.<span class="${acc}">dropTableIfExists</span>(<span class="${str}">'users'</span>);
   }
-}`,
+};`,
 ];
 
 const demo =
