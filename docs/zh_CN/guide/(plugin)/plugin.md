@@ -67,7 +67,7 @@ const HasSlug = (Model) => {
   }
 }
 
-export default 
+export default HasSlug;
 ```
 
 这个例子之中使用了[钩子](hooks)，完成之后，可以这样使用插件：
@@ -113,7 +113,7 @@ const HasSlug = ({ column }) => (Model) => {
   }
 }
 
-export default 
+export default HasSlug;
 ```
 
 使用方式也会改变：

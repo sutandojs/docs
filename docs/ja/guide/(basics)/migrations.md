@@ -25,10 +25,10 @@ $ sutando init
 
 これによりプロジェクトディレクトリに `sutando.config.js` ファイルが生成され、データベース接続などの情報を設定するために使用します。
 
-```ts
+```js
 // Update with your config settings.
 
-export default 
+module.exports = {
    client: 'mysql2',
    connection: {
      host: 'localhost',
@@ -74,10 +74,10 @@ Sutando はマイグレーションファイルの名前を使って、テーブ
 
 どちらのメソッドでも、Schema ビルダーを使って表現豊かにテーブルを作成・変更できます。Schema ビルダーで利用可能なすべてのメソッドについては、そのドキュメントを参照してください。例えば、次のマイグレーションは `flights` テーブルを作成します：
 
-```ts
-import { Migration } from 'sutando';
+```js
+const { Migration } = require('sutando');
 
-export default 
+module.exports = class extends Migration {
   /**
    * Run the migrations.
    */
@@ -103,8 +103,8 @@ export default
 
 マイグレーションがアプリケーションのデフォルトのデータベース接続以外のデータベース接続を扱う場合は、マイグレーションの `connection` プロパティを設定して、使用するデータベース接続を指定する必要があります。
 
-```ts
-export default 
+```js
+module.exports = class extends Migration {
   connection = 'pgsql';
 
   /**
@@ -150,10 +150,10 @@ $ npx sutando migrate:rollback --step=5
 
 次に、`createTable` メソッドを使って新しいデータテーブルを作成します。`createTable` は 2 つのパラメータを受け取ります。1 つ目のパラメータはテーブル名で、2 つ目のパラメータはコールバック関数です：
 
-```ts
-import { Migration } from 'sutando';
+```js
+const { Migration } = require('sutando');
 
-export default 
+module.exports = class extends Migration {
    /**
      * Run the migrations.
      */
@@ -181,7 +181,7 @@ export default
 
 `hasTable` と `hasColumn` メソッドを使って、テーブルやカラムが存在するかを確認できます：
 
-```ts
+```js
 if (await schema.hasTable('users')) {
    // "users" table exists...
 }
@@ -193,7 +193,7 @@ if (await schema.hasColumn('users', 'email')) {
 
 さらに、テーブルを作成する際のその他の設定を定義するためのプロパティやメソッドもいくつか用意されています。MySQL を使用する場合、engine メソッドでテーブルのストレージエンジンを指定できます：
 
-```ts
+```js
 await schema.createTable('users', (table) => {
    table.engine('InnoDB');
 
@@ -203,7 +203,7 @@ await schema.createTable('users', (table) => {
 
 `charset` と `collate` メソッドは、MySQL を使用するときに作成するテーブルの文字セットと照合順序を指定するために使用できます：
 
-```ts
+```js
 await schema.createTable('users', (table) => {
    table.charset('utf8mb4');
    table.collate('utf8mb4_unicode_ci');
@@ -214,7 +214,7 @@ await schema.createTable('users', (table) => {
 
 データベーステーブルに「コメント」を追加したい場合は、テーブルインスタンスで `comment` メソッドを呼び出します。現在、テーブルのコメントは MySQL と Postgres のみがサポートしています：
 
-```ts
+```js
 await schema.createTable('calculations', (table) => {
    table.comment('Business calculations');
 
@@ -226,7 +226,7 @@ await schema.createTable('calculations', (table) => {
 
 Schema の `table` メソッドは、既存のテーブルを更新するために使用できます。`createTable` メソッドと同様に、`table` メソッドは 2 つのパラメータを受け取ります。テーブル名と、テーブルにカラムやインデックスを追加するために使用できるコールバック関数です：
 
-```ts
+```js
 await schema.table('users', (table) => {
    table.integer('votes');
 });
@@ -236,13 +236,13 @@ await schema.table('users', (table) => {
 
 既存のテーブルの名前を変更するには、`renameTable` メソッドを使用します：
 
-```ts
+```js
 await schema.renameTable(from, to);
 ```
 
 既存のテーブルを削除するには、`dropTable` または `dropTableIfExists` メソッドを使用できます：
 
-```ts
+```js
 await schema.dropTable('users');
 
 await schema.dropTableIfExists('users');
@@ -254,7 +254,7 @@ await schema.dropTableIfExists('users');
 
 Schema の `table` メソッドは、テーブルを更新するために使用できます。`createTable` メソッドと同様に、`table` メソッドは 2 つのパラメータを受け取ります。テーブル名と、テーブルにカラムを追加するために使用できるコールバック関数です：
 
-```ts
+```js
 await schema.table('users', (table) => {
    table.integer('votes');
 });
@@ -268,7 +268,7 @@ Schema ビルダーは、テーブルに対応する型のカラムを作成す�
 
 `bigIncrements` メソッドは、データテーブルに自動インクリメントする `UNSIGNED BIGINT` 型（主キー）のカラムを作成するために使用します：
 
-```ts
+```js
 table.bigIncrements('id');
 ```
 
@@ -276,7 +276,7 @@ table.bigIncrements('id');
 
 `bigInteger` メソッドは、データテーブルに `BIGINT` 型のカラムを作成するために使用します：
 
-```ts
+```js
 table.bigInteger('votes');
 ```
 
@@ -284,7 +284,7 @@ table.bigInteger('votes');
 
 `binary` メソッドは、データテーブルに `BLOB` 型のカラムを作成するために使用します：
 
-```ts
+```js
 table.binary('photo');
 ```
 
@@ -292,7 +292,7 @@ table.binary('photo');
 
 `boolean` メソッドは、データテーブルに `BOOLEAN` 型のカラムを作成するために使用します：
 
-```ts
+```js
 table.boolean('confirmed');
 ```
 
@@ -300,7 +300,7 @@ table.boolean('confirmed');
 
 `datetime` メソッドは、データテーブルに `DATETIME` 型のカラムを作成するために使用します。省略可能なパラメータは精度の総桁数です：
 
-```ts
+```js
 table.datetime('created_at', { precision: 6 });
 ```
 
@@ -308,7 +308,7 @@ table.datetime('created_at', { precision: 6 });
 
 `date` メソッドは、データテーブルに `DATE` 型のカラムを作成するために使用します：
 
-```ts
+```js
 table.date('date');
 ```
 
@@ -316,7 +316,7 @@ table.date('date');
 
 `decimal` メソッドは、データテーブルに `DECIMAL` 型のカラムを作成するために使用します。省略可能なパラメータは、有効桁数の総数と小数部の総桁数です：
 
-```ts
+```js
 table.decimal('amount');
 table.decimal('amount', 8, 2);
 ```
@@ -325,7 +325,7 @@ table.decimal('amount', 8, 2);
 
 `double` メソッドは、データテーブルに `DOUBLE` 型のカラムを作成するために使用します。省略可能なパラメータは、有効桁数の総数と小数部の総桁数です：
 
-```ts
+```js
 table.double('amount', 8, 2);
 ```
 
@@ -333,7 +333,7 @@ table.double('amount', 8, 2);
 
 `enum` メソッドは、データテーブルに `ENUM` 型のカラムを作成するために使用します：
 
-```ts
+```js
 table.enum('difficulty', ['easy', 'hard']);
 ```
 
@@ -341,7 +341,7 @@ table.enum('difficulty', ['easy', 'hard']);
 
 `float` メソッドは、データテーブルに `FLOAT` 型のカラムを作成するために使用します。省略可能なパラメータは、有効桁数の総数と小数部の総桁数です：
 
-```ts
+```js
 table.float('amount', 8, 2);
 ```
 
@@ -349,7 +349,7 @@ table.float('amount', 8, 2);
 
 `geometry` メソッドは `GEOMETRY` と同等です：
 
-```ts
+```js
 table.geometry('positions');
 ```
 
@@ -357,7 +357,7 @@ table.geometry('positions');
 
 `increments` メソッドは、主キーとして `UNSIGNED INTEGER` に相当する自動インクリメントのカラムを作成します：
 
-```ts
+```js
 table.increments('id');
 ```
 
@@ -365,7 +365,7 @@ table.increments('id');
 
 `integer` メソッドは、データテーブルに `INTEGER` 型のカラムを作成するために使用します：
 
-```ts
+```js
 table.integer('votes');
 ```
 
@@ -373,7 +373,7 @@ table.integer('votes');
 
 `json` メソッドは、データテーブルに `JSON` 型のカラムを作成するために使用します：
 
-```ts
+```js
 table.json('options');
 ```
 
@@ -381,7 +381,7 @@ table.json('options');
 
 `jsonb` メソッドは、データテーブルに `JSONB` 型のカラムを作成するために使用します：
 
-```ts
+```js
 table.jsonb('options');
 ```
 
@@ -389,7 +389,7 @@ table.jsonb('options');
 
 `point` メソッドは、データテーブルに `POINT` 型のカラムを作成するために使用します：
 
-```ts
+```js
 table.point('position');
 ```
 
@@ -397,7 +397,7 @@ table.point('position');
 
 `smallint` メソッドは、データテーブルに `SMALLINT` 型のカラムを作成するために使用します：
 
-```ts
+```js
 table.smallint('votes');
 ```
 
@@ -405,7 +405,7 @@ table.smallint('votes');
 
 `string` メソッドは、指定された長さの `VARCHAR` に相当するカラムを作成します：
 
-```ts
+```js
 table.string('name', 100);
 ```
 
@@ -413,7 +413,7 @@ table.string('name', 100);
 
 `text` メソッドは、データテーブルに `TEXT` 型のカラムを作成するために使用します：
 
-```ts
+```js
 table.text('description');
 ```
 
@@ -421,7 +421,7 @@ table.text('description');
 
 `time` メソッドは、省略可能な精度（総桁数）を持つ `TIME` に相当するカラムを作成します：
 
-```ts
+```js
 table.time('sunrise', { precision: 6 });
 ```
 
@@ -429,7 +429,7 @@ table.time('sunrise', { precision: 6 });
 
 `timestamp` メソッドは、省略可能な精度（総桁数）を持つ `TIMESTAMP` 型のカラムを作成します：
 
-```ts
+```js
 table.timestamp('sunrise', { precision: 6 });
 ```
 
@@ -437,7 +437,7 @@ table.timestamp('sunrise', { precision: 6 });
 
 `timestamps` メソッドは、`created_at` と `updated_at` の `TIMESTAMP` に相当するカラムを作成します：
 
-```ts
+```js
 table.timestamps();
 ```
 
@@ -445,7 +445,7 @@ table.timestamps();
 
 `tinyint` メソッドは、データテーブルに `TINYINT` 型のカラムを作成するために使用します：
 
-```ts
+```js
 table.tinyint('votes');
 ```
 
@@ -453,7 +453,7 @@ table.tinyint('votes');
 
 `uuid` メソッドは、データテーブルに `UUID` 型のカラムを作成するために使用します：
 
-```ts
+```js
 table.uuid('id');
 ```
 
@@ -461,7 +461,7 @@ table.uuid('id');
 
 上記のカラム型に加えて、データベーステーブルにカラムを追加するときに使用できるいくつかの「修飾子」があります。例えば、カラムを「null 許容」に設定したい場合は、`nullable` メソッドを使用します：
 
-```ts
+```js
 await schema.table('users', (table) => {
    table.string('email').nullable();
 })
@@ -484,7 +484,7 @@ await schema.table('users', (table) => {
 
 `alter` メソッドは、既存のカラムの型を新しい型に変更したり、属性を変更したりできます。例えば、`string` カラムの長さを増やしたいとします。`alter` メソッドを使って `name` カラムの長さを 25 から 50 に増やせます。そのためには、カラムのプロパティを更新して `alter` メソッドを呼び出すだけです：
 
-```ts
+```js
 await schema.table('users', (table) => {
    table.string('name', 50).alter();
 });
@@ -492,7 +492,7 @@ await schema.table('users', (table) => {
 
 カラムを変更するときは、カラム定義に残したいすべての修飾子を明示的に含める必要があります。指定しなかった属性は破棄されます。例えば、unsigned、default、comment の各属性を保持するには、カラムを変更する際にそれぞれの属性を明示的に指定する必要があります。
 
-```ts
+```js
 await schema.table('users', (table) => {
    table.integer('votes').unsigned().defaultTo(1).comment('my comment').alter();
 });
@@ -502,7 +502,7 @@ await schema.table('users', (table) => {
 
 カラムの名前を変更するには、schema ビルダーが提供する `renameColumn` メソッドを使用します：
 
-```ts
+```js
 await schema.table('users', (table) => {
    table.renameColumn('from', 'to');
 });
@@ -512,7 +512,7 @@ await schema.table('users', (table) => {
 
 カラムを削除するには、`dropColumn` メソッドを使用できます。
 
-```ts
+```js
 await schema.table('users', (table) => {
    table.dropColumn('votes');
 });
@@ -520,7 +520,7 @@ await schema.table('users', (table) => {
 
 複数のカラムを削除したい場合は、`dropColumns` メソッドを使用できます。
 
-```ts
+```js
 await schema.table('users', (table) => {
    table.dropColumns('votes', 'avatar', 'location');
 });
@@ -532,26 +532,26 @@ await schema.table('users', (table) => {
 
 構造ビルダーはいくつかの種類のインデックスをサポートしています。次の例では、値が一意である新しい `email` カラムを作成します。カラム定義に `unique` メソッドをチェーンしてインデックスを作成できます：
 
-```ts
+```js
 await schema.table('users', (table) => {
    table.string('email').unique();
 });
 ```
 あるいは、カラムを定義した後にインデックスを作成することもできます。そのためには、構造ビルダーで `unique` メソッドを呼び出し、一意インデックスのカラム名を渡します：
 
-```ts
+```js
 table.unique('email');
 ```
 
 インデックスメソッドに配列を渡して、複合（または合成）インデックスを作成することもできます：
 
-```ts
+```js
 table.index(['account_id', 'created_at']);
 ```
 
 インデックスを作成するとき、Sutando は適切なインデックス名を自動的に生成しますが、パラメータを渡してインデックス名をカスタマイズすることもできます：
 
-```ts
+```js
 table.index(['name', 'last_name'], 'idx_name_last_name');
 table.unique('email', {
    indexName: 'unique_email'
@@ -583,7 +583,7 @@ table.unique('email', {
 
 Sutando は、データベース層で参照整合性を強制するための外部キー制約の作成もサポートしています。例えば、`posts` テーブルに、`users` テーブルの `id` カラムを参照する `user_id` カラムを定義してみましょう：
 
-```ts
+```js
 await schema.createTable('posts', (table) => {
    table.integer('user_id').unsigned().notNullable();
    table.string('title', 30);

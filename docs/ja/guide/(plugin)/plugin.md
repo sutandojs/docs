@@ -67,7 +67,7 @@ const HasSlug = (Model) => {
   }
 }
 
-export default 
+export default HasSlug;
 ```
 
 この例では[フック](hooks)を使用しています。完成したら、プラグインを次のように使用できます：
@@ -113,7 +113,7 @@ const HasSlug = ({ column }) => (Model) => {
   }
 }
 
-export default 
+export default HasSlug;
 ```
 
 使い方も変わります：

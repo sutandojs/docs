@@ -25,10 +25,10 @@ $ sutando init
 
 This will generate a `sutando.config.js` file in the project directory, which is used to set database connection and other information.
 
-```ts
+```js
 // Update with your config settings.
 
-export default 
+module.exports = {
    client: 'mysql2',
    connection: {
      host: 'localhost',
@@ -74,10 +74,10 @@ The migration class contains two methods: `up` and `down`. The `up` method is us
 
 In both methods, you can use Schema builders to expressively create and modify tables. To learn about all the methods available on the Schema builder, check out its documentation. For example, the following migration creates a `flights` table:
 
-```ts
-import { Migration } from 'sutando';
+```js
+const { Migration } = require('sutando');
 
-export default 
+module.exports = class extends Migration {
   /**
    * Run the migrations.
    */
@@ -103,8 +103,8 @@ export default
 
 If your migration interacts with a database connection other than the default database connection of the application, you should set the `connection` property of the migration to specify the database connection to use.
 
-```ts
-export default 
+```js
+module.exports = class extends Migration {
   connection = 'pgsql';
 
   /**
@@ -150,10 +150,10 @@ $ npx sutando migrate:rollback --step=5
 
 Next we will create a new data table using the `createTable` method. `createTable` accepts two parameters: the first parameter is the table name, and the second parameter is a callback function:
 
-```ts
-import { Migration } from 'sutando';
+```js
+const { Migration } = require('sutando');
 
-export default 
+module.exports = class extends Migration {
    /**
      * Run the migrations.
      */
@@ -181,7 +181,7 @@ When you create a table, you can use the Database Structure Builder's columns me
 
 You can check whether a table or column exists using the `hasTable` and `hasColumn` methods:
 
-```ts
+```js
 if (await schema.hasTable('users')) {
    // "users" table exists...
 }
@@ -193,7 +193,7 @@ if (await schema.hasColumn('users', 'email')) {
 
 Additionally, a number of other properties and methods are available to define other places where the table is created. When using MySQL, you can use the engine method to specify the storage engine of the table:
 
-```ts
+```js
 await schema.createTable('users', (table) => {
    table.engine('InnoDB');
 
@@ -203,7 +203,7 @@ await schema.createTable('users', (table) => {
 
 The `charset` and `collate` methods can be used to specify the character set and collation for tables created when using MySQL:
 
-```ts
+```js
 await schema.createTable('users', (table) => {
    table.charset('utf8mb4');
    table.collate('utf8mb4_unicode_ci');
@@ -214,7 +214,7 @@ await schema.createTable('users', (table) => {
 
 If you want to add a "comment" to a database table, you can call the `comment` method on the table instance. Currently only MySQL and Postgres support table comments:
 
-```ts
+```js
 await schema.createTable('calculations', (table) => {
    table.comment('Business calculations');
 
@@ -226,7 +226,7 @@ await schema.createTable('calculations', (table) => {
 
 Schema's `table` method can be used to update an existing table. Like the `createTable` method, the `table` method accepts two parameters: the name of the table and a callback function that can be used to add columns or indexes to the table:
 
-```ts
+```js
 await schema.table('users', (table) => {
    table.integer('votes');
 });
@@ -236,13 +236,13 @@ await schema.table('users', (table) => {
 
 To rename an existing table, use the `renameTable` method:
 
-```ts
+```js
 await schema.renameTable(from, to);
 ```
 
 To drop an existing table, you can use the `dropTable` or `dropTableIfExists` method:
 
-```ts
+```js
 await schema.dropTable('users');
 
 await schema.dropTableIfExists('users');
@@ -254,7 +254,7 @@ await schema.dropTableIfExists('users');
 
 Schema's `table` method can be used to update a table. Like the `createTable` method, the `table` method accepts two parameters: the table name and a callback function that can be used to add columns to the table:
 
-```ts
+```js
 await schema.table('users', (table) => {
    table.integer('votes');
 });
@@ -268,7 +268,7 @@ Schema builders provide a variety of methods for creating columns of correspondi
 
 The `bigIncrements` method is used to create an auto-incrementing `UNSIGNED BIGINT` type (primary key) column in the data table:
 
-```ts
+```js
 table.bigIncrements('id');
 ```
 
@@ -276,7 +276,7 @@ table.bigIncrements('id');
 
 The `bigInteger` method is used to create a `BIGINT` type column in the data table:
 
-```ts
+```js
 table.bigInteger('votes');
 ```
 
@@ -284,7 +284,7 @@ table.bigInteger('votes');
 
 The `binary` method is used to create a `BLOB` type column in the data table:
 
-```ts
+```js
 table.binary('photo');
 ```
 
@@ -292,7 +292,7 @@ table.binary('photo');
 
 The `boolean` method is used to create a `BOOLEAN` type column in the data table:
 
-```ts
+```js
 table.boolean('confirmed');
 ```
 
@@ -300,7 +300,7 @@ table.boolean('confirmed');
 
 The `datetime` method is used to create a `DATETIME` type column in the data table. The optional parameter is the total number of digits of precision:
 
-```ts
+```js
 table.datetime('created_at', { precision: 6 });
 ```
 
@@ -308,7 +308,7 @@ table.datetime('created_at', { precision: 6 });
 
 The `date` method is used to create a `DATE` type column in the data table:
 
-```ts
+```js
 table.date('date');
 ```
 
@@ -316,7 +316,7 @@ table.date('date');
 
 The `decimal` method is used to create a `DECIMAL` type column in the data table. The optional parameters are the total number of valid words and the total number of decimal places:
 
-```ts
+```js
 table.decimal('amount');
 table.decimal('amount', 8, 2);
 ```
@@ -325,7 +325,7 @@ table.decimal('amount', 8, 2);
 
 The `double` method is used to create a `DOUBLE` type column in the data table. The optional parameters are the total number of valid words and the total number of decimal places:
 
-```ts
+```js
 table.double('amount', 8, 2);
 ```
 
@@ -333,7 +333,7 @@ table.double('amount', 8, 2);
 
 The `enum` method is used to create a column of type `ENUM` in the data table:
 
-```ts
+```js
 table.enum('difficulty', ['easy', 'hard']);
 ```
 
@@ -341,7 +341,7 @@ table.enum('difficulty', ['easy', 'hard']);
 
 The `float` method is used to create a `FLOAT` type column in the data table. The optional parameters are the total number of valid words and the total number of decimal places:
 
-```ts
+```js
 table.float('amount', 8, 2);
 ```
 
@@ -349,7 +349,7 @@ table.float('amount', 8, 2);
 
 The `geometry` method is equivalent to `GEOMETRY`:
 
-```ts
+```js
 table.geometry('positions');
 ```
 
@@ -357,7 +357,7 @@ table.geometry('positions');
 
 The `increments` method creates an auto-incrementing column equivalent to `UNSIGNED INTEGER` as the primary key:
 
-```ts
+```js
 table.increments('id');
 ```
 
@@ -365,7 +365,7 @@ table.increments('id');
 
 The `integer` method is used to create a column of type `INTEGER` in the data table:
 
-```ts
+```js
 table.integer('votes');
 ```
 
@@ -373,7 +373,7 @@ table.integer('votes');
 
 The `json` method is used to create a `JSON` type column in the data table:
 
-```ts
+```js
 table.json('options');
 ```
 
@@ -381,7 +381,7 @@ table.json('options');
 
 The `jsonb` method is used to create a `JSONB` type column in the data table:
 
-```ts
+```js
 table.jsonb('options');
 ```
 
@@ -389,7 +389,7 @@ table.jsonb('options');
 
 The `point` method is used to create a `POINT` type column in the data table:
 
-```ts
+```js
 table.point('position');
 ```
 
@@ -397,7 +397,7 @@ table.point('position');
 
 The `smallint` method is used to create a `SMALLINT` type column in the data table:
 
-```ts
+```js
 table.smallint('votes');
 ```
 
@@ -405,7 +405,7 @@ table.smallint('votes');
 
 The `string` method creates a `VARCHAR` equivalent column of a given length, equivalent to a VARCHAR of the specified length:
 
-```ts
+```js
 table.string('name', 100);
 ```
 
@@ -413,7 +413,7 @@ table.string('name', 100);
 
 The `text` method is used to create a `TEXT` type column in the data table:
 
-```ts
+```js
 table.text('description');
 ```
 
@@ -421,7 +421,7 @@ table.text('description');
 
 The `time` method creates a `TIME` equivalent column with optional precision (total number of digits):
 
-```ts
+```js
 table.time('sunrise', { precision: 6 });
 ```
 
@@ -429,7 +429,7 @@ table.time('sunrise', { precision: 6 });
 
 The `timestamp` method creates a column of type `TIMESTAMP` with an optional precision (total number of digits):
 
-```ts
+```js
 table.timestamp('sunrise', { precision: 6 });
 ```
 
@@ -437,7 +437,7 @@ table.timestamp('sunrise', { precision: 6 });
 
 The `timestamps` method creates `created_at` and `updated_at` `TIMESTAMP` equivalent columns:
 
-```ts
+```js
 table.timestamps();
 ```
 
@@ -445,7 +445,7 @@ table.timestamps();
 
 The `tinyint` method is used to create a `TINYINT` type column in the data table:
 
-```ts
+```js
 table.tinyint('votes');
 ```
 
@@ -453,7 +453,7 @@ table.tinyint('votes');
 
 The `uuid` method is used to create a `UUID` type column in the data table:
 
-```ts
+```js
 table.uuid('id');
 ```
 
@@ -461,7 +461,7 @@ table.uuid('id');
 
 In addition to the column types listed above, there are several "modifiers" that can be used when adding columns to a database table. For example, if you want to set a column to be "nullable", you can use the `nullable` method:
 
-```ts
+```js
 await schema.table('users', (table) => {
    table.string('email').nullable();
 })
@@ -484,7 +484,7 @@ The following table shows all available column modifiers. This list does not inc
 
 The `alter` method can modify an existing column type to a new type or modify attributes. For example, you might want to increase the length of the `string` column by using the `alter` method to increase the length of the `name` column from 25 to 50. So, we can simply update the column properties and call the `alter` method:
 
-```ts
+```js
 await schema.table('users', (table) => {
    table.string('name', 50).alter();
 });
@@ -492,7 +492,7 @@ await schema.table('users', (table) => {
 
 When modifying a column, you must explicitly include all modifiers that you want to retain on the column definition - any missing attributes will be discarded. For example, in order to preserve the unsigned, default, and comment attributes, you must explicitly modify each attribute when modifying the column.
 
-```ts
+```js
 await schema.table('users', (table) => {
    table.integer('votes').unsigned().defaultTo(1).comment('my comment').alter();
 });
@@ -502,7 +502,7 @@ await schema.table('users', (table) => {
 
 To rename a column, you can use the `renameColumn` method provided by the schema builder:
 
-```ts
+```js
 await schema.table('users', (table) => {
    table.renameColumn('from', 'to');
 });
@@ -512,7 +512,7 @@ await schema.table('users', (table) => {
 
 To drop a column, you can use the `dropColumn` method.
 
-```ts
+```js
 await schema.table('users', (table) => {
    table.dropColumn('votes');
 });
@@ -520,7 +520,7 @@ await schema.table('users', (table) => {
 
 If you want to delete multiple columns, you can use the `dropColumns` method.
 
-```ts
+```js
 await schema.table('users', (table) => {
    table.dropColumns('votes', 'avatar', 'location');
 });
@@ -532,26 +532,26 @@ await schema.table('users', (table) => {
 
 The structure builder supports several types of indexes. The following example creates a new `email` column with a unique value. We can chain the `unique` method to the column definition to create an index:
 
-```ts
+```js
 await schema.table('users', (table) => {
    table.string('email').unique();
 });
 ```
 Alternatively, you can create the index after defining the columns. To do this, you should call the `unique` method on the structure builder, which should be passed the column name of the unique index:
 
-```ts
+```js
 table.unique('email');
 ```
 
 You can even pass an array to the index method to create a compound (or synthetic) index:
 
-```ts
+```js
 table.index(['account_id', 'created_at']);
 ```
 
 When creating an index, Sutando will automatically generate a reasonable index name, but you can also pass parameters to customize the index name:
 
-```ts
+```js
 table.index(['name', 'last_name'], 'idx_name_last_name');
 table.unique('email', {
    indexName: 'unique_email'
@@ -583,7 +583,7 @@ To delete an index, pass the column array to the `dropIndex` method, which will 
 
 Sutando also supports the creation of foreign key constraints for enforcing referential integrity in the database layer. For example, let's define a `user_id` column on the `posts` table that references the `id` column of the `users` table:
 
-```ts
+```js
 await schema.createTable('posts', (table) => {
    table.integer('user_id').unsigned().notNullable();
    table.string('title', 30);

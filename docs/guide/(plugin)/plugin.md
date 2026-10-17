@@ -67,7 +67,7 @@ const HasSlug = (Model) => {
   }
 }
 
-export default 
+export default HasSlug;
 ```
 
 This example uses [hooks](hooks). After completion, you can use the plug-in like this:
@@ -113,7 +113,7 @@ const HasSlug = ({ column }) => (Model) => {
   }
 }
 
-export default 
+export default HasSlug;
 ```
 
 Usage will also change:
