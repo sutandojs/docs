@@ -56,16 +56,17 @@ return String(user);
 return JSON.stringify(user);
 ```
 
-モデルとコレクションは文字列にキャストされると JSON に変換されるため、`express`/`Koa` アプリケーションから Sutando オブジェクトを直接返すことができます。ルートやコントローラから返されると、Sutando はモデルとコレクションを自動的に JSON にシリアライズします。
+モデルとコレクションは文字列にキャストされると JSON に変換されるため、Sutando のオブジェクトをルートから直接返すことができます。Sutando はモデルとコレクションを JSON にシリアライズするので、`c.json()` がそのまま出力します：
 
 ```ts
-import express from 'express';
-const app = express();
+import { Hono } from 'hono';
 
-app.get('/', async (req, res) => {
+const app = new Hono();
+
+app.get('/', async (c) => {
   const user = await User.query().find(1);
 
-  res.send(user);
+  return c.json(user);
 });
 ```
 

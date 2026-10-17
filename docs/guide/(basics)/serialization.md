@@ -56,16 +56,17 @@ return String(user);
 return JSON.stringify(user);
 ```
 
-Since models and collections are converted to JSON when cast to a string, you can return Sutando objects directly from your `express`/`Koa` application. Sutando will automatically serialize your models and collections to JSON when they are returned from routes or controllers:
+Since models and collections are converted to JSON when cast to a string, you can hand Sutando objects straight to a [Hono](https://hono.dev) route. Sutando serializes your models and collections to JSON, so `c.json()` writes them out as they are:
 
 ```ts
-import express from 'express';
-const app = express();
+import { Hono } from 'hono';
 
-app.get('/', async (req, res) => {
+const app = new Hono();
+
+app.get('/', async (c) => {
   const user = await User.query().find(1);
 
-  res.send(user);
+  return c.json(user);
 });
 ```
 

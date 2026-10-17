@@ -292,26 +292,26 @@ try {
 }
 ```
 
-With the framework capturing `ModelNotFoundError`, a 404 HTTP response can be automatically sent back to the client:
+With the framework's error handler capturing `ModelNotFoundError`, a 404 HTTP response can be sent back to the client automatically:
 
 ```ts
-import express from 'express';
-const app = express();
-import 'express-async-errors';
-const { ModelNotFoundError } = requre('sutando');
+import { Hono } from 'hono';
+import { ModelNotFoundError } from 'sutando';
 
-app.get('/users/:id', async (req, res) => {
-  const user = await User.query().findOrFail(req.params.id);
+const app = new Hono();
 
-  res.send(user);
+app.get('/users/:id', async (c) => {
+  const user = await User.query().findOrFail(c.req.param('id'));
+
+  return c.json(user);
 });
 
-app.use((err, req, res, next) => {
+app.onError((err, c) => {
   if (err instanceof ModelNotFoundError) {
-    return res.status(404).send(err.message);
+    return c.text(err.message, 404);
   }
 
-  next(err);
+  throw err;
 });
 ```
 
@@ -366,17 +366,18 @@ const flight = await Flight.query().find(1); // flight instanceof Flight
 Of course, when using Sutando, we don't only need to retrieve models from the database. We also need to insert new records. Thankfully, Sutando makes it simple. To insert a new record into the database, you should instantiate a new model instance and set attributes on the model. Then, call the `save` method on the model instance:
 
 ```ts
-// express
+// hono
 import { Flight } from './model';
 
-app.post('/flights', async (req, res) => {
+app.post('/flights', async (c) => {
   // Validate the request...
 
+  const data = await c.req.json();
   const flight = new Flight;
-  flight.name = req.name;
+  flight.name = data.name;
   await flight.save();
 
-  res.send(flight);
+  return c.json(flight);
 });
 ```
 

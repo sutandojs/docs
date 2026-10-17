@@ -56,16 +56,17 @@ return String(user);
 return JSON.stringify(user);
 ```
 
-由于模型和集合在转化为字符串的时候会转成 JSON， 因此可以在应用的路由或控制器中直接返回 Sutando 对象。你的 `express`/`Koa` 应用会自动将 Sutando 模型和集合序列化为 JSON：
+由于模型和集合在转化为字符串的时候会转成 JSON， 因此可以把 Sutando 对象直接从路由返回。Sutando 会把模型和集合序列化为 JSON，`c.json()` 原样输出即可：
 
 ```ts
-import express from 'express';
-const app = express();
+import { Hono } from 'hono';
 
-app.get('/', async (req, res) => {
+const app = new Hono();
+
+app.get('/', async (c) => {
   const user = await User.query().find(1);
 
-  res.send(user);
+  return c.json(user);
 });
 ```
 

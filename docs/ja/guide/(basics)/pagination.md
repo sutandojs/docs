@@ -106,16 +106,17 @@ Paginator.setFormatter((paginator) => {
 });
 ```
 
-ページネーターは文字列に変換する際に JSON に変換されるため、アプリケーションのルートやコントローラでそのまま使用できます。あなたの express/Koa アプリケーションは自動的に JSON にシリアライズします：
+ページネーターは文字列に変換する際に JSON に変換されるため、ルートからそのまま返すことができます。Hono が自動的に JSON にシリアライズします：
 
 ```ts
-import express from 'express';
-const app = express();
+import { Hono } from 'hono';
 
-app.get('/', async (req, res) => {
-  const users = await User.query().paginate(req.query.page || 1);
+const app = new Hono();
 
-  res.send(users);
+app.get('/', async (c) => {
+  const users = await User.query().paginate(Number(c.req.query('page')) || 1);
+
+  return c.json(users);
 });
 ```
 

@@ -106,16 +106,17 @@ Paginator.setFormatter((paginator) => {
 });
 ```
 
-The paginator will convert it to JSON when converting it to a string, so it can be used directly in the application's route or controller. Your express/Koa application will automatically serialize to JSON:
+The paginator will convert it to JSON when converting it to a string, so it can be returned directly from a route. Hono serializes it to JSON for you:
 
 ```ts
-import express from 'express';
-const app = express();
+import { Hono } from 'hono';
 
-app.get('/', async (req, res) => {
-  const users = await User.query().paginate(req.query.page || 1);
+const app = new Hono();
 
-  res.send(users);
+app.get('/', async (c) => {
+  const users = await User.query().paginate(Number(c.req.query('page')) || 1);
+
+  return c.json(users);
 });
 ```
 

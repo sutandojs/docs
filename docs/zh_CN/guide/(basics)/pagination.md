@@ -109,16 +109,17 @@ Paginator.setFormatter((paginator) => {
 });
 ```
 
-分页器在转化为字符串的时候会转成 JSON， 因此可以在应用的路由或控制器中直接。你的 express/Koa 应用会自动序列化为 JSON：
+分页器在转化为字符串的时候会转成 JSON， 因此可以直接从路由返回。Hono 会自动把它序列化为 JSON：
 
 ```ts
-import express from 'express';
-const app = express();
+import { Hono } from 'hono';
 
-app.get('/', async (req, res) => {
-  const users = await User.query().paginate(req.query.page || 1);
+const app = new Hono();
 
-  res.send(users);
+app.get('/', async (c) => {
+  const users = await User.query().paginate(Number(c.req.query('page')) || 1);
+
+  return c.json(users);
 });
 ```
 
