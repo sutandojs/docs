@@ -191,6 +191,81 @@ class Flight extends Model {
 
 `declare` は型にのみ影響します。JavaScript コードは出力されず、属性のデータベースへの読み書きの方法も変わりません。フィールドの宣言は任意です。宣言していないフィールドにもアクセスできますが、その型は `any` になります。詳細は [TypeScript サポート](./typescript) を参照してください。
 
+## プログラムでモデルを作成する
+
+モデルクラスを書くだけでなく、`createModel` メソッドを使って実行時にモデルを作成することもできます。名前とオプションオブジェクトを受け取り、自分で定義したモデルクラスとまったく同じ動作をするモデルクラスを返します：
+
+```ts
+import { sutando } from 'sutando';
+
+const Flight = sutando.createModel('Flight', {
+  table: 'flights',
+  primaryKey: 'id',
+  keyType: 'int',
+  incrementing: true,
+  timestamps: true,
+  connection: null,
+  with: [],
+  casts: { delayed: 'boolean' },
+});
+
+const flight = await Flight.query().create({ name: 'London to Paris' });
+```
+
+これらのオプションは、上で説明したモデルのプロパティに対応しています：`table`、`primaryKey`、`keyType`、`incrementing`、`timestamps`、`connection`（モデルが使う接続名）、`with`（常に先行ロードされるリレーション）、`casts`。
+
+また、通常はコードを書く必要があるモデルの一部をカバーするオプションもあります：
+
+- `plugins`：モデルに適用するプラグインの配列（例：`[SoftDeletes]`）。
+- `attributes`：[アクセサとミューテーター](./mutators)。それぞれ `Attribute.make({ get, set })` で作成します。
+- `relations`：リレーション。それぞれモデルインスタンスを受け取り、リレーションを返す関数です。
+- `scopes`：クエリスコープ。それぞれクエリビルダーを受け取る関数です。
+
+```ts
+import { sutando, Attribute, compose, SoftDeletes } from 'sutando';
+
+const Post = sutando.createModel('Post', {
+  table: 'posts',
+  plugins: [SoftDeletes],
+  attributes: {
+    slug: Attribute.make({ get: () => 'my-slug' }),
+  },
+  scopes: {
+    published: (query) => query.where('published', true),
+  },
+  relations: {
+    comments: (model) => model.hasMany(Comment),
+  },
+});
+```
+
+:::tip
+`attributes` オプションが受け付けるのは `Attribute` インスタンスだけです。定義できるのはアクセサとミューテーターであり、デフォルト値ではありません。
+:::
+
+## 独立インスタンス
+
+インポートした `sutando` オブジェクトは単一の共有インスタンスです。`sutando.addConnection()` はそのインスタンスに接続を追加し、すべてのモデルはデフォルトでそれを使います。完全に別の接続一式（別のデータベース、テナントごとのデータベース、テスト用のデータベースなど）が必要な場合は、`new sutando()` で独立インスタンスを作成できます：
+
+```ts
+import { sutando } from 'sutando';
+
+const tenant = new sutando();
+
+tenant.addConnection({
+  client: 'sqlite3',
+  connection: { filename: './tenant.sqlite' },
+});
+
+const User = tenant.createModel('User', { table: 'users' });
+
+await User.query().create({ name: 'Alice' });
+```
+
+独立インスタンスは独自の接続、独自の接続プール、独自のモデルレジストリを保持するため、グローバルインスタンスには一切影響しません。そこから作成されたモデルはそのインスタンスに紐づけられ、常にそのインスタンスに対してクエリします。グローバルインスタンス側に同じテーブル名のモデルがあっても同様です。
+
+独立インスタンスはグローバルインスタンスと同じ API を提供します：`addConnection`、`connection`、`table`、`schema`、`transaction`、`beginTransaction`、`createModel`、`destroyAll`。
+
 ## モデルの取得
 
 モデルとそれに対応するデータベーステーブルを作成したら、データベースからデータを取得できます。各 Sutando モデルは、モデルに対応するデータベーステーブルを流暢にクエリできる強力なクエリビルダと考えることができます。モデルの all メソッドは、モデルに対応するデータベーステーブルからすべてのレコードを取得します：

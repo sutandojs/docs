@@ -192,6 +192,81 @@ class Flight extends Model {
 
 `declare` 只影响类型：它不会生成任何 JavaScript 代码，也不会改变属性从数据库读取或写入数据库的方式。声明字段是可选的；未声明的字段仍然可以访问，但类型为 `any`。更多细节请参阅 [TypeScript 支持](./typescript)。
 
+## 以编程方式创建模型
+
+除了编写模型类之外，你还可以在运行时通过 `createModel` 方法创建模型。它接受一个名称和一个选项对象，返回的模型类与你自己定义的模型类行为完全一致：
+
+```ts
+import { sutando } from 'sutando';
+
+const Flight = sutando.createModel('Flight', {
+  table: 'flights',
+  primaryKey: 'id',
+  keyType: 'int',
+  incrementing: true,
+  timestamps: true,
+  connection: null,
+  with: [],
+  casts: { delayed: 'boolean' },
+});
+
+const flight = await Flight.query().create({ name: 'London to Paris' });
+```
+
+这些选项与上面描述的模型属性一一对应：`table`、`primaryKey`、`keyType`、`incrementing`、`timestamps`、`connection`（模型使用的连接名称）、`with`（始终预加载的关联）以及 `casts`。
+
+另外一些选项覆盖了通常需要编写代码的模型部分：
+
+- `plugins`：应用到模型的插件数组，例如 `[SoftDeletes]`。
+- `attributes`：[访问器与修改器](./mutators)，每一个都用 `Attribute.make({ get, set })` 创建。
+- `relations`：关联，每一个都是接收模型实例并返回关联的函数。
+- `scopes`：查询作用域，每一个都是接收查询构造器的函数。
+
+```ts
+import { sutando, Attribute, compose, SoftDeletes } from 'sutando';
+
+const Post = sutando.createModel('Post', {
+  table: 'posts',
+  plugins: [SoftDeletes],
+  attributes: {
+    slug: Attribute.make({ get: () => 'my-slug' }),
+  },
+  scopes: {
+    published: (query) => query.where('published', true),
+  },
+  relations: {
+    comments: (model) => model.hasMany(Comment),
+  },
+});
+```
+
+:::tip
+`attributes` 选项只接受 `Attribute` 实例：它定义的是访问器与修改器，而不是默认值。
+:::
+
+## 隔离实例
+
+你导入的 `sutando` 对象是唯一的共享实例：`sutando.addConnection()` 会向它添加连接，所有模型默认都使用它。当你需要一套完全独立的连接——另一个数据库、每个租户各自的数据库，或者测试数据库——可以使用 `new sutando()` 创建一个隔离实例：
+
+```ts
+import { sutando } from 'sutando';
+
+const tenant = new sutando();
+
+tenant.addConnection({
+  client: 'sqlite3',
+  connection: { filename: './tenant.sqlite' },
+});
+
+const User = tenant.createModel('User', { table: 'users' });
+
+await User.query().create({ name: 'Alice' });
+```
+
+隔离实例拥有自己的连接、自己的连接池和自己的模型注册表，因此不会影响全局实例。由它创建的模型会绑定到该实例，始终查询它，即使全局实例上存在同名表的模型。
+
+隔离实例提供与全局实例相同的 API：`addConnection`、`connection`、`table`、`schema`、`transaction`、`beginTransaction`、`createModel` 和 `destroyAll`。
+
 ## 模型检索
 
 创建模型和它关联的数据库表后，你就可以从数据库中查询数据了。你可以将每个 Sutando 模型视为一个强大的 [查询构造器](./query-builder)，使你能够更快速地查询与该模型关联的数据库表。模型的 `all` 方法将从模型的关联数据库表中检索所有记录： 

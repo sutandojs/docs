@@ -191,6 +191,81 @@ class Flight extends Model {
 
 `declare` only affects types. It emits no JavaScript and does not change how attributes are read from or written to the database. Declaring fields is optional; undeclared fields are still accessible, but their type is `any`. See [TypeScript support](./typescript) for more details.
 
+## Creating Models Programmatically
+
+Besides writing a model class, you may also create a model at runtime with the `createModel` method. It accepts a name and an options object, and returns a model class that behaves just like one you defined yourself:
+
+```ts
+import { sutando } from 'sutando';
+
+const Flight = sutando.createModel('Flight', {
+  table: 'flights',
+  primaryKey: 'id',
+  keyType: 'int',
+  incrementing: true,
+  timestamps: true,
+  connection: null,
+  with: [],
+  casts: { delayed: 'boolean' },
+});
+
+const flight = await Flight.query().create({ name: 'London to Paris' });
+```
+
+The options mirror the model properties described above: `table`, `primaryKey`, `keyType`, `incrementing`, `timestamps`, `connection` (the name of the connection the model should use), `with` (the relationships that are always eager loaded) and `casts`.
+
+A few more options cover the parts of a model that normally need code:
+
+- `plugins`: an array of plugins to apply to the model, such as `[SoftDeletes]`.
+- `attributes`: [accessors and mutators](./mutators), each created with `Attribute.make({ get, set })`.
+- `relations`: relationships, each a function that receives the model instance and returns the relation.
+- `scopes`: query scopes, each a function that receives the query builder.
+
+```ts
+import { sutando, Attribute, compose, SoftDeletes } from 'sutando';
+
+const Post = sutando.createModel('Post', {
+  table: 'posts',
+  plugins: [SoftDeletes],
+  attributes: {
+    slug: Attribute.make({ get: () => 'my-slug' }),
+  },
+  scopes: {
+    published: (query) => query.where('published', true),
+  },
+  relations: {
+    comments: (model) => model.hasMany(Comment),
+  },
+});
+```
+
+:::tip
+The `attributes` option only accepts `Attribute` instances: it defines accessors and mutators, not default values.
+:::
+
+## Isolated Instances
+
+The `sutando` object you import is a single, shared instance: `sutando.addConnection()` adds a connection to it, and every model uses it by default. When you need a completely separate set of connections — another database, a database per tenant, or a test database — you may create an isolated instance with `new sutando()`:
+
+```ts
+import { sutando } from 'sutando';
+
+const tenant = new sutando();
+
+tenant.addConnection({
+  client: 'sqlite3',
+  connection: { filename: './tenant.sqlite' },
+});
+
+const User = tenant.createModel('User', { table: 'users' });
+
+await User.query().create({ name: 'Alice' });
+```
+
+An isolated instance keeps its own connections, its own connection pool and its own model registry, so it never touches the global instance. Models created from it are bound to that instance and always query it, even when a model with the same table name exists on the global instance.
+
+An isolated instance offers the same API as the global one: `addConnection`, `connection`, `table`, `schema`, `transaction`, `beginTransaction`, `createModel` and `destroyAll`.
+
 ## Retrieving Models
 
 Once you have created a model and its associated database table, you are ready to start retrieving data from your database. You can think of each Sutando model as a powerful query builder allowing you to fluently query the database table associated with the model. The model's all method will retrieve all of the records from the model's associated database table:
