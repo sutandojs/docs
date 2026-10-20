@@ -79,7 +79,7 @@ const users = await prisma.user.findMany({
 
 **Sutando:**
 ```ts
-const user = await User.find(1);
+const user = await User.query().find(1);
 user.name = 'Bob';
 await user.save();
 ```
@@ -153,7 +153,7 @@ prisma.$use(async (params, next) => {
 
 ### 4. Soft Deletes
 
-Sutando has built-in soft delete support — just add a `deleted_at` column and use the `SoftDeletes` trait. Prisma requires custom middleware.
+Sutando has built-in soft delete support — just add a `deleted_at` column and apply the `SoftDeletes` plugin. Prisma requires custom middleware.
 
 ### 5. Laravel/Rails Background
 

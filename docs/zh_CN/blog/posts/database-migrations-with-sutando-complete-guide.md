@@ -69,23 +69,27 @@ table.index(['status', 'created_at']);
 
 ```
 migrations/
-  001_create_users_table.ts
-  002_create_posts_table.ts
-  003_add_avatar_to_users.ts
+  001_create_users_table.js
+  002_create_posts_table.js
+  003_add_avatar_to_users.js
 ```
 
-```ts
-export async function up() {
-  await sutando.schema().createTable('users', table => {
-    table.increments('id').primary();
-    table.string('name').notNullable();
-    table.timestamps();
-  });
-}
+```js
+const { Migration } = require('sutando');
 
-export async function down() {
-  await sutando.schema().dropTableIfExists('users');
-}
+module.exports = class extends Migration {
+  async up(schema) {
+    await schema.createTable('users', table => {
+      table.increments('id').primary();
+      table.string('name').notNullable();
+      table.timestamps();
+    });
+  }
+
+  async down(schema) {
+    await schema.dropTableIfExists('users');
+  }
+};
 ```
 
 ## 生产环境最佳实践

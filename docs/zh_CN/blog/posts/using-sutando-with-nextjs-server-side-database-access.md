@@ -78,7 +78,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const post = await Post.create({ ...body, published: false });
+  const post = await Post.query().create({ ...body, published: false });
   return NextResponse.json(post, { status: 201 });
 }
 ```
@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
 ```ts
 'use server';
 export async function createPost(formData: FormData) {
-  const post = await Post.create({
+  const post = await Post.query().create({
     title: formData.get('title'),
     content: formData.get('content'),
   });

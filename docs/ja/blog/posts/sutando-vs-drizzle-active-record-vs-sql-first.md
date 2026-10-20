@@ -86,8 +86,9 @@ Sutando の最大の利点です。Drizzle ではすべてのクエリで明示�
 
 ```ts
 // Sutando: deleted_at カラムを追加するだけ
-class Post extends Model {
-  use = [SoftDeletes];
+import { Model, compose, SoftDeletes } from 'sutando';
+
+class Post extends compose(Model, SoftDeletes) {
 }
 await post.delete(); // ソフトデリート
 await post.forceDelete(); // 完全削除

@@ -17,11 +17,10 @@ Sutando 包含几个超越基础 CRUD 的强大功能：软删除、模型事件
 ### 设置
 
 ```ts
-import { Model, SoftDeletes } from 'sutando';
+import { Model, compose, SoftDeletes } from 'sutando';
 
-class Post extends Model {
+class Post extends compose(Model, SoftDeletes) {
   table = 'posts';
-  use = [SoftDeletes];
 }
 ```
 
@@ -74,7 +73,7 @@ Post.saving(async (post) => {
 
 // 删除文章时级联删除评论
 Post.deleting(async (post) => {
-  await post.comments().delete();
+  await post.related('comments').delete();
 });
 ```
 
@@ -125,12 +124,18 @@ const posts = await Post.query()
 ### 全局作用域
 
 ```ts
+import { Model, Scope } from 'sutando';
+
+class PublishedScope extends Scope {
+  apply(builder, model) {
+    builder.where('published', true);
+  }
+}
+
 class Post extends Model {
   static booted() {
     super.booted();
-    this.addGlobalScope('published', (query) => {
-      query.where('published', true);
-    });
+    this.addGlobalScope('published', new PublishedScope());
   }
 }
 

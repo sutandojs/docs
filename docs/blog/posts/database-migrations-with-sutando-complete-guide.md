@@ -68,7 +68,7 @@ await sutando.schema().createTable('products', table => {
   table.text('description').nullable();
   table.integer('category_id').unsigned().references('id').inTable('categories');
   table.timestamps();
-  table.softDeletes();
+  table.timestamp('deleted_at').nullable();
 });
 ```
 
@@ -95,7 +95,7 @@ await sutando.schema().table('posts', table => {
 
 // Drop foreign key
 await sutando.schema().table('posts', table => {
-  table.dropForeign('posts_category_id_foreign');
+  table.dropForeign(['category_id']);
 });
 ```
 
@@ -121,45 +121,37 @@ For larger projects, organize migrations as separate files:
 
 ```
 migrations/
-  001_create_users_table.ts
-  002_create_posts_table.ts
-  003_create_comments_table.ts
-  004_add_avatar_to_users.ts
+  001_create_users_table.js
+  002_create_posts_table.js
+  003_create_comments_table.js
+  004_add_avatar_to_users.js
 ```
 
-```ts
-// migrations/001_create_users_table.ts
-import { sutando } from 'sutando';
+```js
+// migrations/001_create_users_table.js
+const { Migration } = require('sutando');
 
-export async function up() {
-  await sutando.schema().createTable('users', table => {
-    table.increments('id').primary();
-    table.string('name').notNullable();
-    table.string('email').notNullable().unique();
-    table.timestamps();
-  });
-}
-
-export async function down() {
-  await sutando.schema().dropTableIfExists('users');
-}
-```
-
-```ts
-// run-migrations.ts
-import * as migration1 from './migrations/001_create_users_table';
-import * as migration2 from './migrations/002_create_posts_table';
-
-const migrations = [migration1, migration2];
-
-async function run() {
-  for (const m of migrations) {
-    await m.up();
-    console.log(`Ran: ${m.name}`);
+module.exports = class CreateUsersTable extends Migration {
+  async up(schema) {
+    await schema.createTable('users', table => {
+      table.increments('id').primary();
+      table.string('name').notNullable();
+      table.string('email').notNullable().unique();
+      table.timestamps();
+    });
   }
-}
 
-run();
+  async down(schema) {
+    await schema.dropTableIfExists('users');
+  }
+};
+```
+
+Generate the files with the CLI and run them:
+
+```bash
+$ npx sutando migrate:make create_users_table
+$ npx sutando migrate:run
 ```
 
 ## Production Best Practices

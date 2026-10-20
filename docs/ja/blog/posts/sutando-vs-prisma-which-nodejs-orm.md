@@ -26,7 +26,7 @@ Node.js プロジェクトで ORM を選ぶ際、Sutando と Prisma は有力な
 
 ```ts
 // Sutando
-const post = await Post.create({
+const post = await Post.query().create({
   title: '新しい投稿',
   content: '内容',
   published: true,
@@ -103,7 +103,7 @@ prisma.$use(async (params, next) => {
 
 ### 3. ソフトデリート
 
-Sutando は `deleted_at` カラムを追加して `SoftDeletes` トレイトを使うだけです。Prisma ではカスタムミドルウェアが必要です。
+Sutando は `deleted_at` カラムを追加して `SoftDeletes` プラグイン（`compose(Model, SoftDeletes)`）を使うだけです。Prisma ではカスタムミドルウェアが必要です。
 
 ### 4. Laravel/Rails の経験がある場合
 

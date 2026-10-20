@@ -63,12 +63,12 @@ db.plugin('pagination');
 ```typescript
 import { sutando } from 'sutando';
 
-const db = sutando({
+sutando.addConnection({
   client: 'pg',
   connection: process.env.DATABASE_URL,
 });
 
-export default db;
+export default sutando;
 ```
 
 No plugins needed — virtuals, pagination, and registry-like behavior are built in.
@@ -106,13 +106,11 @@ import { Model } from 'sutando';
 class User extends Model {
   protected table = 'users';
   
-  protected fillable = ['name', 'email'];
-  
-  posts(): HasMany {
+  relationPosts() {
     return this.hasMany(Post);
   }
   
-  profile(): BelongsTo {
+  relationProfile() {
     return this.belongsTo(Profile);
   }
 }
@@ -187,7 +185,7 @@ const results = await new User().fetchPage({
 **Sutando** has pagination built in:
 ```typescript
 const results = await User.query().paginate(1, 20);
-// results.data, results.total, results.currentPage, results.perPage
+// results.items(), results.total(), results.currentPage(), results.perPage()
 ```
 
 ### Transactions
@@ -202,12 +200,14 @@ await db.transaction(async (t) => {
 
 **Sutando:**
 ```typescript
-await db.transaction(async () => {
+const db = sutando.connection();
+
+await db.transaction(async (trx) => {
   const user = new User({ name: 'Alice' });
-  await user.save();
+  await user.save({ client: trx });
   
   const post = new Post({ title: 'Hello', user_id: user.id });
-  await post.save();
+  await post.save({ client: trx });
 });
 ```
 
@@ -233,8 +233,10 @@ const User = db.Model.extend({
 class User extends Model {
   protected table = 'users';
   
-  static saving(model: User) {
-    model.updated_at = new Date();
+  static booted() {
+    this.saving(model => {
+      model.updated_at = new Date();
+    });
   }
 }
 ```
@@ -254,12 +256,12 @@ Replace your Bookshelf initialization with Sutando:
 ```typescript
 import { sutando } from 'sutando';
 
-const db = sutando({
+sutando.addConnection({
   client: 'pg',
   connection: process.env.DATABASE_URL,
 });
 
-export default db;
+export default sutando;
 ```
 
 Remove the `bookshelf` and `@types/bookshelf` packages:
@@ -275,7 +277,7 @@ Bookshelf's `Model.extend()` pattern should be converted to ES6 class syntax:
 - `tableName` → `protected table`
 - `hasMany('Post')` → `this.hasMany(Post)` (using class references, not string names)
 - `belongsTo('Profile')` → `this.belongsTo(Profile)`
-- `initialize()` with event listeners → static hook methods like `saving`, `creating`
+- `initialize()` with event listeners → register `saving`, `creating` hooks inside `static booted()`
 
 ### Step 4: Update Query Patterns
 
@@ -291,20 +293,22 @@ The biggest changes in query patterns:
 
 If you're using Knex migrations, they work with Sutando's schema builder too:
 
-```typescript
-import { schema } from 'sutando';
+```javascript
+const { Migration } = require('sutando');
 
-exports.up = function (schema) {
-  return schema.createTable('users', (table) => {
-    table.increments('id');
-    table.string('name');
-    table.string('email').unique();
-    table.timestamps();
-  });
-};
+module.exports = class extends Migration {
+  async up(schema) {
+    await schema.createTable('users', (table) => {
+      table.increments('id');
+      table.string('name');
+      table.string('email').unique();
+      table.timestamps();
+    });
+  }
 
-exports.down = function (schema) {
-  return schema.dropTableIfExists('users');
+  async down(schema) {
+    await schema.dropTableIfExists('users');
+  }
 };
 ```
 
@@ -314,7 +318,7 @@ exports.down = function (schema) {
 - **ESM support**: Use `import`/`export` natively, no more `require()`
 - **No plugins needed**: Pagination, virtuals, and registry are built-in features
 - **Direct property access**: `user.name = 'Bob'` instead of `user.set('name', 'Bob')`
-- **Built-in soft deletes**: Add `softDeletes()` to your model — no manual implementation
+- **Built-in soft deletes**: Apply the `SoftDeletes` plugin (`compose(Model, SoftDeletes)`) — no manual implementation
 - **Built-in scopes**: Define reusable query filters without custom plugin code
 - **Eloquent-style API**: Familiar to anyone who's used Laravel
 - **Active maintenance**: Regular updates and new features

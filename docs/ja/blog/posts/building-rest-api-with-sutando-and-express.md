@@ -40,7 +40,7 @@ export default sutando;
 ## モデル定義
 
 ```ts
-import { Model, SoftDeletes } from 'sutando';
+import { Model, compose, SoftDeletes } from 'sutando';
 
 class User extends Model {
   table = 'users';
@@ -51,8 +51,7 @@ class User extends Model {
   }
 }
 
-class Post extends Model {
-  use = [SoftDeletes];
+class Post extends compose(Model, SoftDeletes) {
   table = 'posts';
   casts = { published: 'boolean' };
   
@@ -98,7 +97,7 @@ app.get('/posts', async (req, res) => {
     .with('user')
     .published()
     .orderBy('created_at', 'desc')
-    .paginate(15, page);
+    .paginate(page, 15);
   res.json(posts);
 });
 
@@ -124,13 +123,13 @@ app.post('/posts', async (req, res) => {
   if (!parsed.success) {
     return res.status(400).json({ errors: parsed.error.issues });
   }
-  const post = await Post.create(parsed.data);
+  const post = await Post.query().create(parsed.data);
   res.status(201).json(post);
 });
 
 // 記事更新
 app.put('/posts/:id', async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: '記事が見つかりません' });
   post.fill(req.body);
   await post.save();
@@ -139,7 +138,7 @@ app.put('/posts/:id', async (req, res) => {
 
 // 記事削除（ソフトデリート）
 app.delete('/posts/:id', async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: '記事が見つかりません' });
   await post.delete();
   res.json({ success: true });
@@ -147,9 +146,9 @@ app.delete('/posts/:id', async (req, res) => {
 
 // コメント作成
 app.post('/posts/:id/comments', async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: '記事が見つかりません' });
-  const comment = await post.comments().create({
+  const comment = await post.related('comments').create({
     content: req.body.content,
     user_id: req.body.userId,
   });

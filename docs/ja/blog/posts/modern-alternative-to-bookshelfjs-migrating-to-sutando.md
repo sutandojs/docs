@@ -63,12 +63,12 @@ db.plugin('pagination');
 ```typescript
 import { sutando } from 'sutando';
 
-const db = sutando({
+sutando.addConnection({
   client: 'pg',
   connection: process.env.DATABASE_URL,
 });
 
-export default db;
+export default sutando;
 ```
 
 プラグイン不要——virtuals、pagination、registry のような機能は組み込み済みです。
@@ -106,13 +106,11 @@ import { Model } from 'sutando';
 class User extends Model {
   protected table = 'users';
   
-  protected fillable = ['name', 'email'];
-  
-  posts(): HasMany {
+  relationPosts() {
     return this.hasMany(Post);
   }
   
-  profile(): BelongsTo {
+  relationProfile() {
     return this.belongsTo(Profile);
   }
 }
@@ -187,7 +185,7 @@ const results = await new User().fetchPage({
 **Sutando** はページネーションが組み込み：
 ```typescript
 const results = await User.query().paginate(1, 20);
-// results.data, results.total, results.currentPage, results.perPage
+// results.items(), results.total(), results.currentPage(), results.perPage()
 ```
 
 ### トランザクション
@@ -202,12 +200,14 @@ await db.transaction(async (t) => {
 
 **Sutando:**
 ```typescript
-await db.transaction(async () => {
+const db = sutando.connection();
+
+await db.transaction(async (trx) => {
   const user = new User({ name: 'Alice' });
-  await user.save();
+  await user.save({ client: trx });
   
   const post = new Post({ title: 'Hello', user_id: user.id });
-  await post.save();
+  await post.save({ client: trx });
 });
 ```
 
@@ -233,8 +233,10 @@ const User = db.Model.extend({
 class User extends Model {
   protected table = 'users';
   
-  static saving(model: User) {
-    model.updated_at = new Date();
+  static booted() {
+    this.saving(model => {
+      model.updated_at = new Date();
+    });
   }
 }
 ```
@@ -254,12 +256,12 @@ Bookshelf の初期化を Sutando に置き換え：
 ```typescript
 import { sutando } from 'sutando';
 
-const db = sutando({
+sutando.addConnection({
   client: 'pg',
   connection: process.env.DATABASE_URL,
 });
 
-export default db;
+export default sutando;
 ```
 
 `bookshelf` と `@types/bookshelf` パッケージを削除：
@@ -275,7 +277,7 @@ Bookshelf の `Model.extend()` パターンは ES6 クラス構文に変換：
 - `tableName` → `protected table`
 - `hasMany('Post')` → `this.hasMany(Post)`（文字列名ではなくクラス参照を使用）
 - `belongsTo('Profile')` → `this.belongsTo(Profile)`
-- `initialize()` とイベントリスナー → `saving`、`creating` 等の静的フックメソッド
+- `initialize()` とイベントリスナー → `static booted()` 内で `this.saving()`、`this.creating()` を登録
 
 ### ステップ 4：クエリパターンの更新
 
@@ -291,20 +293,22 @@ Bookshelf の `Model.extend()` パターンは ES6 クラス構文に変換：
 
 Knex マイグレーションを使用している場合、Sutando の schema builder と互換性があります：
 
-```typescript
-import { schema } from 'sutando';
+```javascript
+const { Migration } = require('sutando');
 
-exports.up = function (schema) {
-  return schema.createTable('users', (table) => {
-    table.increments('id');
-    table.string('name');
-    table.string('email').unique();
-    table.timestamps();
-  });
-};
+module.exports = class extends Migration {
+  async up(schema) {
+    await schema.createTable('users', (table) => {
+      table.increments('id');
+      table.string('name');
+      table.string('email').unique();
+      table.timestamps();
+    });
+  }
 
-exports.down = function (schema) {
-  return schema.dropTableIfExists('users');
+  async down(schema) {
+    await schema.dropTableIfExists('users');
+  }
 };
 ```
 
@@ -314,7 +318,7 @@ exports.down = function (schema) {
 - **ESM サポート**：`import`/`export` をネイティブに使用、`require()` は不要
 - **プラグイン不要**：ページネーション、virtuals、registry は組み込み機能
 - **直接プロパティアクセス**：`user.set('name', 'Bob')` ではなく `user.name = 'Bob'`
-- **組み込みソフトデリート**：モデルに `softDeletes()` を追加するだけ——手動実装不要
+- **組み込みソフトデリート**：`SoftDeletes` プラグイン（`compose(Model, SoftDeletes)`）を追加するだけ——手動実装不要
 - **組み込みスコープ**：カスタムプラグインなしで再利用可能なクエリフィルターを定義
 - **Eloquent スタイル API**：Laravel を使ったことがある人に馴染みやすい
 - **活発なメンテナンス**：定期的なアップデートと新機能

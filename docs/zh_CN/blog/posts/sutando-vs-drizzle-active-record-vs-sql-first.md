@@ -75,7 +75,7 @@ const user = await User.query().with('posts').find(1);
 | 功能 | Sutando | Drizzle |
 |---------|---------|---------|
 | 模式 | Active Record | SQL 查询构造器 |
-| 关联 | `hasMany`、`belongsTo`、`morphTo` | 手动 join |
+| 关联 | `hasMany`、`belongsTo`、`hasOne` | 手动 join |
 | 预加载 | `with('posts.comments')` | 手动配置 join |
 | 模型事件 | 内置 | 无 |
 | 软删除 | 内置 | 无 |

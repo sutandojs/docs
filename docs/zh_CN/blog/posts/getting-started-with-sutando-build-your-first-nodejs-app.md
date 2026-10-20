@@ -157,7 +157,7 @@ user.password = 'hashed_password';
 await user.save();
 
 // 或使用 create 方法
-const post = await Post.create({
+const post = await Post.query().create({
   title: '我的第一篇文章',
   content: 'Hello World!',
   user_id: user.id,
@@ -172,7 +172,7 @@ const post = await Post.create({
 const posts = await Post.query().get();
 
 // 按 ID 查找
-const post = await Post.find(1);
+const post = await Post.query().find(1);
 
 // 条件查询
 const published = await Post.query()
@@ -191,7 +191,7 @@ const count = await Post.query().where('published', true).count();
 ### 更新
 
 ```ts
-const post = await Post.find(1);
+const post = await Post.query().find(1);
 post.title = '更新后的标题';
 post.published = true;
 await post.save();
@@ -203,7 +203,7 @@ await Post.query().where('user_id', 1).update({ published: true });
 ### 删除
 
 ```ts
-const post = await Post.find(1);
+const post = await Post.query().find(1);
 await post.delete();
 
 // 批量删除
@@ -228,8 +228,8 @@ const users = await User.query()
 ### 创建关联记录
 
 ```ts
-const user = await User.find(1);
-const post = await user.posts().create({
+const user = await User.query().find(1);
+const post = await user.related('posts').create({
   title: '新文章',
   content: '内容',
 });
@@ -238,8 +238,8 @@ const post = await user.posts().create({
 ### 查询关联
 
 ```ts
-const user = await User.find(1);
-const publishedPosts = await user.posts().where('published', true).get();
+const user = await User.query().find(1);
+const publishedPosts = await user.related('posts').where('published', true).get();
 ```
 
 ## 第 7 步：整合到一起 {#第-7-步-整合到一起}
@@ -276,13 +276,13 @@ app.get('/posts/:id', async (req, res) => {
 
 // 创建文章
 app.post('/posts', async (req, res) => {
-  const post = await Post.create(req.body);
+  const post = await Post.query().create(req.body);
   res.status(201).json(post);
 });
 
 // 更新文章
 app.put('/posts/:id', async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: 'Not found' });
   post.fill(req.body);
   await post.save();
@@ -291,7 +291,7 @@ app.put('/posts/:id', async (req, res) => {
 
 // 删除文章
 app.delete('/posts/:id', async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: 'Not found' });
   await post.delete();
   res.json({ success: true });

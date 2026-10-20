@@ -230,7 +230,7 @@ const user = new User();
 user.name = 'Alice';
 user.email = 'alice@example.com';
 await user.save();
-// or: const user = await User.create({ name: 'Alice', email: 'alice@example.com' });
+// or: const user = await User.query().create({ name: 'Alice', email: 'alice@example.com' });
 ```
 
 ## When to Switch from TypeORM to Sutando

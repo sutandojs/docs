@@ -135,7 +135,7 @@ await db.update(users)
 
 **Sutando:**
 ```ts
-const user = await User.find(1);
+const user = await User.query().find(1);
 user.name = 'Bob';
 await user.save();
 ```
@@ -146,7 +146,7 @@ await user.save();
 |---------|---------|---------|
 | Pattern | Active Record | SQL query builder |
 | Schema | Model classes | TypeScript schema builders |
-| Relationships | `hasMany`, `belongsTo`, `morphTo` | Manual joins |
+| Relationships | `hasMany`, `belongsTo`, etc. | Manual joins |
 | Eager loading | `with('posts.comments')` | Manual join configuration |
 | Migrations | Schema builder + migration files | Drizzle Kit (`generate` / `push`) |
 | Bundle size | Small | Very small (~7.4kb min+gzip) |
@@ -187,7 +187,7 @@ User.creating(async (user) => {
 });
 
 User.deleting(async (user) => {
-  await user.posts().delete();
+  await user.related('posts').delete();
 });
 ```
 

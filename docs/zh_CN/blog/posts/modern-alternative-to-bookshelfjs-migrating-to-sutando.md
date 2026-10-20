@@ -63,12 +63,12 @@ db.plugin('pagination');
 ```typescript
 import { sutando } from 'sutando';
 
-const db = sutando({
+sutando.addConnection({
   client: 'pg',
   connection: process.env.DATABASE_URL,
 });
 
-export default db;
+export default sutando;
 ```
 
 不需要插件——virtuals、pagination 和 registry 类似的行为都是内置的。
@@ -106,13 +106,11 @@ import { Model } from 'sutando';
 class User extends Model {
   protected table = 'users';
   
-  protected fillable = ['name', 'email'];
-  
-  posts(): HasMany {
+  relationPosts() {
     return this.hasMany(Post);
   }
   
-  profile(): BelongsTo {
+  relationProfile() {
     return this.belongsTo(Profile);
   }
 }
@@ -187,7 +185,7 @@ const results = await new User().fetchPage({
 **Sutando** 内置分页：
 ```typescript
 const results = await User.query().paginate(1, 20);
-// results.data, results.total, results.currentPage, results.perPage
+// results.items(), results.total(), results.currentPage(), results.perPage()
 ```
 
 ### 事务
@@ -202,12 +200,14 @@ await db.transaction(async (t) => {
 
 **Sutando:**
 ```typescript
-await db.transaction(async () => {
+const db = sutando.connection();
+
+await db.transaction(async (trx) => {
   const user = new User({ name: 'Alice' });
-  await user.save();
+  await user.save({ client: trx });
   
   const post = new Post({ title: 'Hello', user_id: user.id });
-  await post.save();
+  await post.save({ client: trx });
 });
 ```
 
@@ -233,8 +233,10 @@ const User = db.Model.extend({
 class User extends Model {
   protected table = 'users';
   
-  static saving(model: User) {
-    model.updated_at = new Date();
+  static booted() {
+    this.saving(model => {
+      model.updated_at = new Date();
+    });
   }
 }
 ```
@@ -254,12 +256,12 @@ npm install sutando
 ```typescript
 import { sutando } from 'sutando';
 
-const db = sutando({
+sutando.addConnection({
   client: 'pg',
   connection: process.env.DATABASE_URL,
 });
 
-export default db;
+export default sutando;
 ```
 
 移除 `bookshelf` 和 `@types/bookshelf` 包：
@@ -275,7 +277,7 @@ Bookshelf 的 `Model.extend()` 模式应转换为 ES6 类语法：
 - `tableName` → `protected table`
 - `hasMany('Post')` → `this.hasMany(Post)`（使用类引用，不是字符串名称）
 - `belongsTo('Profile')` → `this.belongsTo(Profile)`
-- `initialize()` 配合事件监听 → 静态钩子方法如 `saving`、`creating`
+- `initialize()` 配合事件监听 → 在 `static booted()` 中注册 `saving`、`creating` 等钩子
 
 ### 第 4 步：更新查询模式
 
@@ -291,20 +293,22 @@ Bookshelf 的 `Model.extend()` 模式应转换为 ES6 类语法：
 
 如果你在使用 Knex 迁移，它们也兼容 Sutando 的 schema builder：
 
-```typescript
-import { schema } from 'sutando';
+```javascript
+const { Migration } = require('sutando');
 
-exports.up = function (schema) {
-  return schema.createTable('users', (table) => {
-    table.increments('id');
-    table.string('name');
-    table.string('email').unique();
-    table.timestamps();
-  });
-};
+module.exports = class extends Migration {
+  async up(schema) {
+    await schema.createTable('users', (table) => {
+      table.increments('id');
+      table.string('name');
+      table.string('email').unique();
+      table.timestamps();
+    });
+  }
 
-exports.down = function (schema) {
-  return schema.dropTableIfExists('users');
+  async down(schema) {
+    await schema.dropTableIfExists('users');
+  }
 };
 ```
 
@@ -314,7 +318,7 @@ exports.down = function (schema) {
 - **ESM 支持**：原生使用 `import`/`export`，不再需要 `require()`
 - **无需插件**：分页、虚拟字段和 registry 都是内置功能
 - **直接属性访问**：`user.name = 'Bob'` 代替 `user.set('name', 'Bob')`
-- **内置软删除**：在模型中添加 `softDeletes()` 即可——无需手动实现
+- **内置软删除**：用 `SoftDeletes` 插件（`compose(Model, SoftDeletes)`）即可——无需手动实现
 - **内置作用域**：定义可复用的查询过滤器，无需自定义插件
 - **Eloquent 风格 API**：用过 Laravel 的人都熟悉
 - **活跃维护**：定期更新和新功能

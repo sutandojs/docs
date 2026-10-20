@@ -64,42 +64,46 @@ await sutando.schema().dropTableIfExists('old_table');
 
 Sutando では、マイグレーションをファイルとして管理できます：
 
-```ts
-// migrations/001_create_users_table.ts
-import { sutando } from 'sutando';
+```js
+// migrations/001_create_users_table.js
+const { Migration } = require('sutando');
 
-export async function up() {
-  await sutando.schema().createTable('users', table => {
-    table.increments('id').primary();
-    table.string('name').notNullable();
-    table.string('email').notNullable().unique();
-    table.timestamps();
-  });
-}
+module.exports = class extends Migration {
+  async up(schema) {
+    await schema.createTable('users', table => {
+      table.increments('id').primary();
+      table.string('name').notNullable();
+      table.string('email').notNullable().unique();
+      table.timestamps();
+    });
+  }
 
-export async function down() {
-  await sutando.schema().dropTableIfExists('users');
-}
+  async down(schema) {
+    await schema.dropTableIfExists('users');
+  }
+};
 ```
 
-```ts
-// migrations/002_create_posts_table.ts
-import { sutando } from 'sutando';
+```js
+// migrations/002_create_posts_table.js
+const { Migration } = require('sutando');
 
-export async function up() {
-  await sutando.schema().createTable('posts', table => {
-    table.increments('id').primary();
-    table.string('title').notNullable();
-    table.text('content');
-    table.integer('user_id').unsigned().references('id').inTable('users');
-    table.boolean('published').defaultTo(false);
-    table.timestamps();
-  });
-}
+module.exports = class extends Migration {
+  async up(schema) {
+    await schema.createTable('posts', table => {
+      table.increments('id').primary();
+      table.string('title').notNullable();
+      table.text('content');
+      table.integer('user_id').unsigned().references('id').inTable('users');
+      table.boolean('published').defaultTo(false);
+      table.timestamps();
+    });
+  }
 
-export async function down() {
-  await sutando.schema().dropTableIfExists('posts');
-}
+  async down(schema) {
+    await schema.dropTableIfExists('posts');
+  }
+};
 ```
 
 ## インデックス

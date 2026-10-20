@@ -51,10 +51,10 @@ export class User extends Model {
 const users = await User.query().with('posts').get();
 ```
 
-- 相同的关联方法（`hasMany`、`belongsTo`、`morphTo` 等）
+- 相同的关联方法（`hasMany`、`belongsTo`、`hasOne` 等）
 - 可链式调用的查询构造器，支持 `where`、`orderBy`、`limit`、`with`、`has`、`whereHas` 等
 - 软删除、事件、全局作用域和预加载的工作方式与 Laravel 完全一致
-- 迁移、工厂和种子遵循相同的理念——从 PHP 迁移轻而易举
+- 迁移遵循相同的理念——从 PHP 迁移轻而易举
 
 ## 框架无关设计——与 AdonisJS 对比 {#框架无关设计——与-adonisjs-对比}
 

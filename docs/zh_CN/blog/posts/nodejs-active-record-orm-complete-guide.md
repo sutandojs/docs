@@ -56,10 +56,9 @@ Node.js 生态有几个 Active Record 实现：
 [Sutando](https://sutando.org/zh_CN/guide/getting-started) 是 Laravel Eloquent 在 Node.js 中最忠实的移植。它支持 MySQL、PostgreSQL 和 SQLite，功能包括：
 
 - 流畅的查询构造器，支持 `where`、`orderBy`、`with`（预加载）
-- 模型关联：`hasMany`、`belongsTo`、`hasOne`、`morphTo`
+- 模型关联：`hasMany`、`belongsTo`、`hasOne`
 - 软删除、模型事件/钩子、全局作用域
 - 数据库迁移和 Schema 构造器
-- 工厂和种子用于测试
 
 ```ts
 import { Model } from 'sutando';
@@ -208,7 +207,7 @@ app.get('/posts/:id', async (req, res) => {
 
 // 更新
 app.put('/posts/:id', async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: 'Not found' });
   post.title = req.body.title;
   post.content = req.body.content;
@@ -218,7 +217,7 @@ app.put('/posts/:id', async (req, res) => {
 
 // 删除
 app.delete('/posts/:id', async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: 'Not found' });
   await post.delete();
   res.json({ success: true });
@@ -237,7 +236,7 @@ Active Record 最强大的功能之一是预加载——在单次查询中加载
 // 不好：N+1 查询
 const users = await User.query().get();
 for (const user of users) {
-  const posts = await user.posts; // 每个用户一次查询
+  const posts = await user.getRelated('posts'); // 每个用户一次查询
 }
 
 // 好：总共 2 次查询
@@ -269,7 +268,7 @@ Post.creating(async (post) => {
 });
 
 Post.deleting(async (post) => {
-  await post.comments.delete(); // 级联删除
+  await post.related('comments').delete(); // 级联删除
 });
 ```
 

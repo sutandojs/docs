@@ -62,20 +62,20 @@ app.get('/posts', async (req, res) => {
     .with('user', 'comments.user')
     .published()
     .orderBy('created_at', 'desc')
-    .page(page, limit);
+    .paginate(page, limit);
   res.json(posts);
 });
 
 // 创建文章（带验证）
 app.post('/posts', async (req, res) => {
   const data = createPostSchema.parse(req.body);
-  const post = await Post.create(data);
+  const post = await Post.query().create(data);
   res.status(201).json(post);
 });
 
 // 更新文章
 app.put('/posts/:id', async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: '文章不存在' });
   post.fill(updatePostSchema.parse(req.body));
   await post.save();
@@ -84,7 +84,7 @@ app.put('/posts/:id', async (req, res) => {
 
 // 删除文章
 app.delete('/posts/:id', async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: '文章不存在' });
   await post.delete();
   res.json({ success: true });
@@ -92,16 +92,16 @@ app.delete('/posts/:id', async (req, res) => {
 
 // 添加评论
 app.post('/posts/:id/comments', async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: '文章不存在' });
-  const comment = await Comment.create({ ...req.body, post_id: post.id });
+  const comment = await Comment.query().create({ ...req.body, post_id: post.id });
   res.status(201).json(comment);
 });
 ```
 
 ## 展示的关键功能
 
-- **分页**：`.page(page, limit)`
+- **分页**：`.paginate(page, limit)`
 - **预加载**：`.with('user', 'comments.user')`
 - **查询作用域**：`.published()`
 - **验证**：用 Zod schema

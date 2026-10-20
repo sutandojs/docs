@@ -11,7 +11,7 @@ mode: center
 <img src="https://storage.sutando.org/og-1751395044936.jpg" alt="" width="1200" height="630" loading="lazy" />
 
 ---
-Relationships are the heart of any ORM. Sutando brings Laravel Eloquent's relationship system to Node.js, making it easy to define and query complex data relationships. This guide covers every relationship type with practical examples.
+Relationships are the heart of any ORM. Sutando brings Laravel Eloquent's relationship system to Node.js, making it easy to define and query complex data relationships. This guide covers the supported relationship types with practical examples.
 
 ## Defining Relationships
 
@@ -55,11 +55,11 @@ const user = await User.query().with('posts').find(1);
 console.log(user.posts); // Post[]
 
 // Query the relationship
-const user = await User.find(1);
-const publishedPosts = await user.posts().where('published', true).get();
+const user = await User.query().find(1);
+const publishedPosts = await user.related('posts').where('published', true).get();
 
 // Create related
-const post = await user.posts().create({
+const post = await user.related('posts').create({
   title: 'New Post',
   content: 'Hello!',
 });
@@ -67,7 +67,7 @@ const post = await user.posts().create({
 // Save related
 const post = new Post();
 post.title = 'New Post';
-await user.posts().save(post);
+await user.related('posts').save(post);
 ```
 
 ## One-to-One: hasOne
@@ -121,48 +121,12 @@ const user = await User.query().with('roles').find(1);
 console.log(user.roles); // Role[]
 
 // Attach / detach
-await user.roles().attach([1, 2, 3]); // attach role IDs
-await user.roles().detach([2]); // detach role ID 2
-await user.roles().sync([1, 3]); // sync: detach all others, attach these
+await user.related('roles').attach([1, 2, 3]); // attach role IDs
+await user.related('roles').detach([2]); // detach role ID 2
+await user.related('roles').sync([1, 3]); // sync: detach all others, attach these
 
 // With pivot data
-await user.roles().attach(1, { expires_at: '2026-12-31' });
-```
-
-## Polymorphic Relationships
-
-A tag can belong to either a Post or a Video:
-
-```ts
-class Tag extends Model {
-  table = 'tags';
-  relationTaggable() {
-    return this.morphTo();
-  }
-}
-
-class Post extends Model {
-  table = 'posts';
-  relationTags() {
-    return this.morphMany(Tag, 'taggable');
-  }
-}
-
-class Video extends Model {
-  table = 'videos';
-  relationTags() {
-    return this.morphMany(Tag, 'taggable');
-  }
-}
-```
-
-```ts
-// Add tags to a post
-await post.tags().create({ name: 'laravel' });
-await post.tags().create({ name: 'nodejs' });
-
-// Get tags with their taggable parent
-const tags = await Tag.query().with('taggable').get();
+await user.related('roles').attach(1, { expires_at: '2026-12-31' });
 ```
 
 ## Nested Eager Loading
@@ -191,7 +155,7 @@ The N+1 problem is the most common ORM performance issue. Sutando solves it with
 // BAD: N+1 (1 + N queries)
 const users = await User.query().get();
 for (const user of users) {
-  console.log(await user.posts); // 1 query per user
+  console.log(await user.getRelated('posts')); // 1 query per user
 }
 
 // GOOD: 2 queries total
@@ -209,8 +173,6 @@ for (const user of users) {
 | `belongsTo` | Inverse One-to-Many | Post → User |
 | `hasOne` | One-to-One | User → Profile |
 | `belongsToMany` | Many-to-Many | User ↔ Roles |
-| `morphMany` | Polymorphic One-to-Many | Post/Video → Tags |
-| `morphTo` | Polymorphic Inverse | Tag → Post/Video |
 
 ## Conclusion
 

@@ -29,8 +29,8 @@ Common reasons include:
 |---------|-------------------|
 | Eloquent Model | Sutando Model class |
 | Migration | Sutando Schema Builder |
-| Seeder | Sutando Seeder |
-| Factory | Sutando Factory |
+| Seeder | Not supported |
+| Factory | Not supported |
 | Route | Express / Fastify route |
 | Middleware | Express middleware |
 | Blade | React / Vue / API-only |
@@ -83,8 +83,6 @@ class User extends Model {
     metadata: 'json',
   };
   
-  fillable = ['name', 'email', 'password'];
-  
   relationPosts() {
     return this.hasMany(Post, 'user_id');
   }
@@ -98,7 +96,7 @@ class User extends Model {
 The mapping is nearly 1:1. The main differences:
 - `protected $table` → `table =`
 - `protected $casts` → `casts =`
-- `$fillable` → `fillable =`
+- `$fillable` → no equivalent; filter attributes yourself before mass assignment
 - Relationship methods use `relation` prefix
 - Scopes use `scope` prefix
 - No `use` statements for traits — soft deletes are configured differently
@@ -145,7 +143,7 @@ $user = User::create(['name' => 'Alice', 'email' => 'alice@example.com']);
 
 ```ts
 // Sutando
-const user = await User.create({ name: 'Alice', email: 'alice@example.com' });
+const user = await User.query().create({ name: 'Alice', email: 'alice@example.com' });
 ```
 
 ### Update
@@ -159,7 +157,7 @@ $user->save();
 
 ```ts
 // Sutando
-const user = await User.find(1);
+const user = await User.query().find(1);
 user.name = 'Bob';
 await user.save();
 ```
@@ -227,7 +225,7 @@ app.get('/posts', async (req, res) => {
 });
 
 app.post('/posts', async (req, res) => {
-  const post = await Post.create(req.body);
+  const post = await Post.query().create(req.body);
   res.status(201).json(post);
 });
 
@@ -287,7 +285,7 @@ app.get('/posts', async (req, res) => {
 });
 
 app.post('/posts', async (req, res) => {
-  const post = await Post.create({
+  const post = await Post.query().create({
     ...req.body,
     published: false,
   });

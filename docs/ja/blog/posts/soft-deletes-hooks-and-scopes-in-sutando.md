@@ -17,10 +17,9 @@ Sutando の強力な機能であるソフトデリート、モデルイベント
 ### 設定
 
 ```ts
-import { Model, SoftDeletes } from 'sutando';
+import { Model, compose, SoftDeletes } from 'sutando';
 
-class Post extends Model {
-  use = [SoftDeletes];
+class Post extends compose(Model, SoftDeletes) {
   table = 'posts';
 }
 ```
@@ -29,7 +28,7 @@ class Post extends Model {
 
 ```ts
 // ソフトデリート
-const post = await Post.find(1);
+const post = await Post.query().find(1);
 await post.delete(); // deleted_at に日付が設定される
 
 // ソフトデリートされたレコードも含めて取得
@@ -111,19 +110,21 @@ const userPosts = await Post.query().byUser(1).published().get();
 ### グローバルスコープ
 
 ```ts
+import { Model, Scope } from 'sutando';
+
+class PublishedScope extends Scope {
+  apply(builder, model) {
+    builder.where('published', true);
+  }
+}
+
 class Post extends Model {
   table = 'posts';
   
-  static booted = false;
-  
-  static boot() {
-    super.boot();
-    if (!Post.booted) {
-      Post.addGlobalScope('published', (query) => {
-        query.where('published', true);
-      });
-      Post.booted = true;
-    }
+  static booted() {
+    super.booted();
+    
+    this.addGlobalScope('published', new PublishedScope());
   }
 }
 

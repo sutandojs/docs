@@ -157,7 +157,7 @@ user.password = 'hashed_password';
 await user.save();
 
 // Or use the create method
-const post = await Post.create({
+const post = await Post.query().create({
   title: 'My First Post',
   content: 'Hello World!',
   user_id: user.id,
@@ -172,7 +172,7 @@ const post = await Post.create({
 const posts = await Post.query().get();
 
 // Find by ID
-const post = await Post.find(1);
+const post = await Post.query().find(1);
 
 // Query with conditions
 const published = await Post.query()
@@ -191,7 +191,7 @@ const count = await Post.query().where('published', true).count();
 ### Update
 
 ```ts
-const post = await Post.find(1);
+const post = await Post.query().find(1);
 post.title = 'Updated Title';
 post.published = true;
 await post.save();
@@ -203,7 +203,7 @@ await Post.query().where('user_id', 1).update({ published: true });
 ### Delete
 
 ```ts
-const post = await Post.find(1);
+const post = await Post.query().find(1);
 await post.delete();
 
 // Bulk delete
@@ -228,8 +228,8 @@ const users = await User.query()
 ### Creating Related Records
 
 ```ts
-const user = await User.find(1);
-const post = await user.posts().create({
+const user = await User.query().find(1);
+const post = await user.related('posts').create({
   title: 'New Post',
   content: 'Content here',
 });
@@ -238,8 +238,8 @@ const post = await user.posts().create({
 ### Querying Relationships
 
 ```ts
-const user = await User.find(1);
-const publishedPosts = await user.posts().where('published', true).get();
+const user = await User.query().find(1);
+const publishedPosts = await user.related('posts').where('published', true).get();
 ```
 
 ## Step 7: Putting It All Together
@@ -276,13 +276,13 @@ app.get('/posts/:id', async (req, res) => {
 
 // Create post
 app.post('/posts', async (req, res) => {
-  const post = await Post.create(req.body);
+  const post = await Post.query().create(req.body);
   res.status(201).json(post);
 });
 
 // Update post
 app.put('/posts/:id', async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: 'Not found' });
   post.fill(req.body);
   await post.save();
@@ -291,7 +291,7 @@ app.put('/posts/:id', async (req, res) => {
 
 // Delete post
 app.delete('/posts/:id', async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: 'Not found' });
   await post.delete();
   res.json({ success: true });

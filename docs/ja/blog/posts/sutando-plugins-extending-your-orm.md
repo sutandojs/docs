@@ -22,18 +22,14 @@ import { Model } from 'sutando';
 // UUID プラグイン
 const UUID = (Model) => {
   return class extends Model {
-    static booted = false;
-    
-    static boot() {
-      super.boot();
-      if (!this.booted) {
-        this.creating((model) => {
-          if (!model.id) {
-            model.id = crypto.randomUUID();
-          }
-        });
-        this.booted = true;
-      }
+    static booted() {
+      super.booted();
+      
+      this.creating((model) => {
+        if (!model.id) {
+          model.id = crypto.randomUUID();
+        }
+      });
     }
   };
 };
@@ -51,25 +47,20 @@ class User extends UUID(Model) {
 ```ts
 const Sluggable = (options = {}) => (Model) => {
   return class extends Model {
-    static booted = false;
-    
-    static boot() {
-      super.boot();
-      if (!this.booted) {
-        const source = options.source || 'title';
-        const target = options.target || 'slug';
-        
-        this.creating(async (model) => {
-          if (!model[target]) {
-            model[target] = model[source]
-              .toLowerCase()
-              .replace(/[^\w\s-]/g, '')
-              .replace(/\s+/g, '-');
-          }
-        });
-        
-        this.booted = true;
-      }
+    static booted() {
+      super.booted();
+      
+      const source = options.source || 'title';
+      const target = options.target || 'slug';
+      
+      this.creating(async (model) => {
+        if (!model[target]) {
+          model[target] = model[source]
+            .toLowerCase()
+            .replace(/[^\w\s-]/g, '')
+            .replace(/\s+/g, '-');
+        }
+      });
     }
   };
 };
@@ -85,21 +76,16 @@ class Post extends Sluggable({ source: 'title' })(Model) {
 ```ts
 const Auditable = (Model) => {
   return class extends Model {
-    static booted = false;
-    
-    static boot() {
-      super.boot();
-      if (!this.booted) {
-        this.creating((model) => {
-          model.created_by = getCurrentUserId();
-        });
-        
-        this.updating((model) => {
-          model.updated_by = getCurrentUserId();
-        });
-        
-        this.booted = true;
-      }
+    static booted() {
+      super.booted();
+      
+      this.creating((model) => {
+        model.created_by = getCurrentUserId();
+      });
+      
+      this.updating((model) => {
+        model.updated_by = getCurrentUserId();
+      });
     }
   };
 };

@@ -117,7 +117,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const post = await Post.create({
+  const post = await Post.query().create({
     ...body,
     published: false,
   });
@@ -159,7 +159,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
 import { Post } from '@/lib/models';
 
 export async function createPost(formData: FormData) {
-  const post = await Post.create({
+  const post = await Post.query().create({
     title: formData.get('title'),
     content: formData.get('content'),
     user_id: 1, // from session

@@ -45,10 +45,10 @@ class Post extends Model {
 const user = await User.query().with('posts').find(1);
 
 // 查询关联
-const publishedPosts = await user.posts().where('published', true).get();
+const publishedPosts = await user.related('posts').where('published', true).get();
 
 // 创建关联记录
-const post = await user.posts().create({ title: '新文章', content: '内容' });
+const post = await user.related('posts').create({ title: '新文章', content: '内容' });
 ```
 
 ## 一对一：hasOne
@@ -71,22 +71,14 @@ class User extends Model {
 
 ```ts
 // 附加/分离
-await user.roles().attach([1, 2, 3]);
-await user.roles().detach([2]);
-await user.roles().sync([1, 3]); // 同步：分离其他，附加这些
+await user.related('roles').attach([1, 2, 3]);
+await user.related('roles').detach([2]);
+await user.related('roles').sync([1, 3]); // 同步：分离其他，附加这些
 ```
 
 ## 多态关联
 
-```ts
-class Tag extends Model {
-  relationTaggable() { return this.morphTo(); }
-}
-
-class Post extends Model {
-  relationTags() { return this.morphMany(Tag, 'taggable'); }
-}
-```
+Sutando 暂不支持多态关联（`morphTo` / `morphMany`）。
 
 ## 嵌套预加载
 
@@ -103,7 +95,7 @@ const users = await User.query()
 // 不好：N+1（1 + N 次查询）
 const users = await User.query().get();
 for (const user of users) {
-  console.log(await user.posts); // 每个用户一次查询
+  console.log(await user.getRelated('posts')); // 每个用户一次查询
 }
 
 // 好：总共 2 次查询
@@ -118,7 +110,5 @@ const users = await User.query().with('posts').get();
 | `belongsTo` | 一对多反向 | Post → User |
 | `hasOne` | 一对一 | User → Profile |
 | `belongsToMany` | 多对多 | User ↔ Roles |
-| `morphMany` | 多态一对多 | Post/Video → Tags |
-| `morphTo` | 多态反向 | Tag → Post/Video |
 
 了解更多请查看 [Sutando 文档](https://sutando.org/zh_CN/guide/relationships)。

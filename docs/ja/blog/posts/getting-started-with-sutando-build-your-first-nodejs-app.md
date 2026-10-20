@@ -147,7 +147,7 @@ user.email = 'alice@example.com';
 user.password = 'hashed_password';
 await user.save();
 
-const post = await Post.create({
+const post = await Post.query().create({
   title: '最初の投稿',
   content: 'Hello World!',
   user_id: user.id,
@@ -159,7 +159,7 @@ const post = await Post.create({
 
 ```ts
 const posts = await Post.query().get();
-const post = await Post.find(1);
+const post = await Post.query().find(1);
 
 const published = await Post.query()
   .where('published', true)
@@ -173,7 +173,7 @@ const count = await Post.query().where('published', true).count();
 ### 更新
 
 ```ts
-const post = await Post.find(1);
+const post = await Post.query().find(1);
 post.title = '更新されたタイトル';
 post.published = true;
 await post.save();
@@ -184,7 +184,7 @@ await Post.query().where('user_id', 1).update({ published: true });
 ### 削除
 
 ```ts
-const post = await Post.find(1);
+const post = await Post.query().find(1);
 await post.delete();
 
 await Post.query().where('published', false).delete();
@@ -204,8 +204,8 @@ const users = await User.query().with('posts.comments').get();
 ### リレーション先のレコード作成 {#リレーション先のレコード作成}
 
 ```ts
-const user = await User.find(1);
-const post = await user.posts().create({
+const user = await User.query().find(1);
+const post = await user.related('posts').create({
   title: '新しい投稿',
   content: 'コンテンツ',
 });
@@ -238,12 +238,12 @@ app.get('/posts/:id', async (req, res) => {
 });
 
 app.post('/posts', async (req, res) => {
-  const post = await Post.create(req.body);
+  const post = await Post.query().create(req.body);
   res.status(201).json(post);
 });
 
 app.put('/posts/:id', async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: 'Not found' });
   post.fill(req.body);
   await post.save();
@@ -251,7 +251,7 @@ app.put('/posts/:id', async (req, res) => {
 });
 
 app.delete('/posts/:id', async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: 'Not found' });
   await post.delete();
   res.json({ success: true });

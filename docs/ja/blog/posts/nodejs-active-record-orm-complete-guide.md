@@ -99,8 +99,8 @@ class Post extends Model {
 }
 
 // 使用例
-const user = await User.find(1);
-const posts = await user.posts; // ユーザーの記事を取得
+const user = await User.query().find(1);
+const posts = await user.getRelated('posts'); // ユーザーの記事を取得
 ```
 
 ### 4. ソフトデリート {#4-ソフトデリート}
@@ -108,10 +108,9 @@ const posts = await user.posts; // ユーザーの記事を取得
 `deleted_at` カラムを追加するだけで、論理削除が有効になります：
 
 ```ts
-import { Model, SoftDeletes } from 'sutando';
+import { Model, compose, SoftDeletes } from 'sutando';
 
-class Post extends Model {
-  use = [SoftDeletes];
+class Post extends compose(Model, SoftDeletes) {
   table = 'posts';
 }
 
@@ -243,7 +242,7 @@ app.get('/posts/:id', async (req, res) => {
 
 // 更新
 app.put('/posts/:id', async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: 'Not found' });
   post.title = req.body.title;
   post.content = req.body.content;
@@ -253,7 +252,7 @@ app.put('/posts/:id', async (req, res) => {
 
 // 削除
 app.delete('/posts/:id', async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: 'Not found' });
   await post.delete();
   res.json({ success: true });

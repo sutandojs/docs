@@ -92,7 +92,7 @@ class User extends Model {
 ```typescript
 import { sutando, Model } from 'sutando';
 
-const db = sutando({
+sutando.addConnection({
   client: 'pg',
   connection: process.env.DATABASE_URL,
 });
@@ -100,9 +100,7 @@ const db = sutando({
 class User extends Model {
   protected table = 'users';
   
-  protected fillable = ['name', 'email'];
-  
-  posts(): HasMany {
+  relationPosts() {
     return this.hasMany(Post);
   }
 }
@@ -174,11 +172,11 @@ static relationMappings = {
 **Sutando** uses method-based definitions, similar to Eloquent:
 
 ```typescript
-posts(): HasMany {
+relationPosts() {
   return this.hasMany(Post);
 }
 
-profile(): BelongsTo {
+relationProfile() {
   return this.belongsTo(Profile);
 }
 ```
@@ -195,12 +193,14 @@ await User.transaction(async (trx) => {
 
 **Sutando:**
 ```typescript
-await db.transaction(async () => {
+const db = sutando.connection();
+
+await db.transaction(async (trx) => {
   const user = new User({ name: 'Alice' });
-  await user.save();
+  await user.save({ client: trx });
   
   const post = new Post({ title: 'Hello', user_id: user.id });
-  await post.save();
+  await post.save({ client: trx });
 });
 ```
 
@@ -228,12 +228,14 @@ import { Model } from 'sutando';
 class User extends Model {
   protected table = 'users';
   
-  static creating(model: User) {
-    model.created_at = new Date();
-  }
-  
-  static updating(model: User) {
-    model.updated_at = new Date();
+  static booted() {
+    this.creating(model => {
+      model.created_at = new Date();
+    });
+    
+    this.updating(model => {
+      model.updated_at = new Date();
+    });
   }
 }
 ```
@@ -253,12 +255,12 @@ Create a `db.ts` file:
 ```typescript
 import { sutando } from 'sutando';
 
-export const db = sutando({
+sutando.addConnection({
   client: 'pg',
   connection: process.env.DATABASE_URL,
 });
 
-export default db;
+export default sutando;
 ```
 
 ### Step 3: Convert Models Gradually
@@ -273,20 +275,22 @@ You don't need to migrate everything at once. Both ORMs can coexist in the same 
 
 If you're using Knex migrations, Sutando's schema builder is compatible:
 
-```typescript
-import { schema } from 'sutando';
+```javascript
+const { Migration } = require('sutando');
 
-exports.up = function (schema) {
-  return schema.createTable('users', (table) => {
-    table.increments('id');
-    table.string('name');
-    table.string('email').unique();
-    table.timestamps();
-  });
-};
+module.exports = class extends Migration {
+  async up(schema) {
+    await schema.createTable('users', (table) => {
+      table.increments('id');
+      table.string('name');
+      table.string('email').unique();
+      table.timestamps();
+    });
+  }
 
-exports.down = function (schema) {
-  return schema.dropTableIfExists('users');
+  async down(schema) {
+    await schema.dropTableIfExists('users');
+  }
 };
 ```
 
@@ -301,7 +305,7 @@ Go through your codebase and replace Objection.js queries with Sutando equivalen
 ## What You Gain After Migration
 
 - **Active Record pattern**: No more separate query builder and model — operate on model instances directly
-- **Built-in soft deletes**: Add `softDeletes()` to your model and get `deleted_at` handling out of the box
+- **Built-in soft deletes**: Apply the `SoftDeletes` plugin (`compose(Model, SoftDeletes)`) and get `deleted_at` handling out of the box
 - **Built-in scopes**: Define reusable query filters with `scope` methods
 - **First-class TypeScript**: Type inference works naturally with class-based models
 - **Eloquent-style API**: If you've ever used Laravel, the learning curve is nearly zero

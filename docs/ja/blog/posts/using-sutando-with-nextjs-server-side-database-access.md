@@ -142,14 +142,14 @@ export async function GET(request: NextRequest) {
     .with('user')
     .published()
     .orderBy('created_at', 'desc')
-    .paginate(15, page);
+    .paginate(page, 15);
   
   return NextResponse.json(posts);
 }
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const post = await Post.create(body);
+  const post = await Post.query().create(body);
   return NextResponse.json(post, { status: 201 });
 }
 ```

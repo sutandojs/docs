@@ -42,7 +42,7 @@ Drizzle 已成为追求极致性能的开发者的首选。它本质上是"穿�
 * **Active Record 的简洁性：** 无需管理独立的 Repository 或复杂的查询构造器，你可以直接与数据交互：`User.query().find(1)`。
 * **即学即用：** 如果你曾经接触过 Laravel 或 Rails，你就已经会使用 Sutando 了。它为 JavaScript 生态带来了同样的"开箱即用"的感觉。
 * **轻量且适配 Edge：** 与过去臃肿的 ORM 不同，Sutando 采用模块化设计。它有最少的依赖，非常适合现代无服务器和边缘时代。
-* **优雅的关联：** 在 Sutando 中处理 `hasMany`、`belongsTo` 和多态关联，可以说是整个 JS 生态中可读性最好的体验。
+* **优雅的关联：** 在 Sutando 中处理 `hasMany`、`belongsTo` 等关联，可以说是整个 JS 生态中可读性最好的体验。
 
 ---
 

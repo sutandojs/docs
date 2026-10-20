@@ -29,8 +29,8 @@ mode: center
 |---------|-------------------|
 | Eloquent Model | Sutando Model 类 |
 | Migration | Sutando Schema Builder |
-| Seeder | Sutando Seeder |
-| Factory | Sutando Factory |
+| Seeder | 不支持 |
+| Factory | 不支持 |
 | Route | Express / Fastify 路由 |
 | Middleware | Express 中间件 |
 | Blade | React / Vue / 纯 API |
@@ -62,7 +62,6 @@ class User extends Model {
 class User extends Model {
   table = 'users';
   casts = { is_admin: 'boolean', metadata: 'json' };
-  fillable = ['name', 'email', 'password'];
   
   relationPosts() {
     return this.hasMany(Post, 'user_id');

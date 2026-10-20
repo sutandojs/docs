@@ -42,7 +42,7 @@ Inspired by **Laravel's Eloquent**, Sutando brings the **Active Record** pattern
 * **Active Record Simplicity:** Instead of managing separate repositories or complex query builders, you interact with your data directly: `User.query().find(1)`.
 * **The Familiarity Factor:** If you’ve ever touched Laravel or Rails, you already know Sutando. It brings that same "it just works" feeling to the JavaScript ecosystem.
 * **Lightweight & Edge-Ready:** Unlike the heavy ORMs of the past, Sutando is built to be modular. It has minimal dependencies, making it perfect for the modern serverless and edge era.
-* **Elegant Relations:** Handling `hasMany`, `belongsTo`, and polymorphic relations in Sutando is arguably the most readable experience in the entire JS ecosystem.
+* **Elegant Relations:** Handling `hasMany`, `belongsTo`, and `belongsToMany` relations in Sutando is arguably the most readable experience in the entire JS ecosystem.
 
 ---
 

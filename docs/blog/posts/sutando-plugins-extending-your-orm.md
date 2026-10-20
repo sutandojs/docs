@@ -15,17 +15,19 @@ Sutando is designed to be extensible. Whether you need custom cast types, global
 
 ## Custom Casts
 
-Casts transform attribute values when reading from or writing to the database. Sutando includes built-in casts for `boolean`, `json`, `array`, `date`, and `datetime`. You can create your own:
+Casts transform attribute values when reading from or writing to the database. Sutando includes built-in casts for `boolean`, `json`, `collection`, `date`, and `datetime`. You can create your own by extending `CastsAttributes`:
 
 ```ts
-import { Model, Cast } from 'sutando';
+import { Model, CastsAttributes } from 'sutando';
 
-class EncryptedCast extends Cast {
-  get(model, key, value) {
+class EncryptedCast extends CastsAttributes {
+  // Cast the given value.
+  static get(model, key, value) {
     return decrypt(value); // decrypt when reading
   }
-  
-  set(model, key, value) {
+
+  // Prepare the given value for storage.
+  static set(model, key, value) {
     return encrypt(value); // encrypt when writing
   }
 }
@@ -33,33 +35,50 @@ class EncryptedCast extends Cast {
 class User extends Model {
   table = 'users';
   casts = {
-    ssn: new EncryptedCast(),
+    ssn: EncryptedCast,
     metadata: 'json',
     is_admin: 'boolean',
   };
 }
 ```
 
-## Custom Traits
+## Custom Plugins
 
-Traits are reusable pieces of model behavior. Sutando's `SoftDeletes` is a built-in trait. You can create your own:
+Plugins are reusable pieces of model behavior. Sutando's `SoftDeletes` and `HasUniqueIds` are built-in plugins. You can create your own — a plugin is a mixin that takes a model class and returns a subclass:
 
 ```ts
-import { Model } from 'sutando';
+import { Model, compose } from 'sutando';
 
-const HasUuid = {
-  boot(model) {
-    model.creating(async (instance) => {
-      if (!instance.uuid) {
-        instance.uuid = crypto.randomUUID();
-      }
-    });
-  }
+const HasSlug = (Model) => {
+  return class extends Model {
+    static booted() {
+      // Execute booted of the parent class
+      Model.booted();
+
+      this.creating(model => {
+        if (model.slug === undefined) {
+          model.slug = model.title.toLowerCase().replace(/\s+/g, '-');
+        }
+      });
+    }
+  };
 };
 
-class User extends Model {
-  table = 'users';
-  use = [HasUuid];
+class Post extends compose(Model, HasSlug) {
+  table = 'posts';
+}
+```
+
+For string primary keys, apply the built-in `HasUniqueIds` plugin and generate the id yourself:
+
+```ts
+import { Model, compose, HasUniqueIds } from 'sutando';
+import uuid from 'uuid';
+
+class User extends compose(Model, HasUniqueIds) {
+  newUniqueId() {
+    return uuid.v4();
+  }
 }
 ```
 
@@ -68,16 +87,22 @@ class User extends Model {
 If you need to modify all queries for a model (e.g., multi-tenant filtering), use global scopes:
 
 ```ts
+import { Model, Scope } from 'sutando';
+
+class TenantScope extends Scope {
+  apply(builder, model) {
+    if (currentTenantId) {
+      builder.where('tenant_id', currentTenantId);
+    }
+  }
+}
+
 class Post extends Model {
   table = 'posts';
   
   static booted() {
     super.booted();
-    this.addGlobalScope('tenant', (query) => {
-      if (currentTenantId) {
-        query.where('tenant_id', currentTenantId);
-      }
-    });
+    this.addGlobalScope('tenant', new TenantScope());
   }
 }
 
@@ -87,15 +112,24 @@ const allPosts = await Post.query().withoutGlobalScope('tenant').get();
 
 ## Macro Methods
 
-You can add custom methods to the query builder:
+You can add custom methods to the query builder with a scope's `extend` hook:
 
 ```ts
-import { QueryBuilder } from 'sutando';
+import { Scope } from 'sutando';
 
-QueryBuilder.macro('search', function (term) {
-  return this.where('title', 'like', `%${term}%`)
-    .orWhere('content', 'like', `%${term}%`);
-});
+class SearchScope extends Scope {
+  // The scope itself adds no constraints
+  apply(builder, model) {}
+
+  extend(builder) {
+    builder.macro('search', (builder, term) => {
+      return builder.where('title', 'like', `%${term}%`)
+        .orWhere('content', 'like', `%${term}%`);
+    });
+  }
+}
+
+Post.addGlobalScope(new SearchScope());
 
 // Usage
 const results = await Post.query().search('laravel').get();
@@ -107,19 +141,31 @@ Package your extensions for reuse:
 
 ```ts
 // my-sutando-plugin/index.ts
-import { Model, Cast } from 'sutando';
+import { CastsAttributes } from 'sutando';
 
-export const TimestampsCast = new Cast({
-  get: (model, key, value) => value ? new Date(value) : null,
-  set: (model, key, value) => value ? value.toISOString() : null,
-});
-
-export const HasUuid = {
-  boot(model) {
-    model.creating(async (instance) => {
-      if (!instance.uuid) instance.uuid = crypto.randomUUID();
-    });
+export class TimestampsCast extends CastsAttributes {
+  static get(model, key, value) {
+    return value ? new Date(value) : null;
   }
+
+  static set(model, key, value) {
+    return value ? value.toISOString() : null;
+  }
+}
+
+export const HasSlug = (Model) => {
+  return class extends Model {
+    static booted() {
+      // Execute booted of the parent class
+      Model.booted();
+
+      this.creating(model => {
+        if (model.slug === undefined) {
+          model.slug = model.title.toLowerCase().replace(/\s+/g, '-');
+        }
+      });
+    }
+  };
 };
 
 export function setupPaginationPerPage(defaultPerPage = 20) {
@@ -129,11 +175,11 @@ export function setupPaginationPerPage(defaultPerPage = 20) {
 
 ```ts
 // Usage in your app
-import { TimestampsCast, HasUuid } from 'my-sutando-plugin';
+import { Model, compose } from 'sutando';
+import { TimestampsCast, HasSlug } from 'my-sutando-plugin';
 
-class Event extends Model {
+class Event extends compose(Model, HasSlug) {
   table = 'events';
-  use = [HasUuid];
   casts = {
     start_time: TimestampsCast,
     end_time: TimestampsCast,
@@ -143,6 +189,6 @@ class Event extends Model {
 
 ## Conclusion
 
-Sutando's extension points — custom casts, traits, global scopes, and macros — let you build reusable functionality that integrates naturally with the ORM. This makes it easy to share patterns across projects and teams.
+Sutando's extension points — custom casts, plugins, global scopes, and macros — let you build reusable functionality that integrates naturally with the ORM. This makes it easy to share patterns across projects and teams.
 
 Learn more in the [Sutando documentation](https://sutando.org/guide/getting-started).

@@ -104,7 +104,7 @@ app.get('/posts', asyncHandler(async (req, res) => {
     .with('user', 'comments.user')
     .published()
     .orderBy('created_at', 'desc')
-    .page(page, limit);
+    .paginate(page, limit);
   
   res.json(posts);
 }));
@@ -119,12 +119,12 @@ app.get('/posts/:id', asyncHandler(async (req, res) => {
 
 app.post('/posts', asyncHandler(async (req, res) => {
   const data = createPostSchema.parse(req.body);
-  const post = await Post.create(data);
+  const post = await Post.query().create(data);
   res.status(201).json(post);
 }));
 
 app.put('/posts/:id', asyncHandler(async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: 'Post not found' });
   const data = updatePostSchema.parse(req.body);
   post.fill(data);
@@ -133,7 +133,7 @@ app.put('/posts/:id', asyncHandler(async (req, res) => {
 }));
 
 app.delete('/posts/:id', asyncHandler(async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: 'Post not found' });
   await post.delete();
   res.json({ success: true });
@@ -141,10 +141,10 @@ app.delete('/posts/:id', asyncHandler(async (req, res) => {
 
 // Comments
 app.post('/posts/:id/comments', asyncHandler(async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: 'Post not found' });
   const data = createCommentSchema.parse({ ...req.body, post_id: post.id });
-  const comment = await Comment.create(data);
+  const comment = await Comment.query().create(data);
   res.status(201).json(comment);
 }));
 
@@ -171,7 +171,7 @@ app.listen(3000, () => console.log('API running on port 3000'));
 
 ## Key Features Demonstrated
 
-- **Pagination** via `.page(page, limit)`
+- **Pagination** via `.paginate(page, limit)`
 - **Eager loading** with `.with('user', 'comments.user')`
 - **Query scopes** with `.published()`
 - **Validation** with Zod schemas

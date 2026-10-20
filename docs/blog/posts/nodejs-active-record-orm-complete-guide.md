@@ -56,10 +56,9 @@ The Node.js ecosystem has several Active Record implementations:
 [Sutando](https://sutando.org) is the most faithful port of Laravel's Eloquent to Node.js. It supports MySQL, PostgreSQL, and SQLite, with features like:
 
 - Fluent query builder with `where`, `orderBy`, `with` (eager loading)
-- Model relationships: `hasMany`, `belongsTo`, `hasOne`, `morphTo`
+- Model relationships: `hasMany`, `belongsTo`, `hasOne`
 - Soft deletes, model events/hooks, and global scopes
 - Database migrations and schema builder
-- Factories and seeders for testing
 
 ```ts
 import { Model } from 'sutando';
@@ -208,7 +207,7 @@ app.get('/posts/:id', async (req, res) => {
 
 // Update
 app.put('/posts/:id', async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: 'Not found' });
   post.title = req.body.title;
   post.content = req.body.content;
@@ -218,7 +217,7 @@ app.put('/posts/:id', async (req, res) => {
 
 // Delete
 app.delete('/posts/:id', async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: 'Not found' });
   await post.delete();
   res.json({ success: true });
@@ -237,7 +236,7 @@ One of the most powerful Active Record features is eager loading — loading rel
 // Bad: N+1 queries
 const users = await User.query().get();
 for (const user of users) {
-  const posts = await user.posts; // 1 query per user
+  const posts = await user.getRelated('posts'); // 1 query per user
 }
 
 // Good: 2 queries total
@@ -269,7 +268,7 @@ Post.creating(async (post) => {
 });
 
 Post.deleting(async (post) => {
-  await post.comments.delete(); // cascade delete
+  await post.related('comments').delete(); // cascade delete
 });
 ```
 

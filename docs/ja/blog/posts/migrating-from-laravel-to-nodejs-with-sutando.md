@@ -26,11 +26,11 @@ Sutando は Laravel Eloquent の API を直接参考にして作られていま�
 
 | Laravel Eloquent | Sutando |
 |------------------|---------|
-| `Model::find($id)` | `Model.find(id)` |
+| `Model::find($id)` | `Model.query().find(id)` |
 | `Model::where('x', 'y')->get()` | `Model.query().where('x', 'y').get()` |
 | `$model->hasMany(Post::class)` | `this.hasMany(Post, 'user_id')` |
 | `Model::creating(fn)` | `Model.creating(fn)` |
-| `SoftDeletes` trait | `SoftDeletes` trait |
+| `SoftDeletes` trait | `SoftDeletes` プラグイン（`compose(Model, SoftDeletes)`） |
 
 ## モデルの移行
 
@@ -49,10 +49,9 @@ class User extends Authenticatable {
 }
 
 // Sutando: models/User.ts
-import { Model, SoftDeletes } from 'sutando';
+import { Model, compose, SoftDeletes } from 'sutando';
 
-class User extends Model {
-  use = [SoftDeletes];
+class User extends compose(Model, SoftDeletes) {
   table = 'users';
   casts = { is_admin: 'boolean' };
   hidden = ['password'];
@@ -77,7 +76,7 @@ const posts = await Post.query()
   .with('user', 'comments')
   .where('published', true)
   .orderBy('created_at', 'desc')
-  .paginate(15);
+  .paginate(1, 15);
 ```
 
 ## リレーションの移行
@@ -158,7 +157,7 @@ app.get('/posts', async (req, res) => {
     .with('user', 'comments')
     .where('published', true)
     .orderBy('created_at', 'desc')
-    .paginate(15);
+    .paginate(1, 15);
   res.json(posts);
 });
 

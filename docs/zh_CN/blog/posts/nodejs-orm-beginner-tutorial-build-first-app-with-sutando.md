@@ -133,7 +133,7 @@ user.email = 'zhangsan@example.com';
 await user.save();
 
 // 方式二：用 create 方法
-const post = await Post.create({
+const post = await Post.query().create({
   title: '我的第一篇文章',
   content: 'Hello World!',
   user_id: user.id,
@@ -155,7 +155,7 @@ const published = await Post.query()
   .get();
 
 // 按 ID 查找
-const post = await Post.find(1);
+const post = await Post.query().find(1);
 
 // 使用作用域
 const publishedPosts = await Post.query().published().get();
@@ -168,7 +168,7 @@ const users = await User.query().with('posts').get();
 ### 更新
 
 ```ts
-const post = await Post.find(1);
+const post = await Post.query().find(1);
 post.title = '更新后的标题';
 post.published = true;
 await post.save();
@@ -180,7 +180,7 @@ await Post.query().where('user_id', 1).update({ published: true });
 ### 删除
 
 ```ts
-const post = await Post.find(1);
+const post = await Post.query().find(1);
 await post.delete();
 
 // 批量删除
@@ -192,8 +192,8 @@ await Post.query().where('published', false).delete();
 ### 创建关联记录
 
 ```ts
-const user = await User.find(1);
-const post = await user.posts().create({
+const user = await User.query().find(1);
+const post = await user.related('posts').create({
   title: '新文章',
   content: '内容',
 });
@@ -202,8 +202,8 @@ const post = await user.posts().create({
 ### 查询关联
 
 ```ts
-const user = await User.find(1);
-const publishedPosts = await user.posts().where('published', true).get();
+const user = await User.query().find(1);
+const publishedPosts = await user.related('posts').where('published', true).get();
 ```
 
 ### 嵌套预加载
@@ -245,13 +245,13 @@ app.get('/posts/:id', async (req, res) => {
 
 // 创建文章
 app.post('/posts', async (req, res) => {
-  const post = await Post.create(req.body);
+  const post = await Post.query().create(req.body);
   res.status(201).json(post);
 });
 
 // 更新文章
 app.put('/posts/:id', async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: '文章不存在' });
   post.fill(req.body);
   await post.save();
@@ -260,7 +260,7 @@ app.put('/posts/:id', async (req, res) => {
 
 // 删除文章
 app.delete('/posts/:id', async (req, res) => {
-  const post = await Post.find(req.params.id);
+  const post = await Post.query().find(req.params.id);
   if (!post) return res.status(404).json({ error: '文章不存在' });
   await post.delete();
   res.json({ success: true });
@@ -277,7 +277,7 @@ app.listen(3000, () => console.log('服务器运行在 http://localhost:3000'));
 // 不好：N+1 查询（1 次查用户 + N 次查每个用户的文章）
 const users = await User.query().get();
 for (const user of users) {
-  console.log(await user.posts); // 每个用户一次查询
+  console.log(await user.getRelated('posts')); // 每个用户一次查询
 }
 
 // 好：2 次查询

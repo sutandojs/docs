@@ -45,18 +45,18 @@ class Post extends Model {
 
 ```ts
 // ユーザーの投稿を取得
-const user = await User.find(1);
-const posts = await user.posts;
+const user = await User.query().find(1);
+const posts = await user.getRelated('posts');
 
 // リレーション経由で作成
-const post = await user.posts().create({
+const post = await user.related('posts').create({
   title: '新しい投稿',
   content: '内容',
 });
 
 // 投稿からユーザーを取得
-const post = await Post.find(1);
-const author = await post.user;
+const post = await Post.query().find(1);
+const author = await post.getRelated('user');
 ```
 
 ## 1対1（hasOne）
@@ -70,8 +70,8 @@ class User extends Model {
 }
 
 // 使用例
-const user = await User.find(1);
-const profile = await user.profile;
+const user = await User.query().find(1);
+const profile = await user.getRelated('profile');
 ```
 
 ## 多対多（belongsToMany）
@@ -98,17 +98,17 @@ class Role extends Model {
 
 ```ts
 // ユーザーのロールを取得
-const user = await User.find(1);
-const roles = await user.roles;
+const user = await User.query().find(1);
+const roles = await user.getRelated('roles');
 
 // ロールを付与
-await user.roles().attach([1, 2, 3]);
+await user.related('roles').attach([1, 2, 3]);
 
 // ロールを解除
-await user.roles().detach([2]);
+await user.related('roles').detach([2]);
 
 // ロールを同期（不要なものは削除）
-await user.roles().sync([1, 3]);
+await user.related('roles').sync([1, 3]);
 ```
 
 ## 事前読み込み（Eager Loading）
@@ -119,7 +119,7 @@ N+1 問題を回避するために、事前読み込みを使います：
 // N+1 問題（非推奨）
 const users = await User.query().get();
 for (const user of users) {
-  const posts = await user.posts; // 各ユーザーごとにクエリが実行される
+  const posts = await user.getRelated('posts'); // 各ユーザーごとにクエリが実行される
 }
 
 // 事前読み込み（推奨）
@@ -135,8 +135,8 @@ const users = await User.query()
 ## 遅延読み込み（Lazy Loading）
 
 ```ts
-const user = await User.find(1);
-const posts = await user.posts; // ここでクエリが実行される
+const user = await User.query().find(1);
+const posts = await user.getRelated('posts'); // ここでクエリが実行される
 ```
 
 ## 条件付きリレーション
@@ -158,7 +158,7 @@ const users = await User.query()
   .withCount('posts')
   .get();
 
-console.log(users[0].posts_count);
+console.log(users.get(0).posts_count);
 ```
 
 ## まとめ

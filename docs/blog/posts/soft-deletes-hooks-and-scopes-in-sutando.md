@@ -30,11 +30,10 @@ await sutando.schema().table('posts', table => {
 Enable soft deletes on your model:
 
 ```ts
-import { Model, SoftDeletes } from 'sutando';
+import { Model, compose, SoftDeletes } from 'sutando';
 
-class Post extends Model {
+class Post extends compose(Model, SoftDeletes) {
   table = 'posts';
-  use = [SoftDeletes];
 }
 ```
 
@@ -42,7 +41,7 @@ class Post extends Model {
 
 ```ts
 // Soft delete — sets deleted_at instead of removing
-const post = await Post.find(1);
+const post = await Post.query().find(1);
 await post.delete();
 // Record still exists in the database with deleted_at set
 
@@ -99,7 +98,7 @@ Post.saving(async (post) => {
 
 // Cascade delete comments when a post is deleted
 Post.deleting(async (post) => {
-  await post.comments().delete();
+  await post.related('comments').delete();
 });
 
 // Log after creation
@@ -171,14 +170,20 @@ const userPosts = await Post.query()
 Global scopes apply to all queries on a model automatically:
 
 ```ts
+import { Model, Scope } from 'sutando';
+
+class PublishedScope extends Scope {
+  apply(builder, model) {
+    builder.where('published', true);
+  }
+}
+
 class Post extends Model {
   table = 'posts';
   
   static booted() {
     super.booted();
-    this.addGlobalScope('published', (query) => {
-      query.where('published', true);
-    });
+    this.addGlobalScope('published', new PublishedScope());
   }
 }
 
@@ -194,11 +199,10 @@ const allPosts = await Post.query().withoutGlobalScope('published').get();
 Here's a real-world example combining soft deletes, hooks, and scopes:
 
 ```ts
-import { Model, SoftDeletes } from 'sutando';
+import { Model, compose, SoftDeletes } from 'sutando';
 
-class Post extends Model {
+class Post extends compose(Model, SoftDeletes) {
   table = 'posts';
-  use = [SoftDeletes];
   casts = { published: 'boolean' };
   
   // Scopes
@@ -219,7 +223,7 @@ class Post extends Model {
     });
     
     this.deleting(async (post) => {
-      await post.comments().delete();
+      await post.related('comments').delete();
     });
   }
   

@@ -127,7 +127,7 @@ Post.creating(async (post) => {
 
 ### 4. 软删除
 
-Sutando 内置软删除支持——加一个 `deleted_at` 列，使用 `SoftDeletes` trait 即可。Prisma 需要自定义中间件。
+Sutando 内置软删除支持——加一个 `deleted_at` 列，使用 `SoftDeletes` 插件即可。Prisma 需要自定义中间件。
 
 ### 5. Laravel/Rails 背景
 

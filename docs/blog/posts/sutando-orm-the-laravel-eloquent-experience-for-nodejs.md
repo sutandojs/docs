@@ -51,7 +51,7 @@ export class User extends Model {
 const users = await User.query().with('posts').get();
 ```
 
-- Identical relationship helpers (`hasMany`, `belongsTo`, `morphTo`, etc.)  
+- Identical relationship helpers (`hasMany`, `belongsTo`, `belongsToMany`, etc.)  
 - Chainable query builder with `where`, `orderBy`, `limit`, `with`, `has`, `whereHas`, and more  
 - Soft deletes, events, global scopes, and eager loading work just like in Laravel  
 - Migrations, factories, and seeders share the same philosophies—moving from PHP feels effortless  

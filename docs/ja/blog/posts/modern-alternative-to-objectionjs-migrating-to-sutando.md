@@ -92,7 +92,7 @@ class User extends Model {
 ```typescript
 import { sutando, Model } from 'sutando';
 
-const db = sutando({
+sutando.addConnection({
   client: 'pg',
   connection: process.env.DATABASE_URL,
 });
@@ -100,9 +100,7 @@ const db = sutando({
 class User extends Model {
   protected table = 'users';
   
-  protected fillable = ['name', 'email'];
-  
-  posts(): HasMany {
+  relationPosts() {
     return this.hasMany(Post);
   }
 }
@@ -174,11 +172,11 @@ static relationMappings = {
 **Sutando** はメソッドベースの定義を使用、Eloquent に類似：
 
 ```typescript
-posts(): HasMany {
+relationPosts() {
   return this.hasMany(Post);
 }
 
-profile(): BelongsTo {
+relationProfile() {
   return this.belongsTo(Profile);
 }
 ```
@@ -195,12 +193,14 @@ await User.transaction(async (trx) => {
 
 **Sutando:**
 ```typescript
-await db.transaction(async () => {
+const db = sutando.connection();
+
+await db.transaction(async (trx) => {
   const user = new User({ name: 'Alice' });
-  await user.save();
+  await user.save({ client: trx });
   
   const post = new Post({ title: 'Hello', user_id: user.id });
-  await post.save();
+  await post.save({ client: trx });
 });
 ```
 
@@ -228,12 +228,14 @@ import { Model } from 'sutando';
 class User extends Model {
   protected table = 'users';
   
-  static creating(model: User) {
-    model.created_at = new Date();
-  }
-  
-  static updating(model: User) {
-    model.updated_at = new Date();
+  static booted() {
+    this.creating(model => {
+      model.created_at = new Date();
+    });
+    
+    this.updating(model => {
+      model.updated_at = new Date();
+    });
   }
 }
 ```
@@ -253,12 +255,12 @@ npm install sutando
 ```typescript
 import { sutando } from 'sutando';
 
-export const db = sutando({
+sutando.addConnection({
   client: 'pg',
   connection: process.env.DATABASE_URL,
 });
 
-export default db;
+export default sutando;
 ```
 
 ### ステップ 3：モデルを段階的に変換
@@ -273,20 +275,22 @@ export default db;
 
 Knex マイグレーションを使用している場合、Sutando の schema builder は互換性があります：
 
-```typescript
-import { schema } from 'sutando';
+```javascript
+const { Migration } = require('sutando');
 
-exports.up = function (schema) {
-  return schema.createTable('users', (table) => {
-    table.increments('id');
-    table.string('name');
-    table.string('email').unique();
-    table.timestamps();
-  });
-};
+module.exports = class extends Migration {
+  async up(schema) {
+    await schema.createTable('users', (table) => {
+      table.increments('id');
+      table.string('name');
+      table.string('email').unique();
+      table.timestamps();
+    });
+  }
 
-exports.down = function (schema) {
-  return schema.dropTableIfExists('users');
+  async down(schema) {
+    await schema.dropTableIfExists('users');
+  }
 };
 ```
 
@@ -301,7 +305,7 @@ exports.down = function (schema) {
 ## 移行後に得られるもの
 
 - **Active Record パターン**：クエリビルダーとモデルを分離する必要なし——モデルインスタンスを直接操作
-- **組み込みソフトデリート**：モデルに `softDeletes()` を追加するだけで `deleted_at` の処理が自動化
+- **組み込みソフトデリート**：`SoftDeletes` プラグイン（`compose(Model, SoftDeletes)`）を追加するだけで `deleted_at` の処理が自動化
 - **組み込みスコープ**：`scope` メソッドで再利用可能なクエリフィルターを定義
 - **ファーストクラス TypeScript**：クラスベースのモデルで型推論が自然に機能
 - **Eloquent スタイル API**：Laravel を使ったことがあれば、学習曲線はほぼゼロ

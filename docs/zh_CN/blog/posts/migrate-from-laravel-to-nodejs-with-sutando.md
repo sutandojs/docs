@@ -25,19 +25,19 @@ mode: center
 | `Model` 基类 | `Model` 基类 |
 | `protected $table` | `table =` |
 | `protected $casts` | `casts =` |
-| `protected $fillable` | `fillable =` |
+| `protected $fillable` | 不支持 |
 | `protected $hidden` | `hidden =` |
 | `hasMany` | `hasMany` |
 | `belongsTo` | `belongsTo` |
 | `hasOne` | `hasOne` |
 | `belongsToMany` | `belongsToMany` |
-| `morphTo` / `morphMany` | `morphTo` / `morphMany` |
+| `morphTo` / `morphMany` | 不支持 |
 | `with()` 预加载 | `with()` 预加载 |
 | `scope` 查询作用域 | `scope` 查询作用域 |
 | 模型事件 (`creating`, `saving` 等) | 模型事件（相同） |
-| `SoftDeletes` trait | `SoftDeletes` trait |
-| `Factory` | `Factory` |
-| `Seeder` | `Seeder` |
+| `SoftDeletes` trait | `SoftDeletes` 插件 |
+| `Factory` | 不支持 |
+| `Seeder` | 不支持 |
 
 ## 代码对比
 
@@ -65,7 +65,6 @@ class User extends Model {
 class User extends Model {
   table = 'users';
   casts = { is_admin: 'boolean', metadata: 'json' };
-  fillable = ['name', 'email', 'password'];
   
   relationPosts() {
     return this.hasMany(Post, 'user_id');
@@ -109,7 +108,7 @@ $user = User::create(['name' => 'Alice', 'email' => 'alice@example.com']);
 
 ```ts
 // Sutando
-const user = await User.create({ name: 'Alice', email: 'alice@example.com' });
+const user = await User.query().create({ name: 'Alice', email: 'alice@example.com' });
 ```
 
 ### 模型事件
@@ -144,7 +143,7 @@ app.get('/posts', async (req, res) => {
 });
 
 app.post('/posts', async (req, res) => {
-  const post = await Post.create(req.body);
+  const post = await Post.query().create(req.body);
   res.status(201).json(post);
 });
 ```

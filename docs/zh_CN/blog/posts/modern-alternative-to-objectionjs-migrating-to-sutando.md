@@ -92,7 +92,7 @@ class User extends Model {
 ```typescript
 import { sutando, Model } from 'sutando';
 
-const db = sutando({
+sutando.addConnection({
   client: 'pg',
   connection: process.env.DATABASE_URL,
 });
@@ -100,9 +100,7 @@ const db = sutando({
 class User extends Model {
   protected table = 'users';
   
-  protected fillable = ['name', 'email'];
-  
-  posts(): HasMany {
+  relationPosts() {
     return this.hasMany(Post);
   }
 }
@@ -174,11 +172,11 @@ static relationMappings = {
 **Sutando** 使用基于方法的定义，类似 Eloquent：
 
 ```typescript
-posts(): HasMany {
+relationPosts() {
   return this.hasMany(Post);
 }
 
-profile(): BelongsTo {
+relationProfile() {
   return this.belongsTo(Profile);
 }
 ```
@@ -195,12 +193,14 @@ await User.transaction(async (trx) => {
 
 **Sutando:**
 ```typescript
-await db.transaction(async () => {
+const db = sutando.connection();
+
+await db.transaction(async (trx) => {
   const user = new User({ name: 'Alice' });
-  await user.save();
+  await user.save({ client: trx });
   
   const post = new Post({ title: 'Hello', user_id: user.id });
-  await post.save();
+  await post.save({ client: trx });
 });
 ```
 
@@ -228,12 +228,14 @@ import { Model } from 'sutando';
 class User extends Model {
   protected table = 'users';
   
-  static creating(model: User) {
-    model.created_at = new Date();
-  }
-  
-  static updating(model: User) {
-    model.updated_at = new Date();
+  static booted() {
+    this.creating(model => {
+      model.created_at = new Date();
+    });
+    
+    this.updating(model => {
+      model.updated_at = new Date();
+    });
   }
 }
 ```
@@ -253,12 +255,12 @@ npm install sutando
 ```typescript
 import { sutando } from 'sutando';
 
-export const db = sutando({
+sutando.addConnection({
   client: 'pg',
   connection: process.env.DATABASE_URL,
 });
 
-export default db;
+export default sutando;
 ```
 
 ### 第 3 步：逐步转换模型
@@ -273,20 +275,22 @@ export default db;
 
 如果你在使用 Knex 迁移，Sutando 的 schema builder 是兼容的：
 
-```typescript
-import { schema } from 'sutando';
+```javascript
+const { Migration } = require('sutando');
 
-exports.up = function (schema) {
-  return schema.createTable('users', (table) => {
-    table.increments('id');
-    table.string('name');
-    table.string('email').unique();
-    table.timestamps();
-  });
-};
+module.exports = class extends Migration {
+  async up(schema) {
+    await schema.createTable('users', (table) => {
+      table.increments('id');
+      table.string('name');
+      table.string('email').unique();
+      table.timestamps();
+    });
+  }
 
-exports.down = function (schema) {
-  return schema.dropTableIfExists('users');
+  async down(schema) {
+    await schema.dropTableIfExists('users');
+  }
 };
 ```
 
@@ -301,7 +305,7 @@ exports.down = function (schema) {
 ## 迁移后你获得了什么
 
 - **Active Record 模式**：不再需要分离的查询构建器和模型——直接操作模型实例
-- **内置软删除**：在模型中添加 `softDeletes()` 即可获得 `deleted_at` 自动处理
+- **内置软删除**：用 `SoftDeletes` 插件（`compose(Model, SoftDeletes)`）即可获得 `deleted_at` 自动处理
 - **内置作用域**：通过 `scope` 方法定义可复用的查询过滤器
 - **一等公民 TypeScript**：类型推断与基于类的模型自然配合
 - **Eloquent 风格 API**：如果你用过 Laravel，学习曲线几乎为零
