@@ -16,7 +16,7 @@ Sutando を初めて使う？このチュートリアルでは、インストー
 - データベース（MySQL、PostgreSQL、または SQLite）
 - 基本的な JavaScript/TypeScript の知識
 
-## ステップ 1：インストール {#ステップ-1-インストール}
+## ステップ 1：インストール {#ステップ-1-インストール}
 
 ```bash
 mkdir my-app && cd my-app
@@ -37,7 +37,7 @@ npm install pg
 npm install better-sqlite3
 ```
 
-## ステップ 2：データベース設定 {#ステップ-2-データベース設定}
+## ステップ 2：データベース設定 {#ステップ-2-データベース設定}
 
 `database.ts` ファイルを作成して接続を設定：
 
@@ -68,7 +68,7 @@ sutando.addConnection({ /* ... */ }, 'replica');
 const db = sutando.connection('replica');
 ```
 
-## ステップ 3：スキーマビルダーでテーブル作成 {#ステップ-3-スキーマビルダーでテーブル作成}
+## ステップ 3：スキーマビルダーでテーブル作成 {#ステップ-3-スキーマビルダーでテーブル作成}
 
 Sutando にはスキーマビルダーが組み込まれています：
 
@@ -97,7 +97,7 @@ async function setup() {
 setup();
 ```
 
-## ステップ 4：モデルの定義 {#ステップ-4-モデルの定義}
+## ステップ 4：モデルの定義 {#ステップ-4-モデルの定義}
 
 モデルは Sutando の心臓部です。各モデルはデータベーステーブルに対応します：
 
@@ -136,7 +136,7 @@ class Post extends Model {
 export { User, Post };
 ```
 
-## ステップ 5：基本的な CRUD 操作 {#ステップ-5-基本的な-crud-操作}
+## ステップ 5：基本的な CRUD 操作 {#ステップ-5-基本的な-crud-操作}
 
 ### 作成
 
@@ -190,7 +190,7 @@ await post.delete();
 await Post.query().where('published', false).delete();
 ```
 
-## ステップ 6：リレーションの操作 {#ステップ-6-リレーションの操作}
+## ステップ 6：リレーションの操作 {#ステップ-6-リレーションの操作}
 
 ### 事前読み込み
 
@@ -201,7 +201,7 @@ console.log(user.posts);
 const users = await User.query().with('posts.comments').get();
 ```
 
-### リレーション先のレコード作成 {#リレーション先のレコード作成}
+### リレーション先のレコード作成 {#リレーション先のレコード作成}
 
 ```ts
 const user = await User.find(1);
@@ -211,7 +211,7 @@ const post = await user.posts().create({
 });
 ```
 
-## ステップ 7：すべてを組み合わせる {#ステップ-7-すべてを組み合わせる}
+## ステップ 7：すべてを組み合わせる {#ステップ-7-すべてを組み合わせる}
 
 ```ts
 import express from 'express';
@@ -260,7 +260,7 @@ app.delete('/posts/:id', async (req, res) => {
 app.listen(3000, () => console.log('Server running on port 3000'));
 ```
 
-## 次のステップ {#次のステップ}
+## 次のステップ {#次のステップ}
 
 - [モデルリレーション](https://sutando.org/ja/guide/relationships)
 - [マイグレーション](https://sutando.org/ja/guide/migrations)

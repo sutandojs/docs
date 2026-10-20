@@ -18,7 +18,7 @@ Sutando のモデルはいくつかのイベントを発行し、モデルのラ
 |  `deleting`, `deleted`  |  モデルが削除されたとき（ソフトデリートを含む）  |
 |  `restoring`, `restored`  |  モデルが復元されたとき  |
 |  `trashed`  |  モデルがソフトデリートされたとき  |
-|  `forceDeleteing`, `forceDeleted`  |  モデルが完全に削除されたとき  |
+|  `forceDeleting`, `forceDeleted`  |  モデルが完全に削除されたとき  |
 
 :::tip
 Sutando を通じて一括更新や一括削除のクエリを発行する場合、影響を受けるモデルに対して `saved`、`updated`、`deleting`、`deleted` のモデルイベントは発行されません。これは、一括更新や一括削除を実行する際にモデルが実際には取得されないためです。

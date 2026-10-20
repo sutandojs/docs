@@ -172,6 +172,25 @@ class Flight extends Model {
 }
 ```
 
+### Declaring Fields
+
+Sutando does not require you to define your model's fields. Attributes are read from the database at runtime, so any column can be accessed on a model instance. When using TypeScript, however, you may declare those fields with the `declare` keyword so the compiler knows their types:
+
+```ts
+import { Model } from 'sutando';
+
+class Flight extends Model {
+  declare id: number;
+  declare name: string;
+  declare destination: string;
+  declare delayed: boolean;
+  declare created_at: Date;
+  declare updated_at: Date;
+}
+```
+
+`declare` only affects types. It emits no JavaScript and does not change how attributes are read from or written to the database. Declaring fields is optional; undeclared fields are still accessible, but their type is `any`. See [TypeScript support](./typescript) for more details.
+
 ## Retrieving Models
 
 Once you have created a model and its associated database table, you are ready to start retrieving data from your database. You can think of each Sutando model as a powerful query builder allowing you to fluently query the database table associated with the model. The model's all method will retrieve all of the records from the model's associated database table:

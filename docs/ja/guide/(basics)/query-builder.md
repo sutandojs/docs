@@ -66,7 +66,7 @@ const user = await db.table('users').find(3);
 
 ### カラム値のリストを取得する
 
-単一カラムの値を含む配列を取得したい場合は、`pluck` メソッドを使用できます。この例では、ユーザーの title のコレクションを取得します：
+単一カラムの値を含む配列を取得したい場合は、`pluck` メソッドを使用できます。この例では、ユーザーの title の値の一覧を取得します：
 
 ```ts
 const titles = await db.table('users').pluck('title');

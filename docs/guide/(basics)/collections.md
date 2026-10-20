@@ -4,7 +4,7 @@ description: "Every result set Sutando returns is a Collection that extends coll
 
 # Collections
 
-All Sutando methods that return more than one model result will return instances of the `Collection` class, including results retrieved via the `get` method or accessed via a relationship. The Sutando collection object extends [collect.js](https://collect.js.org/) collection, so it naturally inherits dozens of methods used to fluently work with the underlying array of Sutando models. Be sure to review the Laravel collection documentation to learn all about these helpful methods!
+All Sutando methods that return more than one model result will return instances of the `Collection` class, including results retrieved via the `get` method or accessed via a relationship. The Sutando collection object extends [collect.js](https://collect.js.org/) collection, so it naturally inherits dozens of methods used to fluently work with the underlying array of Sutando models. Be sure to review the [collect.js API documentation](https://collect.js.org/api.html) to learn all about these helpful methods!
 
 All collections also serve as iterators, allowing you to loop over them as if they were arrays:
 

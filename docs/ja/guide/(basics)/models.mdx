@@ -50,7 +50,7 @@ class Flight extends Model {
 }
 ```
 
-自動インクリメントされない主キーや数値以外の主キーを使いたい場合は、モデルに `incrementing` プロパティを定義して false に設定する必要があります：
+自動インクリメントしない主キーを使いたい場合は、モデルに `incrementing` プロパティを定義して false に設定する必要があります：
 
 ```ts
 class Flight extends Model {
@@ -171,6 +171,25 @@ class Flight extends Model {
   };
 }
 ```
+
+### フィールドの宣言
+
+Sutando ではモデルのフィールドを定義する必要はありません。属性は実行時にデータベースから読み取られるため、モデルインスタンス上で任意のカラムにアクセスできます。ただし TypeScript を使用する場合は、`declare` キーワードでこれらのフィールドを宣言し、コンパイラに型を知らせることができます：
+
+```ts
+import { Model } from 'sutando';
+
+class Flight extends Model {
+  declare id: number;
+  declare name: string;
+  declare destination: string;
+  declare delayed: boolean;
+  declare created_at: Date;
+  declare updated_at: Date;
+}
+```
+
+`declare` は型にのみ影響します。JavaScript コードは出力されず、属性のデータベースへの読み書きの方法も変わりません。フィールドの宣言は任意です。宣言していないフィールドにもアクセスできますが、その型は `any` になります。詳細は [TypeScript サポート](./typescript) を参照してください。
 
 ## モデルの取得
 
@@ -524,7 +543,7 @@ if (flight.trashed()) {
 
 #### ソフトデリートされたモデルの復元
 
-ソフトデリートされたモデルを「削除取り消し」したいことがあります。ソフトデリートされたモデルを復元するには、モデルインスタンスの `restore` メソッドを呼び出します。`restore` メソッドはモデルの deleted_at 列を null に設定します：
+ソフトデリートを「取り消し」たいことがあります。ソフトデリートされたモデルを復元するには、モデルインスタンスの `restore` メソッドを呼び出します。`restore` メソッドはモデルの `deleted_at` 列を null に設定します：
 
 ```ts
 await flight.restore();
@@ -544,9 +563,9 @@ await Flight.query().withTrashed()
 await flight.related('history').restore();
 ```
 
-#### モデルの完全な削除
+#### モデルの完全削除
 
-データベースからモデルを本当に削除する必要があることがあります。`forceDelete` メソッドを使って、データベーステーブルからモデルを完全に削除できます：
+データベースからモデルを本当に削除する必要があることがあります。`forceDelete` メソッドを使って、データベーステーブルからモデルを完全削除できます：
 
 ```ts
 await flight.forceDelete();

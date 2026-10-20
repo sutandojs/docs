@@ -173,6 +173,24 @@ class Flight extends Model {
 }
 ```
 
+### 声明字段
+
+Sutando 不要求你定义模型的字段。属性会在运行时从数据库中读取，因此模型实例上可以访问任何列。不过在使用 TypeScript 时，你可以使用 `declare` 关键字声明这些字段，让编译器知道它们的类型：
+
+```ts
+import { Model } from 'sutando';
+
+class Flight extends Model {
+  declare id: number;
+  declare name: string;
+  declare destination: string;
+  declare delayed: boolean;
+  declare created_at: Date;
+  declare updated_at: Date;
+}
+```
+
+`declare` 只影响类型：它不会生成任何 JavaScript 代码，也不会改变属性从数据库读取或写入数据库的方式。声明字段是可选的；未声明的字段仍然可以访问，但类型为 `any`。更多细节请参阅 [TypeScript 支持](./typescript)。
 
 ## 模型检索
 

@@ -1,6 +1,6 @@
 ---
 date: 2025-07-02
-title: "Sutando ORM：Node.js ための Laravel Eloquent エクスペリエンス"
+title: "Sutando ORM：Node.js のための Laravel Eloquent エクスペリエンス"
 type: blog
 description: "Node.js 向けの ORM を探しているなら、Sutando を知っておくべきです。Laravel Eloquent の開発体験を Node.js にもたらす、モダンな Active Record ORM です。"
 authors: ["Dylan Yu"]
@@ -12,11 +12,11 @@ Node.js 向けの ORM を探しているなら、Sutando を知っておくべ�
 
 ## Sutando とは？
 
-Sutando は Node.js 向けのモダンな ORM で、Laravel Eloquent の API パターンを直接参考にして設計されています。Active Record パターンを採用し、MySQL、PostgreSQL、SQLite、MariaDB、SQL Server などに対応しています。
+Sutando は Node.js 向けのモダンな ORM で、Laravel Eloquent の API パターンを直接参考にして設計されています。Active Record パターンを採用し、MySQL、PostgreSQL、SQLite などに対応しています。
 
 ### 主な特徴
 
-- **Active Record パターン** — モデルインスタンスが保存・更新・削除を直接実行
+- **Active Record パターン** — モデルインスタンスが保存・更新・削除を直接行う
 - **デコレーター不要** — プレーンな TypeScript クラスでモデルを定義
 - **リレーション管理** — `hasMany`、`belongsTo`、`belongsToMany` など
 - **ソフトデリート** — 組み込みサポート
@@ -25,7 +25,7 @@ Sutando は Node.js 向けのモダンな ORM で、Laravel Eloquent の API パ
 - **タイプキャスト** — 属性の自動型変換
 - **マイグレーション** — スキーマビルダー付き
 
-## なぜ Sutando なのか？ {#なぜ-sutando-なのか}
+## なぜ Sutando なのか？ {#なぜ-sutando-なのか}
 
 Node.js エコシステムには多くの ORM がありますが、それぞれ課題があります：
 
