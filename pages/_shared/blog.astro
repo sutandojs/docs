@@ -39,8 +39,15 @@ const routeByEntry = new Map(routes.map((r) => [r.entryId, r.path]));
 const posts: Post[] = (await getCollection("docs"))
   .filter((e) => routeByEntry.has(e.id))
   .map((e) => {
+    // Blume normalizes frontmatter dates to an ISO string, and a YAML date
+    // arrives as a Date; both become a plain `YYYY-MM-DD` day.
     const raw = e.data.date as unknown;
-    const date = raw instanceof Date ? raw.toISOString().slice(0, 10) : String(raw ?? "");
+    const date =
+      raw instanceof Date
+        ? raw.toISOString().slice(0, 10)
+        : typeof raw === "string"
+          ? raw.slice(0, 10)
+          : "";
     // the first image in the body, markdown or raw HTML (posts with dimensions
     // carry it as `<img>`)
     const hero = e.body?.match(/!\[[^\]]*\]\(([^)\s]+)\)|<img[^>]+src="([^"]+)"/);
