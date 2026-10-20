@@ -35,8 +35,9 @@ interface Props {
   name: string;
   size?: number;
   class?: string;
+  style?: string;
 }
-const { name, size = 24, class: cls } = Astro.props;
+const { name, size = 24, class: cls, style } = Astro.props;
 const brand = dbLogos[name];
 const d = brand ?? icons[name] ?? "";
 ---
@@ -52,6 +53,7 @@ const d = brand ?? icons[name] ?? "";
   stroke-linecap="round"
   stroke-linejoin="round"
   class={cls}
+  style={style}
   aria-hidden="true"
   set:html={d}
 />

@@ -1,6 +1,7 @@
 ---
 import Shell from "./Shell.astro";
 import Icon from "./Icon.astro";
+import { dbBrandColors } from "./db-logos";
 
 interface Section {
   title: string;
@@ -134,12 +135,12 @@ const pm = [
 ---
 
 <Shell locale={locale} switchRoutes={switchRoutes} title={copy.title} description={copy.description}>
-  <main>
+  <main class="home">
     <!-- hero -->
     <section class="relative border-b border-border">
       <div
         class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-full"
-        style="background: radial-gradient(65% 55% at 50% 0%, color-mix(in srgb, var(--blume-accent) 14%, transparent), transparent 72%)"
+        style="background: radial-gradient(52% 50% at 18% 0%, color-mix(in srgb, var(--home-blue) 16%, transparent), transparent 70%), radial-gradient(52% 50% at 82% 0%, color-mix(in srgb, var(--home-violet) 18%, transparent), transparent 72%)"
       >
       </div>
       <div
@@ -161,7 +162,7 @@ const pm = [
           <span>{copy.heading}</span>
           {
             copy.headingTail && (
-              <span class="block bg-gradient-to-r from-accent to-accent/55 bg-clip-text text-transparent">
+              <span class="hero-title block bg-clip-text text-transparent">
                 {copy.headingTail}
               </span>
             )
@@ -174,7 +175,7 @@ const pm = [
         <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
           <a
             href={`${base}/guide/getting-started`}
-            class="inline-flex items-center gap-2 rounded-blume bg-accent px-6 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90"
+            class="btn-gradient inline-flex items-center gap-2 rounded-blume px-6 py-3 text-sm font-medium transition hover:brightness-110"
           >
             {copy.ctaPrimary}
             <Icon name="arrow-right" size={16} />
@@ -212,7 +213,7 @@ const pm = [
         </div>
 
         <!-- demo -->
-        <div class="mx-auto mt-14 max-w-4xl overflow-hidden rounded-blume border border-border bg-code text-left shadow-2xl shadow-accent/10">
+        <div class="demo mx-auto mt-14 max-w-4xl overflow-hidden rounded-blume border border-border bg-code text-left">
           <div class="flex items-center gap-1.5 border-b border-border px-4 py-3">
             {dots.map((d) => <span class={`inline-block size-3 rounded-full ${d}`} />)}
             <span class="ml-3 font-mono text-xs text-muted-foreground">app / main.ts</span>
@@ -232,8 +233,13 @@ const pm = [
         <ul class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {
             copy.databases.map((db) => (
-              <li class="flex items-center justify-center gap-2.5 rounded-blume border border-border bg-background px-4 py-3 text-sm font-medium transition-colors hover:border-accent">
-                <Icon name={dbIcons[db] ?? "database"} size={18} class="shrink-0 text-accent" />
+              <li class="db-card flex items-center justify-center gap-2.5 rounded-blume border border-border bg-background px-4 py-3 text-sm font-medium transition-colors">
+                <Icon
+                  name={dbIcons[db] ?? "database"}
+                  size={18}
+                  class="db-logo shrink-0"
+                  style={`--brand: ${dbBrandColors[dbIcons[db]] ?? "var(--blume-accent)"}`}
+                />
                 <span>{db}</span>
               </li>
             ))
@@ -258,7 +264,11 @@ const pm = [
                 <ul class="mt-6 space-y-3">
                   {s.bullets.map((b) => (
                     <li class="flex gap-3 text-sm">
-                      <Icon name="check" size={16} class="mt-0.5 shrink-0 text-accent" />
+                      <Icon
+                        name="check"
+                        size={16}
+                        class={`mt-0.5 shrink-0 ${idx % 2 === 1 ? "text-[var(--home-violet-ink)]" : "text-[var(--home-blue)]"}`}
+                      />
                       <span class="text-muted-foreground">{b}</span>
                     </li>
                   ))}
@@ -292,9 +302,9 @@ const pm = [
             copy.features.map((f) => (
               <a
                 href={f.href}
-                class="group flex flex-col gap-4 rounded-blume border border-border bg-background p-6 transition-colors hover:border-accent"
+                class="feature-card group flex flex-col gap-4 rounded-blume border border-border bg-background p-6 transition-colors"
               >
-                <span class="inline-flex size-10 items-center justify-center rounded-blume border border-border bg-muted text-accent">
+                <span class="feature-icon inline-flex size-10 items-center justify-center rounded-blume border">
                   <Icon name={f.icon} size={18} />
                 </span>
                 <h3 class="font-display text-base font-semibold">{f.title}</h3>
@@ -310,14 +320,14 @@ const pm = [
     <section class="mx-auto max-w-6xl px-6 pt-24 pb-24">
       <div
         class="relative overflow-hidden rounded-blume border border-border px-8 py-16 text-center"
-        style="background: radial-gradient(65% 110% at 50% 0%, color-mix(in srgb, var(--blume-accent) 16%, transparent), transparent 75%)"
+        style="background: radial-gradient(55% 110% at 18% 0%, color-mix(in srgb, var(--home-blue) 14%, transparent), transparent 72%), radial-gradient(55% 110% at 82% 0%, color-mix(in srgb, var(--home-violet) 18%, transparent), transparent 74%)"
       >
         <h2 class="font-display text-3xl font-bold tracking-tight">{copy.bandTitle}</h2>
         <p class="mx-auto mt-4 max-w-xl text-muted-foreground">{copy.bandLead}</p>
         <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
           <a
             href={`${base}/guide/getting-started`}
-            class="inline-flex items-center gap-2 rounded-blume bg-accent px-6 py-3 text-sm font-medium text-white hover:opacity-90"
+            class="btn-gradient inline-flex items-center gap-2 rounded-blume px-6 py-3 text-sm font-medium transition hover:brightness-110"
           >
             {copy.bandButton}
             <Icon name="arrow-right" size={16} />
@@ -335,6 +345,65 @@ const pm = [
 </Shell>
 
 <style>
+  /* Landing palette: the two logo colors, blue and violet, and nothing else. */
+  main.home {
+    --home-blue: #3b82f6;
+    --home-violet: #a78bfa;
+    --home-btn-from: #2563eb;
+    --home-btn-to: #7c3aed;
+    --home-title-from: #1d4ed8;
+    --home-title-via: #6366f1;
+    --home-title-to: #7c3aed;
+    --home-violet-ink: #7c3aed;
+  }
+  :global([data-theme="dark"]) main.home {
+    --home-title-from: #60a5fa;
+    --home-title-via: #a5b4fc;
+    --home-title-to: #c4b5fd;
+    --home-violet-ink: #c4b5fd;
+  }
+  .hero-title {
+    background-image: linear-gradient(
+      100deg,
+      var(--home-title-from),
+      var(--home-title-via) 48%,
+      var(--home-title-to)
+    );
+  }
+  .btn-gradient {
+    color: #fff;
+    background-image: linear-gradient(135deg, var(--home-btn-from), var(--home-btn-to));
+    box-shadow: 0 12px 30px -14px color-mix(in srgb, var(--home-btn-to) 65%, transparent);
+  }
+  .demo {
+    box-shadow:
+      0 32px 80px -44px color-mix(in srgb, var(--home-blue) 55%, transparent),
+      0 24px 60px -36px color-mix(in srgb, var(--home-violet) 50%, transparent);
+  }
+  /* Icon is a child component, so its scoped class has to be global. */
+  :global(.db-logo) {
+    color: var(--brand);
+  }
+  /* The darker brand marks (SQLite, MariaDB) need a lift on the dark theme. */
+  :global([data-theme="dark"] .db-logo) {
+    color: color-mix(in srgb, var(--brand) 62%, white);
+  }
+  .db-card:hover {
+    border-color: color-mix(in srgb, var(--home-blue) 40%, var(--blume-border));
+  }
+  .feature-card:hover {
+    border-color: color-mix(in srgb, var(--home-blue) 45%, var(--blume-border));
+  }
+  .feature-icon {
+    color: var(--home-blue);
+    border-color: color-mix(in srgb, var(--home-blue) 20%, var(--blume-border));
+    background-image: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--home-blue) 12%, transparent),
+      color-mix(in srgb, var(--home-violet) 16%, transparent)
+    );
+  }
+
   /* The hero's package-manager switcher: radios keep it working with no JS. */
   .pm input {
     position: absolute;

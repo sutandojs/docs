@@ -1,4 +1,5 @@
 import { defineConfig } from "blume";
+import { googleAnalytics } from "blume/analytics";
 import type { AstroIntegration } from "astro";
 import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
@@ -193,6 +194,9 @@ export default defineConfig({
   ],
 
   integrations: [externalTabsInNewTab(), bcp47LocaleTags()],
+
+  // The same GA4 stream the VitePress site used, kept across the migration.
+  analytics: [googleAnalytics({ id: "G-7FZTC6LCGT" })],
 
   theme: {
     // #646cff on white is only 4.09:1, below WCAG AA for the accent's text and
